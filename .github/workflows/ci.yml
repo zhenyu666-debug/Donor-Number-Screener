@@ -24,11 +24,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install "numpy<2"
-          pip install -r donor-number-screener/requirements.txt
+          pip install -r requirements.txt
           pip install pytest
 
       - name: Run pipeline smoke test
         env:
-          PYTHONPATH: donor-number-screener/src
+          PYTHONPATH: src
         run: |
-          python -m pytest donor-number-screener/tests/ -v
+          python -m pytest tests/ -v
