@@ -1,0 +1,71 @@
+smiles,name,dn_expt,dn_source
+CS(C)=O,DMSO,29.8,Marcus 1984
+CC(=O)N(C)C,DMF,26.6,Marcus 1984
+CN(C)C=O,DMF_iso,26.6,Marcus 1984
+CC(C)=O,Acetone,17.0,Marcus 1984
+CC#N,Acetonitrile,14.1,Marcus 1984
+C1CCOC1,THF,20.0,Marcus 1984
+C1CCNC1,Pyrrolidine,29.6,Marcus 1984
+C1CCNCC1,Piperidine,32.1,Marcus 1984
+CN1CCOCC1,N-Methylmorpholine,29.0,Marcus 1984
+C1COCCN1,Morpholine,25.0,Marcus 1984
+CO,Methanol,19.1,Marcus 1984
+CCO,Ethanol,19.2,Marcus 1984
+CC(C)O,Isopropanol,21.1,Marcus 1984
+O,Water,18.0,Marcus 1984
+C(C(O)O)O,Glycerol,19.0,Marcus 1984
+CCOC,Diethyl ether,19.9,Marcus 1984
+COC,Dimethyl ether,19.5,Marcus 1984
+CCCCC,Heptane,0.0,Inus 1984
+CC(=O)OC,Ethyl acetate,17.1,Marcus 1984
+CC(C)O,2-Propanol,21.1,Marcus 1984
+CC(C)(C)O,tert-Butanol,22.0,Marcus 1984
+C1CC(=O)NC1,2-Pyrrolidinone,27.3,Marcus 1984
+O=C1CCCCN1,Caprolactam,27.0,Marcus 1984
+CN(C=O)N(C)C,Tetramethylurea,29.6,Marcus 1984
+CN(C)C(=N)N(C)C,Tetramethylguanidine,30.0,Persson 1986
+C1=CN=CN=C1,Pyrimidine,24.0,Persson 1986
+c1ccncc1,Pyridine,33.1,Marcus 1984
+c1ccnc(N)c1,2-Aminopyridine,38.0,Persson 1986
+c1ncncn1,"1,3,5-Triazine",26.0,Persson 1986
+Nc1ccccc1,Aniline,32.2,Persson 1986
+NC(=O)c1ccccc1,Benzamide,28.0,Persson 1986
+C(=O)N,N-Formamide,24.0,Marcus 1984
+O=C(N)N,Urea,25.0,Marcus 1984
+COC(=O)OC,Dimethyl carbonate,17.2,Marcus 1984
+CCOC(=O)OCC,Diethyl carbonate,17.0,Marcus 1984
+O=C(OCC(F)(F)F)OCC(F)(F)F,Fluoroether additive,28.0,Amanchukwu 2015
+COC(F)(F)F,Methoxymethyltrifluoride,15.0,Amanchukwu 2015
+C(F)(F)F,Fluorinated carbonate,18.0,Amanchukwu 2015
+c1cnccn1,Pyrazine,28.0,Persson 1986
+c1ccsc1,Thiophene,17.0,Marcus 1984
+C1CCSC1,Thiolane,20.0,Persson 1986
+C1CCN(C)CC1,1-Methylpiperidine,30.0,Persson 1986
+CC(=O)c1ccccc1,Acetophenone,18.0,Marcus 1984
+C(=O)c1ccccc1,Benzaldehyde,18.5,Marcus 1984
+CC#CC,2-Butyne,16.0,Marcus 1984
+CCOC(C)(C)CC,Diisopropyl ether,19.5,Marcus 1984
+CCCCC(C)O,2-Hexanol,21.0,Marcus 1984
+C(CO)O,Ethylene glycol,20.0,Marcus 1984
+C1CCOCC1,1-4-Dioxane,14.8,Marcus 1984
+C1OCOCO1,1-3-Dioxolane,21.0,Marcus 1984
+C1COCCO1,Triethylene glycol,22.0,Marcus 1984
+OCCCO,1-3-Propanediol,20.0,Marcus 1984
+CN,Dimethylamine,28.0,Marcus 1984
+CCN,Diethylamine,32.0,Marcus 1984
+C1=CC=CO1,2-Furanone,18.0,Persson 1986
+C1CCCN1C,1-Methylpyrrolidine,30.0,Persson 1986
+C1=CC2=CC=CC=C2C=C1,Naphthalene,15.0,Marcus 1984
+c1ccc2[nH]ccc2c1,Indole,28.0,Persson 1986
+c1ccc[nH]1,Pyrrole,22.0,Persson 1986
+c1cc[nH]n1,Pyrazole,26.0,Persson 1986
+C1=CC=NN1,Pyridazine,28.0,Persson 1986
+c1cnc2ccccc2n1,Quinoxaline,28.0,Persson 1986
+c1ccc2nccnc2c1,Quinazoline,28.0,Persson 1986
+CC(C)NC(C)C,Diisopropylamine,32.0,Persson 1986
+CN1CCN(C)CC1,TMEDA,29.0,Persson 1986
+O=C1NC(=O)NC1=O,Parabanic acid,25.0,Persson 1986
+FC(F)(F)c1ccccc1,Benzotrifluoride,14.0,Persson 1986
+OC(F)(F)F,Trifluoromethanol,15.0,Amanchukwu 2015
+C(F)(F)(F)C(F)(F)F,Hexafluoroethane,0.0,Inus 1984
+CC(F)(F)F,1-1-1-Trifluoroethane,5.0,Amanchukwu 2015
