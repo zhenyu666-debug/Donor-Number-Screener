@@ -1,0 +1,106 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Pricing V1</title>
+<style>
+  @page { size: A4; margin: 24mm 18mm; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+         max-width: 720px; margin: 32px auto; padding: 0 24px; line-height: 1.55;
+         color: #1a1a1a; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin-top: 28px; border-bottom: 1px solid #ddd;
+        padding-bottom: 4px; }
+  h3 { font-size: 15px; margin-top: 22px; color: #444; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 13px; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+  th { background: #f4f4f4; }
+  code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px;
+          font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+  pre { background: #f4f4f4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+</style></head><body><h1>Pricing v1 - Donor-Number Screener</h1>
+<p>All prices in RMB. Engagement work only. We do not do
+single-shot projects under 1 RMB; below that threshold, please use
+the trial tier (which is free for the first 3 customers).</p>
+<hr />
+<h2>Trial (free, 3 slots)</h2>
+<ul>
+<li><strong>Input</strong>: up to 100 SMILES from your library</li>
+<li><strong>Output</strong>: Top-20 ranked by predicted DN, with 95% conformal
+  intervals, in CSV</li>
+<li><strong>Turnaround</strong>: 3 working days</li>
+<li><strong>Cost</strong>: 0</li>
+<li><strong>Constraint</strong>: we publish your library as a case study (with
+  anonymisation on request) and quote one customer testimonial</li>
+<li><strong>Available</strong>: 3 slots as of Q3 2026</li>
+</ul>
+<h2>Standard screening (3-8 RMB)</h2>
+<ul>
+<li><strong>Input</strong>: up to 3,000 SMILES from your library (or design
+  rules, and we generate)</li>
+<li><strong>Output</strong>:</li>
+<li>Top-20 with 95% intervals (CSV)</li>
+<li>Pareto front along (DN, SA) (CSV)</li>
+<li>Decision rules distilled from depth-4 tree (TXT)</li>
+<li>PDF report with model card, calibration plot, SHAP
+     attributions, and Top-20 structure drawing</li>
+<li><strong>Turnaround</strong>: 5 working days</li>
+<li><strong>Cost</strong>: 3-8 RMB depending on input size and number of
+  follow-up calls</li>
+<li><strong>One revision</strong> included (re-train on your validation data
+  if you have any)</li>
+</ul>
+<h2>Annual subscription (20 RMB / year)</h2>
+<ul>
+<li><strong>Includes</strong>: 4 standard screenings per quarter</li>
+<li><strong>Bonus</strong>: dashboard access, ad-hoc Slack/WeChat support
+  (1 question/week)</li>
+<li><strong>Best for</strong>: mid-stage battery startups with continuous
+  additive R&amp;D</li>
+<li><strong>Cost</strong>: 20 RMB / year, paid quarterly (5 per quarter)</li>
+</ul>
+<h2>DFT-replacement project (8-15 RMB)</h2>
+<ul>
+<li><strong>Scope</strong>: 3-month engagement, designed for labs that want a
+  12,000+ molecule long-list with active-learning-guided
+  validation</li>
+<li><strong>Deliverables</strong>:</li>
+<li>Custom training set (anchored to your internal DFT/MD data
+     if available)</li>
+<li>Top-50 long-list with Pareto filter</li>
+<li>Top-20 final, with 95% intervals</li>
+<li>Active-learning recommendation: "if you can validate 50 more,
+     validate these 50"</li>
+<li>Final handover: trained model, code, and 2-hour training
+     session for your team</li>
+<li><strong>Turnaround</strong>: 12 weeks</li>
+<li><strong>Cost</strong>: 8-15 RMB depending on library size and validation
+  data quality</li>
+<li><strong>NDA</strong>: standard mutual NDA signed before kick-off</li>
+</ul>
+<hr />
+<h2>What is not on this list</h2>
+<ul>
+<li><strong>Real DFT compute</strong>: I don't run it. If you want, I can
+  introduce you to a commercial DFT service provider at cost.</li>
+<li><strong>Cell cycling / bench work</strong>: I screen, you validate.</li>
+<li><strong>Patent writing</strong>: not offered. If you need IP protection
+  on a discovered molecule, talk to your patent attorney.</li>
+<li><strong>SaaS multi-tenant platform</strong>: not on the roadmap. We sell
+  services, not seat licenses.</li>
+</ul>
+<h2>Payment</h2>
+<ul>
+<li>Trial: 0 (no payment)</li>
+<li>Standard / project: 50% on contract, 50% on delivery</li>
+<li>Subscription: quarterly in advance</li>
+</ul>
+<h2>Cancellation</h2>
+<ul>
+<li>Trial: cancel any time</li>
+<li>Standard: full refund if cancelled before pipeline starts;
+  50% refund if cancelled after the descriptors step</li>
+<li>Subscription: cancel at end of any quarter</li>
+<li>Project: pro-rata by completed milestones</li>
+</ul>
+<hr />
+<p>For the trial tier, send your SMILES list to <code>[YOUR_EMAIL_HERE]</code>
+with subject "Trial screening". We will reply within 1 working day.</p></body></html>

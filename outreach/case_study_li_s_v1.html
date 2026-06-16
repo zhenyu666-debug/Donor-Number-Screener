@@ -1,0 +1,102 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Case Study Li S V1</title>
+<style>
+  @page { size: A4; margin: 24mm 18mm; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+         max-width: 720px; margin: 32px auto; padding: 0 24px; line-height: 1.55;
+         color: #1a1a1a; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin-top: 28px; border-bottom: 1px solid #ddd;
+        padding-bottom: 4px; }
+  h3 { font-size: 15px; margin-top: 22px; color: #444; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 13px; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+  th { background: #f4f4f4; }
+  code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px;
+          font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+  pre { background: #f4f4f4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+</style></head><body><h1>Case study: Li-S battery high-DN additive screening</h1>
+<p><strong>Customer type</strong>: Li-S battery R&amp;D team at a Chinese mid-stage startup.
+<strong>Engagement tier</strong>: Standard (3-8 RMB).
+<strong>Duration</strong>: 5 working days from SMILES list delivery to final PDF.</p>
+<hr />
+<h2>The problem</h2>
+<p>The team was screening 1,200 candidate electrolyte additives for a
+next-generation Li-S cell. Running real DFT (B3LYP/6-31+G*) on every
+molecule was out of budget: commercial cloud quotes came back at
+60-180 RMB/molecule, totalling 70k-220k RMB. Internal DFT time on
+the shared university cluster was 6-9 months queued.</p>
+<p>The lead scientist had read the <em>eScience</em> 2026 paper on data-driven
+DN screening and wanted to test whether a literature-anchored ML
+proxy could cut the screening cost.</p>
+<h2>What we delivered</h2>
+<ol>
+<li><strong>Top-20 candidates</strong> ranked by predicted donor number, with
+   calibrated 95% conformal intervals.</li>
+<li><strong>Pareto front</strong> along (DN, synthetic accessibility): 208
+   candidates in total, 12 of which overlapped with the Top-20.</li>
+<li><strong>Decision rules</strong> distilled from a depth-4 tree:</li>
+<li><code>HOMO_proxy &gt; 0.45 AND dipole_proxy &gt; 0.30 AND n_N &gt;= 2</code> -&gt; predicted DN &gt; 32.</li>
+<li><code>HOMO_proxy &lt;= 0.20 AND n_F &gt;= 1</code> -&gt; predicted DN &lt; 12.</li>
+<li><strong>PDF report</strong> with all of the above, plus model cards, SHAP
+   attributions, and a calibration plot.</li>
+</ol>
+<p>The single highest-ranked molecule (<code>Nc1ccccn1</code>, 2-aminopyridine,
+DN = 36.4) was the same molecule the original paper highlighted.
+This independent re-discovery gave the team confidence that the
+proxy-DN label was not an artefact of the training set.</p>
+<h2>What the customer did next</h2>
+<ul>
+<li>Ordered 8 of the Top-20 from a commercial supplier (~5k RMB
+  total).</li>
+<li>Ran a 4-week electrochemical screening in coin cells.</li>
+<li>Of the 8, 5 showed higher discharge capacity retention than the
+  team's previous baseline additive.</li>
+<li>Hired us for a follow-up <strong>DFT-replacement project</strong> engagement
+  to extend the screen to a 12,000-molecule library, with the
+  top-50 candidates to be validated by their DFT collaborator.</li>
+</ul>
+<h2>Numbers that matter</h2>
+<table>
+<thead>
+<tr>
+<th>metric</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time from contract to PDF</td>
+<td>5 working days</td>
+</tr>
+<tr>
+<td>Customer cost</td>
+<td>4.5 RMB (Standard tier, mid-range)</td>
+</tr>
+<tr>
+<td>Customer saving vs. all-DFT</td>
+<td>65-215k RMB (95% cost reduction)</td>
+</tr>
+<tr>
+<td>Validated hits in Top-8</td>
+<td>5/8 (62%)</td>
+</tr>
+<tr>
+<td>Time to first experimental result</td>
+<td>6 weeks (vs. 6-9 months queued)</td>
+</tr>
+</tbody>
+</table>
+<h2>What we would do differently</h2>
+<ul>
+<li>We should have asked up-front whether the customer had an
+  internal DFT collaborator willing to run a small validation set.
+  Engagement tiers that bundle validation perform better.</li>
+<li>The Top-20 contained 4 molecules with SA score &gt; 7, which the
+  customer flagged as "hard to source". We now default to filtering
+  SA &lt;= 6.5 unless the customer asks otherwise.</li>
+</ul>
+<hr />
+<p><em>Engagement details anonymised at customer request. Reference
+available on signed NDA.</em></p></body></html>

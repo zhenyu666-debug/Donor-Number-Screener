@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>donor-number-screener — high-DN additive screening</title>
+<style>
+  :root {
+    --primary: #2a5c8a; --accent: #d36a4a; --bg: #fafafa;
+    --text: #1a1a1a; --muted: #6a6a6a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+                 Arial, sans-serif;
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, var(--primary), #1a3a5a);
+    color: white; padding: 80px 24px 60px; text-align: center;
+  }
+  header h1 {
+    margin: 0 0 12px; font-size: 42px; font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  header p { font-size: 18px; opacity: 0.92; max-width: 720px; margin: 0 auto; }
+  section {
+    max-width: 960px; margin: 0 auto; padding: 48px 24px;
+  }
+  section h2 {
+    font-size: 28px; margin: 0 0 16px; color: var(--primary);
+    border-bottom: 2px solid var(--primary); padding-bottom: 8px;
+  }
+  .hero-metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px; margin: 32px 0;
+  }
+  .metric {
+    background: white; padding: 20px; border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-align: center;
+  }
+  .metric .v { font-size: 36px; font-weight: 700; color: var(--accent); }
+  .metric .l { font-size: 13px; color: var(--muted); text-transform: uppercase;
+                 letter-spacing: 0.5px; margin-top: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+  th { background: #f0f4f8; font-weight: 600; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px;
+          background: #f0f4f8; padding: 2px 6px; border-radius: 3px; }
+  .dn { font-weight: 700; color: var(--accent); }
+  .cta {
+    background: var(--accent); color: white; padding: 14px 32px;
+    border-radius: 6px; display: inline-block; text-decoration: none;
+    font-weight: 600; margin: 8px;
+  }
+  .cta-secondary {
+    background: white; color: var(--primary); border: 2px solid var(--primary);
+  }
+  footer {
+    text-align: center; padding: 32px; color: var(--muted); font-size: 13px;
+    border-top: 1px solid #e0e0e0; margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>donor-number-screener</h1>
+  <p>5-minute ML screening of high-donor-number electrolyte additives
+     for Li-S batteries. Built for small battery labs without DFT
+     cluster time.</p>
+</header>
+
+<section>
+  <h2>What you get</h2>
+  <div class="hero-metrics">
+    <div class="metric">
+      <div class="v">0.9895</div>
+      <div class="l">5-model stack CV R²</div>
+    </div>
+    <div class="metric">
+      <div class="v">994</div>
+      <div class="l">molecular descriptors</div>
+    </div>
+    <div class="metric">
+      <div class="v">3,551</div>
+      <div class="l">candidates screened</div>
+    </div>
+    <div class="metric">
+      <div class="v">~5 min</div>
+      <div class="l">typical turnaround</div>
+    </div>
+  </div>
+  <p>From a SMILES list of N candidate molecules, we deliver within 3-5
+  working days a Top-20 shortlist ranked by predicted donor number,
+  with conformal 95% uncertainty intervals, a Pareto front along
+  (DN, synthetic accessibility), and decision-tree rules your team
+  can audit in a meeting.</p>
+</section>
+
+<section>
+  <h2>Top-10 candidates (latest run)</h2>
+  <table>
+    <thead><tr><th>Rank</th><th>SMILES</th><th>Predicted DN</th></tr></thead>
+    <tbody>
+      <tr><td>#1</td><td><code>Nc1ccccn1</code></td><td><span class="dn">36.95</span></td></tr>
+<tr><td>#2</td><td><code>c1cnc(-n2cnc3ncncc32)cn1</code></td><td><span class="dn">33.96</span></td></tr>
+<tr><td>#3</td><td><code>c1cc(-n2cnc3ncncc32)ccn1</code></td><td><span class="dn">33.63</span></td></tr>
+<tr><td>#4</td><td><code>CCNn1cnc2ncncc21</code></td><td><span class="dn">33.18</span></td></tr>
+<tr><td>#5</td><td><code>CN(C)n1cnc2ncncc21</code></td><td><span class="dn">33.13</span></td></tr>
+<tr><td>#6</td><td><code>c1ncc2c(n1)ncn2N1CC1</code></td><td><span class="dn">33.10</span></td></tr>
+<tr><td>#7</td><td><code>CNn1cnc2ncncc21</code></td><td><span class="dn">33.09</span></td></tr>
+<tr><td>#8</td><td><code>c1ncc2c(n1)ncn2C1CCNC1</code></td><td><span class="dn">33.06</span></td></tr>
+<tr><td>#9</td><td><code>Nn1cnc2ncncc21</code></td><td><span class="dn">33.03</span></td></tr>
+<tr><td>#10</td><td><code>c1ccncc1</code></td><td><span class="dn">32.95</span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 13px; color: var(--muted);">
+    Full Top-20 and Pareto-optimal set in <code>results/top20_candidates_5model.csv</code>.
+  </p>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <ol>
+    <li>You send us a SMILES list (or we generate one from your design rules)</li>
+    <li>We compute 994 descriptors per molecule with RDKit + Morgan + MACCS fingerprints</li>
+    <li>5-model stacking ensemble (RF + XGB + MLP + LightGBM + CatBoost) predicts DN with 95% conformal intervals</li>
+    <li>Top-20 shortlist + Pareto front + decision rules delivered as PDF report</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Pricing</h2>
+  <table>
+    <thead><tr><th>Tier</th><th>Deliverable</th><th>Price (RMB)</th></tr></thead>
+    <tbody>
+      <tr><td>Trial (first 3 only)</td>
+          <td>Top-20 + 95% intervals on your 100-molecule list</td>
+          <td>1</td></tr>
+      <tr><td>Standard</td>
+          <td>Top-20 + Pareto + decision rules + PDF report</td>
+          <td>3-8</td></tr>
+      <tr><td>Annual subscription</td>
+          <td>4 screenings per quarter + dashboard access</td>
+          <td>20 / year</td></tr>
+      <tr><td>DFT-replacement project</td>
+          <td>3-month engagement, 50-candidate long-list + active-learning roadmap</td>
+          <td>8-15 / project</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section style="text-align: center; background: #f0f4f8; padding: 48px 24px;">
+  <h2 style="border: none;">Get in touch</h2>
+  <p>Trial: open a GitHub issue tagged <code>engagement</code>.<br>
+     Project work: email with subject "Li-S screening enquiry".<br>
+     Response time: 1 working day for trial, 3 days for standard.</p>
+  <a class="cta" href="#">Request a trial</a>
+  <a class="cta cta-secondary" href="#">View code on GitHub</a>
+</section>
+
+<footer>
+  donor-number-screener v2 — built on top of the eScience 2026
+  paper 100588. Reproduction layer uses self-consistent proxy DN
+  labels anchored to 58 literature values; see README for the
+  honest disclosure.
+</footer>
+
+</body>
+</html>

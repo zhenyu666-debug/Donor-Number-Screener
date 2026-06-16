@@ -1,0 +1,39 @@
+# Build artefacts (regenerable)
+outreach/*.pdf
+
+# Python
+__pycache__
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Data outputs (large, regenerable) — keep v1 since it's part of the published pipeline
+data/full_predictions.csv
+data/full_predictions_bayes.csv
+data/full_predictions_5model.csv
+data/test_predictions.csv
+data/dn_labels_clean.csv
+data/feature_importance_v2.csv
+
+# Optuna study cache (regenerable)
+results/optuna_cache.db
+
+# Catboost training artefacts
+catboost_info/
+
+# Keep the small / source data
+!data/dn_anchor_table.csv
+!data/candidate_library.csv

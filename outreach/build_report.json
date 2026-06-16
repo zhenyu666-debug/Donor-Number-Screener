@@ -1,0 +1,17 @@
+{
+  "case_study_li_s_v1.md": {
+    "backend": "html-only",
+    "html": "case_study_li_s_v1.html",
+    "pdf": null
+  },
+  "capability_one_pager.md": {
+    "backend": "html-only",
+    "html": "capability_one_pager.html",
+    "pdf": null
+  },
+  "pricing_v1.md": {
+    "backend": "html-only",
+    "html": "pricing_v1.html",
+    "pdf": null
+  }
+}
