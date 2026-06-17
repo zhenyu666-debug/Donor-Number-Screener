@@ -6,7 +6,6 @@ descriptor sanity checks, and deterministic RNG.
 from __future__ import annotations
 
 import logging
-import os
 import random
 from pathlib import Path
 

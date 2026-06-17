@@ -21,7 +21,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import DATA_DIR, FIGURES_DIR, PROJECT_ROOT, RESULTS_DIR  # noqa: E402
+from utils import FIGURES_DIR, PROJECT_ROOT, RESULTS_DIR  # noqa: E402
 from utils import get_logger  # noqa: E402
 
 log = get_logger("dashboard")
@@ -44,18 +44,18 @@ def build_dashboard() -> str:
     top20 = pd.read_csv(RESULTS_DIR / "top20_candidates.csv")
     conformal = pd.read_csv(RESULTS_DIR / "conformal_intervals.csv")
     pareto = pd.read_csv(RESULTS_DIR / "pareto_optimal.csv")
-    al = pd.read_csv(RESULTS_DIR / "active_learning_curve.csv")
+    _al = pd.read_csv(RESULTS_DIR / "active_learning_curve.csv")
     top_summary = json.loads(
         (RESULTS_DIR / "top_molecules_summary.json").read_text(encoding="utf-8"))
 
     n_candidates = screen.get("n_candidates", len(top20) * 100)
     eff = screen.get("efficiency", {})
     speedup_dft = eff.get("ml_vs_dft_speedup", 1e7)
-    speedup_exp = eff.get("ml_vs_experiment_speedup", 1e8)
+    _speedup_exp = eff.get("ml_vs_experiment_speedup", 1e8)
     rf_r2 = metrics["test_rf"]["R2"]
     xgb_r2 = metrics["test_xgb"]["R2"]
-    rf_rmse = metrics["test_rf"]["RMSE"]
-    xgb_rmse = metrics["test_xgb"]["RMSE"]
+    _rf_rmse = metrics["test_rf"]["RMSE"]
+    _xgb_rmse = metrics["test_xgb"]["RMSE"]
 
     # Build Plotly data for the two interactive charts.
     top20_sorted = top20.sort_values("dn_pred_ens", ascending=False).head(20)

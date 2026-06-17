@@ -1,0 +1,116 @@
+{
+  "n_external": 12,
+  "models_used": [
+    "rf",
+    "xgb",
+    "mlp",
+    "lgbm",
+    "cat"
+  ],
+  "pearson_r": 0.645111843190678,
+  "pearson_p": 0.023497435290053353,
+  "spearman_r": 0.45884483676161686,
+  "spearman_p": 0.13350686946394802,
+  "rmse": 9.085713531409597,
+  "mae": 7.378025564875912,
+  "top3_ref": [
+    "DMSO",
+    "formamide",
+    "gamma-butyrolactone"
+  ],
+  "top3_pred": [
+    "DMSO",
+    "DME",
+    "1,3-dioxolane"
+  ],
+  "top3_intersect": [
+    "DMSO"
+  ],
+  "per_molecule": [
+    {
+      "smiles": "CC#N",
+      "name": "acetonitrile",
+      "dn_ref": 14.1,
+      "dn_pred": 16.942,
+      "delta": 2.842
+    },
+    {
+      "smiles": "CS(=O)C",
+      "name": "DMSO",
+      "dn_ref": 29.8,
+      "dn_pred": 25.249,
+      "delta": -4.551
+    },
+    {
+      "smiles": "COCCOC",
+      "name": "DME",
+      "dn_ref": 9.9,
+      "dn_pred": 21.055,
+      "delta": 11.155
+    },
+    {
+      "smiles": "C1OCOC1",
+      "name": "1,3-dioxolane",
+      "dn_ref": 9.0,
+      "dn_pred": 21.157,
+      "delta": 12.157
+    },
+    {
+      "smiles": "O=C1OCCO1",
+      "name": "ethylene_carbonate",
+      "dn_ref": 16.4,
+      "dn_pred": 19.344,
+      "delta": 2.944
+    },
+    {
+      "smiles": "CC1COC(=O)O1",
+      "name": "propylene_carbonate",
+      "dn_ref": 15.1,
+      "dn_pred": 19.14,
+      "delta": 4.04
+    },
+    {
+      "smiles": "COC(=O)OC",
+      "name": "dimethyl_carbonate",
+      "dn_ref": 17.2,
+      "dn_pred": 19.556,
+      "delta": 2.356
+    },
+    {
+      "smiles": "CCOC(=O)OC",
+      "name": "ethyl_methyl_carbonate",
+      "dn_ref": 6.0,
+      "dn_pred": 19.471,
+      "delta": 13.471
+    },
+    {
+      "smiles": "CCOC(=O)OCC",
+      "name": "diethyl_carbonate",
+      "dn_ref": 6.0,
+      "dn_pred": 19.443,
+      "delta": 13.443
+    },
+    {
+      "smiles": "NC=O",
+      "name": "formamide",
+      "dn_ref": 24.0,
+      "dn_pred": 20.81,
+      "delta": -3.19
+    },
+    {
+      "smiles": "O=C1CCCO1",
+      "name": "gamma-butyrolactone",
+      "dn_ref": 18.0,
+      "dn_pred": 19.524,
+      "delta": 1.524
+    },
+    {
+      "smiles": "OCC(F)(F)F",
+      "name": "trifluoroethanol",
+      "dn_ref": 0.0,
+      "dn_pred": 16.862,
+      "delta": 16.862
+    }
+  ],
+  "wall_time_s": 59.181535100000474
+}

@@ -19,7 +19,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import DATA_DIR, FIGURES_DIR, RESULTS_DIR, PROJECT_ROOT, get_logger
+from utils import RESULTS_DIR, PROJECT_ROOT, get_logger
 
 log = get_logger("landing")
 
@@ -56,8 +56,8 @@ def main():
 
     # ---- Build HTML ---- #
     stack_cv = metrics.get("cv_metrics", {}).get("stack", {}).get("R2", 0.989)
-    xgb_cv = metrics.get("cv_metrics", {}).get("xgb", {}).get("R2", 0.988)
-    rf_cv = metrics.get("cv_metrics", {}).get("rf", {}).get("R2", 0.986)
+    _xgb_cv = metrics.get("cv_metrics", {}).get("xgb", {}).get("R2", 0.988)
+    _rf_cv = metrics.get("cv_metrics", {}).get("rf", {}).get("R2", 0.986)
     n_features = metrics.get("n_features_v2", 996)
 
     smiles_cells = "\n".join(

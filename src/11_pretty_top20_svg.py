@@ -21,9 +21,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib import cm
 from rdkit import Chem
-from rdkit.Chem import AllChem, Draw
+from rdkit.Chem import Draw
 from rdkit.Chem.Draw import rdMolDraw2D
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -99,8 +98,6 @@ def main():
     H = rows * cell_h + 60  # top header
 
     # Draw each molecule to its own SVG then paste in
-    from io import StringIO
-    from xml.etree import ElementTree as ET
 
     # Build single composite SVG manually so we can colour each card.
     parts = [

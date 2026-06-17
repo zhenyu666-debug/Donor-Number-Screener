@@ -10,20 +10,20 @@ Run with:
 """
 from __future__ import annotations
 
-import json
 import sys
-import warnings
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
-import pytest
+PROJECT_ROOT = Path(__file__).resolve().parent.parent  # noqa: E402
+sys.path.insert(0, str(PROJECT_ROOT / "src"))  # noqa: E402
+sys.path.insert(0, str(PROJECT_ROOT))  # noqa: E402
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
-sys.path.insert(0, str(PROJECT_ROOT))
+from utils import DATA_DIR, FIGURES_DIR, RESULTS_DIR  # noqa: E402
 
-from utils import DATA_DIR, FIGURES_DIR, RESULTS_DIR
+import json  # noqa: E402
+import warnings  # noqa: E402
+
+import pandas as pd  # noqa: E402
+import pytest  # noqa: E402
 
 warnings.filterwarnings("ignore")
 

@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pandas as pd
 from rdkit import Chem, RDLogger
-from rdkit.Chem import AllChem, Descriptors
+from rdkit.Chem import Descriptors
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import DATA_DIR, get_logger, set_global_seed  # noqa: E402
@@ -183,7 +183,7 @@ def main() -> None:
                 if mol is None or not passes_filter(mol):
                     continue
                 smi = Chem.MolToSmiles(mol)
-                seen.setdefault(smi, f"core+t1+t2")
+                seen.setdefault(smi, "core+t1+t2")
 
     log.info("Generated %d unique candidate SMILES", len(seen))
 

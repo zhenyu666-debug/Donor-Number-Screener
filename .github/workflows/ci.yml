@@ -27,8 +27,19 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Run pipeline smoke test
+      - name: Lint with ruff
+        run: |
+          python -m pip install --quiet ruff
+          python -m ruff check src/ tests/
+
+      - name: Run pipeline smoke tests (v2)
         env:
           PYTHONPATH: src
         run: |
           python -m pytest tests/ -v
+
+      - name: Run v3 tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest tests/test_v3.py -v

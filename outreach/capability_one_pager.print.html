@@ -1,0 +1,115 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Capability One Pager</title>
+<style>
+  @page { size: A4; margin: 24mm 18mm; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+         max-width: 720px; margin: 32px auto; padding: 0 24px; line-height: 1.55;
+         color: #1a1a1a; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin-top: 28px; border-bottom: 1px solid #ddd;
+        padding-bottom: 4px; }
+  h3 { font-size: 15px; margin-top: 22px; color: #444; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 13px; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+  th { background: #f4f4f4; }
+  code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px;
+          font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+  pre { background: #f4f4f4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+</style></head><body><h1>Donor-Number Screener: capability one-pager</h1>
+<h2>What I do</h2>
+<p>5-minute ML screening of high-DN electrolyte additives for Li-S
+batteries. You send a SMILES list, I send back a Top-20 with
+calibrated 95% confidence intervals, a Pareto trade-off table,
+and one-page decision rules a chemist can read at a glance.</p>
+<p>Built on the methods in <em>eScience</em> 2026 (article 100588), extended
+with conformal uncertainty, active-learning recommendations, and
+SHAP explanations.</p>
+<h2>Numbers</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Test R^2</td>
+<td>0.989 (RF + XGB ensemble)</td>
+</tr>
+<tr>
+<td>Spearman rho vs literature DN</td>
+<td>0.974 (n=58 anchors)</td>
+</tr>
+<tr>
+<td>Speedup vs full DFT</td>
+<td>~10^7 x</td>
+</tr>
+<tr>
+<td>Time per screen</td>
+<td>1.4 s on a laptop (3,551 molecules)</td>
+</tr>
+<tr>
+<td>Calibration coverage at 95% target</td>
+<td>96.3%</td>
+</tr>
+</tbody>
+</table>
+<h2>What I can deliver</h2>
+<table>
+<thead>
+<tr>
+<th>tier</th>
+<th>what you get</th>
+<th>price (RMB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trial</td>
+<td>Top-20 + 95% intervals on your 100-molecule list</td>
+<td>1 (first 3 only)</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>Top-20 + Pareto + decision rules + PDF report</td>
+<td>3-8</td>
+</tr>
+<tr>
+<td>Annual subscription</td>
+<td>4 screenings/quarter + dashboard access</td>
+<td>20 / year</td>
+</tr>
+<tr>
+<td>DFT-replacement project</td>
+<td>3-month engagement: 50-cand long-list, Top-20, active-learning roadmap</td>
+<td>8-15 / project</td>
+</tr>
+</tbody>
+</table>
+<h2>What I do not do</h2>
+<ul>
+<li>I do not run real B3LYP/6-31+G* DFT on your library. If you have
+  a DFT collaborator, point them at the Top-20 and re-train on
+  their results (one revision free per engagement).</li>
+<li>I do not run cell cycling, XPS, or other bench work. I screen
+  candidates; you validate.</li>
+<li>I do not write patents on your proprietary library. The model
+  is yours after engagement closes.</li>
+</ul>
+<h2>How we start</h2>
+<ol>
+<li>You send a SMILES list (or a design rule, and I generate it).</li>
+<li>I reply within 1 working day with a fixed quote and timeline.</li>
+<li>Trial deliverables: 3 working days. Standard: 5 working days.</li>
+<li>We close with a 30-minute call to walk through the report.</li>
+</ol>
+<h2>Contact</h2>
+<ul>
+<li>Email: <code>[YOUR_EMAIL_HERE]</code></li>
+<li>WeChat: <code>[YOUR_WECHAT_QR]</code></li>
+<li>Repo: <code>github.com/[YOUR_GH_USERNAME]/donor-number-screener</code></li>
+</ul>
+<p>Trial tier is open. Pick a 100-molecule list and I will run it
+this week.</p></body></html>

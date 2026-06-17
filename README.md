@@ -288,6 +288,89 @@ solvents (DMSO > DME > DOL > AN).
 
 ---
 
+## v3 features (added 2026-06-17)
+
+The v3 release adds five production-grade capabilities on top of the
+v2 5-model stacking ensemble:
+
+### 1. SHAP explainability (`src/14_shap_explain.py`)
+Per-feature attribution averaged over the 4 tree models
+(RF, XGB, LGBM, CatBoost). Outputs `results/shap_top20.png` (bar
+chart) and `results/shap_top20_attribution.csv`. The MLP is excluded
+from the average because `shap.KernelExplainer` is O(N^2) — the 4
+tree models use the fast exact `TreeExplainer`.
+
+### 2. REST API (`src/15_api_server.py`)
+FastAPI server exposing three endpoints:
+  - `POST /predict_smiles`  — one SMILES → DN prediction + 95% CI
+  - `POST /estimate_dn`     — same as above
+  - `POST /screen_top`      — list of SMILES → top-k + Pareto
+Start with:
+  `uvicorn src.15_api_server:app --host 0.0.0.0 --port 8000`
+
+### 3. Feature stability analysis (`src/16_feat_stability.py`)
+Runs the full v2 pipeline 5× with different random seeds and reports
+the Jaccard index of the top-K feature sets across runs. We expect
+Jaccard > 0.7 for the top-100 features if the descriptor set is robust.
+
+### 4. External validation (`src/17_external_validate.py`)
+12 small molecules with literature DN values (Gutmann 1966, Marcus
+1993, Reichardt 2003) — acetonitrile, DMSO, DME, DOL, EC, PC, DMC,
+EMC, DEC, formamide, GBL, trifluoroethanol — are featurized with
+the same v2 stack and predicted. Reports Pearson / Spearman / RMSE
+/ MAE / top-3 agreement in `results/external_validation.json`.
+
+### 5. Model drift detector (`src/18_drift_detect.py`)
+Population Stability Index (PSI) per feature between the v2 baseline
+distribution and a new batch of molecules. PSI > 0.2 = drifted.
+Two-step workflow:
+```
+python src/18_drift_detect.py --mode baseline
+python src/18_drift_detect.py --mode batch --input new.csv
+```
+
+### Code quality
+All v3 scripts pass `ruff check` with zero issues. The v2
+codebase was also cleaned (12 issues fixed: 11 unused locals,
+1 syntax error in `09_bayesian_optimization.py`).
+
+### Tests
+`tests/test_v3.py` covers the v3 scripts (PDF outputs, Pydantic
+models, Jaccard, PSI, ruff clean). Run:
+```
+PYTHONPATH=src python -m pytest tests/test_v3.py -v
+```
+
+### v3 artefacts
+After running the v3 scripts, the following files appear under
+`results/`:
+  - `shap_top20.png`               (bar chart, top-20 features)
+  - `shap_top20_attribution.csv`   (per-feature mean |SHAP|)
+  - `shap_summary.json`            (run metadata)
+  - `feature_stability.json`       (Jaccard per K, consensus top-K)
+  - `feature_stability.csv`        (per-run top-200)
+  - `external_validation.json`     (Pearson/Spearman/top-3)
+  - `drift_baseline.json`          (per-feature bin edges, 996 feats)
+  - `drift_report.json`            (per-feature PSI on a new batch)
+
+### v3 dependencies
+Added to `requirements.txt`:
+  - `fpdf2`         (pure-Python PDF backend, replaces weasyprint on Windows)
+  - `fastapi`       (REST API framework)
+  - `uvicorn`       (ASGI server)
+  - `pydantic`      (request validation)
+  - `bs4`           (HTML parsing for the fpdf2 backend)
+  - `scipy`         (Pearson / Spearman correlations)
+  - `ruff`          (linter)
+
+### v3 to-do (pushed to v4)
+- Real-time drift monitor (webhook-based, polled by an API client).
+- SHAP interaction values (for paired-feature chemistry insights).
+- Calibration plot (reliability diagram) in `/screen_top` responses.
+- `streamlit` demo client that calls the REST API.
+
+---
+
 ## Contact
 
 - **Trial / standard screening:** open a GitHub issue tagged

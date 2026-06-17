@@ -309,7 +309,7 @@ def main():
     elapsed = time.time() - t0
     log.info("=== Done in %.1f s ===", elapsed)
     print("\n===== Bayesian Optimization Summary =====")
-    print(f"Trials per model: 60 (cached, reused)")
+    print("Trials per model: 60 (cached, reused)")
     print(f"CV folds:          {N_CV_FOLDS}")
     print(f"Total wall time:  {elapsed:.0f}s")
     print(f"RF   CV R2: {cv_metrics['rf']['R2']:.5f}")

@@ -24,9 +24,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from rdkit import Chem
-from rdkit.Chem import Descriptors
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,  # noqa: E402

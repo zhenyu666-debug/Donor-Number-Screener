@@ -1,0 +1,86 @@
+{
+  "n_runs": 5,
+  "seeds": [
+    42,
+    59,
+    76,
+    93,
+    110
+  ],
+  "k_list": [
+    50,
+    100,
+    200
+  ],
+  "n_features": 994,
+  "jaccard_by_k": {
+    "top_50": 0.880611229112894,
+    "top_100": 0.8137180431498215,
+    "top_200": 0.8790258424946454
+  },
+  "consensus": {
+    "top_50": {
+      "intersection_size": 44,
+      "union_size": 58,
+      "intersection_ratio": 0.88,
+      "union_ratio": 1.16,
+      "example_features": [
+        "n_O",
+        "n_N",
+        "n_F",
+        "maccs_151",
+        "n_X_halogen",
+        "NOCount",
+        "HOMO_proxy",
+        "LUMO_proxy",
+        "maccs_158",
+        "HL_gap_proxy"
+      ]
+    },
+    "top_100": {
+      "intersection_size": 79,
+      "union_size": 120,
+      "intersection_ratio": 0.79,
+      "union_ratio": 1.2,
+      "example_features": [
+        "n_O",
+        "n_N",
+        "n_F",
+        "n_X_halogen",
+        "HOMO_proxy",
+        "LUMO_proxy",
+        "HL_gap_proxy",
+        "MaxEStateIndex",
+        "MinEStateIndex",
+        "MeanEStateIndex"
+      ]
+    },
+    "top_200": {
+      "intersection_size": 176,
+      "union_size": 227,
+      "intersection_ratio": 0.88,
+      "union_ratio": 1.135,
+      "example_features": [
+        "n_O",
+        "n_N",
+        "n_F",
+        "morgan_278",
+        "n_S",
+        "n_X_halogen",
+        "n_heavy",
+        "HOMO_proxy",
+        "LUMO_proxy",
+        "HL_gap_proxy"
+      ]
+    }
+  },
+  "runtime_per_run_s": [
+    3.887266499999896,
+    3.968528999999762,
+    4.047398100000464,
+    4.0918085000002975,
+    4.258398199999647
+  ],
+  "total_runtime_s": 20.253400300000067,
+  "interpretation": "Jaccard > 0.7 = stable; > 0.85 = highly stable; < 0.5 = unstable (consider more features or re-run cleaning)."
+}

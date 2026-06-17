@@ -41,7 +41,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from joblib import Parallel, delayed
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Ridge
@@ -378,7 +377,7 @@ def main():
     print(f"Wall time: {elapsed:.0f}s")
     for k, m in cv_metrics.items():
         print(f"  {k:6s}  CV R2={m['R2']:.5f}  RMSE={m['RMSE']:.4f}  MAE={m['MAE']:.4f}")
-    print(f"\nTest metrics:")
+    print("\nTest metrics:")
     for k, m in test_metrics.items():
         print(f"  {k:6s}  R2={m['R2']:.5f}  RMSE={m['RMSE']:.4f}")
 

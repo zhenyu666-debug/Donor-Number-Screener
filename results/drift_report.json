@@ -1,0 +1,219 @@
+{
+  "overall_psi": 0.0,
+  "mean_psi": 0.0,
+  "n_features": 994,
+  "n_drifted": 0,
+  "thresholds": {
+    "stable": 0.1,
+    "minor": 0.2
+  },
+  "top10_drifted": [
+    {
+      "feature": "n_O",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_N",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_F",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_S",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_P",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_X_halogen",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_aromatic_rings",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_heavy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "HOMO_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "LUMO_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    }
+  ],
+  "per_feature_first": [
+    {
+      "feature": "n_O",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_N",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_F",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_S",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_P",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_X_halogen",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_aromatic_rings",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "n_heavy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "HOMO_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "LUMO_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "HL_gap_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "MaxEStateIndex",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "MinEStateIndex",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "MeanEStateIndex",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "mean_electronegativity",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "dipole_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "polarizability_proxy",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi0v0",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi1v0",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi2v0",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi3v0",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi4v0",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi0v1",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi1v1",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "Chi2v1",
+      "psi": 0.0,
+      "verdict": "stable"
+    }
+  ],
+  "per_feature_last": [
+    {
+      "feature": "estate_74",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "estate_75",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "estate_76",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "estate_77",
+      "psi": 0.0,
+      "verdict": "stable"
+    },
+    {
+      "feature": "estate_78",
+      "psi": 0.0,
+      "verdict": "stable"
+    }
+  ],
+  "input_path": "data/descriptors_v2.csv",
+  "n_new_samples": 3551,
+  "wall_time_s": 0.9849825999999666
+}

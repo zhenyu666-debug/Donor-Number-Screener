@@ -391,6 +391,8 @@ def main():
         # No study objects to plot, but we still want to render the rest.
         studies = {"rf": None, "xgb": None, "mlp": None}
     else:
+        # studies + best_models will be filled in the per-model sections below
+        pass
 
     # --- RF ---
     log.info("=== Optimizing RandomForest (%d trials) ===", N_TRIALS)
@@ -546,7 +548,7 @@ def main():
         "test_metrics": test_metrics,
         "baseline_gridsearch": baseline,
         "improvement": {
-            k: cv_metrics[k]["R2"] - baseline["cv"].get(f"rf_cv_R2_mean"
+            k: cv_metrics[k]["R2"] - baseline["cv"].get("rf_cv_R2_mean"
                 if k == "rf" else "xgb_cv_R2_mean", cv_metrics[k]["R2"])
             if baseline and k in ("rf", "xgb") else None
             for k in cv_metrics
@@ -562,7 +564,7 @@ def main():
     full_pred["dn_pred_rf_bayes"] = best_rf.predict(X)
     full_pred["dn_pred_xgb_bayes"] = best_xgb.predict(X)
     full_pred["dn_pred_mlp"] = best_mlp.predict(X)
-    full_pred["dn_pred_stack"] = stack.predict(X)
+    full_pred["dn_pred_stack"] = meta_learner.predict(X)
     full_pred["dn_pred_3way_blend"] = (
         full_pred["dn_pred_rf_bayes"] +
         full_pred["dn_pred_xgb_bayes"] +
@@ -575,7 +577,7 @@ def main():
     # --- Update top-20 using stacking predictions ---
     top20_path = RESULTS_DIR / "top20_candidates.csv"
     if top20_path.exists():
-        top20 = pd.read_csv(top20_path)
+        _top20 = pd.read_csv(top20_path)
         fp = pd.read_csv(DATA_DIR / "full_predictions_bayes.csv")
         if "dn_pred_stack" in fp.columns:
             fp_sorted = fp.sort_values("dn_pred_stack", ascending=False)
@@ -599,14 +601,14 @@ def main():
     print(f"Stack CV R2: {cv_metrics['stack']['R2']:.5f}")
     print(f"Blend CV R2: {cv_metrics['blend']['R2']:.5f}")
     print("\nOutputs:")
-    print(f"  results/bayes_metrics.json")
-    print(f"  results/bayes_trials_rf/xgb/mlp.csv")
-    print(f"  results/top20_candidates_bayes.csv")
-    print(f"  data/full_predictions_bayes.csv")
-    print(f"  figures/fig_bayes_comparison.png")
-    print(f"  figures/fig_bayes_cv_convergence.png")
+    print("  results/bayes_metrics.json")
+    print("  results/bayes_trials_rf/xgb/mlp.csv")
+    print("  results/top20_candidates_bayes.csv")
+    print("  data/full_predictions_bayes.csv")
+    print("  figures/fig_bayes_comparison.png")
+    print("  figures/fig_bayes_cv_convergence.png")
     if baseline:
-        print(f"  figures/fig_bayes_improvement.png")
+        print("  figures/fig_bayes_improvement.png")
 
 
 if __name__ == "__main__":

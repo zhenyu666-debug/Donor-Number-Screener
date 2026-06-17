@@ -24,7 +24,6 @@ import pandas as pd
 from joblib import Parallel, delayed
 from rdkit import Chem, RDLogger
 from rdkit.Chem import AllChem, Descriptors, MACCSkeys
-from rdkit.Chem.EState import EState
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import DATA_DIR, get_logger, set_global_seed  # noqa: E402
@@ -122,7 +121,7 @@ def proxy_homo_lumo(mol):
     en_vals = [ELECTRONEGATIVITY.get(a.GetSymbol(), 2.5) for a in mol.GetAtoms()
                if a.GetSymbol() != "H"]
     mean_en = float(np.mean(en_vals)) if en_vals else 0.0
-    n_F, n_O, n_N = (count_atoms(mol, "F"),
+    _n_F, n_O, n_N = (count_atoms(mol, "F"),
                      count_atoms(mol, "O"),
                      count_atoms(mol, "N"))
     n_X = sum(1 for a in mol.GetAtoms()
@@ -273,7 +272,7 @@ def main():
 
     log.info("Wrote %s: %d rows x %d columns in %.1fs",
              out, len(df), df.shape[1], elapsed)
-    print(f"\n--- v2 descriptors summary ---")
+    print("\n--- v2 descriptors summary ---")
     print(f"rows: {len(df)}")
     print(f"cols: {df.shape[1]}")
     print(f"v1 was 236 cols, v2 has {df.shape[1]} cols (delta +{df.shape[1] - 236})")

@@ -1,17 +1,17 @@
 {
-  "case_study_li_s_v1.md": {
-    "backend": "html-only",
+  "case_study_li_s_v1.html": {
+    "backend": "fpdf2",
     "html": "case_study_li_s_v1.html",
-    "pdf": null
+    "pdf": "case_study_li_s_v1.pdf"
   },
-  "capability_one_pager.md": {
-    "backend": "html-only",
+  "capability_one_pager.html": {
+    "backend": "fpdf2",
     "html": "capability_one_pager.html",
-    "pdf": null
+    "pdf": "capability_one_pager.pdf"
   },
-  "pricing_v1.md": {
-    "backend": "html-only",
+  "pricing_v1.html": {
+    "backend": "fpdf2",
     "html": "pricing_v1.html",
-    "pdf": null
+    "pdf": "pricing_v1.pdf"
   }
 }

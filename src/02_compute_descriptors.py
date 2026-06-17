@@ -23,7 +23,6 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem, RDLogger
 from rdkit.Chem import AllChem, Descriptors, rdMolDescriptors
-from rdkit.Chem.EState import EState
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import DATA_DIR, get_logger, set_global_seed  # noqa: E402
@@ -143,10 +142,10 @@ def proxy_homo_lumo(mol: Chem.Mol) -> dict:
     mean_en = float(np.mean(en_vals)) if en_vals else 0.0
 
     # Halogen bonus raises HOMO_a (electronegativity) and lowers LUMO_a
-    n_F = count_atoms(mol, "F")
+    _n_F = count_atoms(mol, "F")
     n_O = count_atoms(mol, "O")
     n_N = count_atoms(mol, "N")
-    n_S = count_atoms(mol, "S")
+    _n_S = count_atoms(mol, "S")
     n_X = sum(1 for a in mol.GetAtoms() if a.GetSymbol() in {"F", "Cl", "Br", "I"})
 
     # Final proxies:  HOMO is high when nucleophilic atoms and donor

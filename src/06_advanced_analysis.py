@@ -55,21 +55,19 @@ import time
 import traceback
 import warnings
 from pathlib import Path
-from typing import Iterable
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from rdkit import Chem, RDLogger
 from rdkit.Chem import AllChem, Descriptors, Draw, rdMolDescriptors
 from rdkit.Chem.Draw import rdMolDraw2D
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.manifold import TSNE
-from sklearn.metrics import (mean_absolute_error, mean_squared_error,
+from sklearn.metrics import (mean_squared_error,
                              precision_recall_curve, r2_score, roc_curve)
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor, export_text, plot_tree
@@ -391,7 +389,7 @@ def fig8_atom_shap(xgb, X_test, df, feat_cols):
                               "n_X_halogen", "n_heavy", "FractionCSP3"}]
     log.info("Fragment perturbation: %d columns touched", len(fragment_cols))
     frag_idx = [feat_cols.index(c) for c in fragment_cols if c in feat_cols]
-    base_pred = xgb.predict(X_test[idx])
+    _base_pred = xgb.predict(X_test[idx])
 
     full = pd.read_csv(DATA_DIR / "full_predictions.csv")
     top3 = full.sort_values("dn_pred_ens", ascending=False).head(3)
@@ -450,7 +448,7 @@ def fig8_atom_shap(xgb, X_test, df, feat_cols):
         for i, atom in enumerate(mol.GetAtoms()):
             t = contribs[i] / vmax  # in [-1, 1]
             t = max(-1.0, min(1.0, t))
-            color = cmap(0.5 + 0.5 * t) if t > 0 else cmap(0.5 + 0.5 * t)
+            _color = cmap(0.5 + 0.5 * t) if t > 0 else cmap(0.5 + 0.5 * t)
             atom.SetProp("atomNote", f"{contribs[i]:+.2f}")
             opts.atomColourPalette = None  # leave default; the SetProp drives tooltip
         drawer.DrawMolecule(mol)
@@ -753,7 +751,7 @@ def fig13_roc_pr(xgb, X_test, y_test):
     fpr, tpr, _ = roc_curve(labels, scores)
     prec, rec, _ = precision_recall_curve(labels, scores)
     pos_rate = labels.mean()
-    from sklearn.metrics import (auc, average_precision_score, roc_auc_score)
+    from sklearn.metrics import (average_precision_score, roc_auc_score)
     auc_v = float(roc_auc_score(labels, scores))
     ap_v = float(average_precision_score(labels, scores))
 
@@ -795,7 +793,6 @@ def fig14_pdp(rf, X_train, feat_cols):
     top feature j we evaluate the RF on a grid of values for j
     while keeping the other features at their median.
     """
-    from joblib import Parallel, delayed
 
     fi = pd.Series(rf.feature_importances_, index=feat_cols)
     top6 = list(fi.sort_values(ascending=False).head(6).index)

@@ -1,0 +1,35 @@
+{
+  "n_tree_models": 4,
+  "models_used": [
+    "rf",
+    "xgb",
+    "lgbm",
+    "cat"
+  ],
+  "n_features_total": 994,
+  "top1_feature": "n_N",
+  "top1_mean_abs_shap": 1.7995696559870056,
+  "top20_first": [
+    "n_N",
+    "maccs_161",
+    "SMR_VSA1",
+    "SMR_VSA3",
+    "maccs_142",
+    "n_F",
+    "MeanEStateIndex",
+    "maccs_158",
+    "mean_electronegativity",
+    "HOMO_proxy",
+    "MaxEStateIndex",
+    "HallKierAlpha",
+    "maccs_151",
+    "PEOE_VSA6",
+    "EState_VSA10",
+    "SlogP_VSA10",
+    "SlogP_VSA1",
+    "dipole_proxy",
+    "n_O",
+    "BCUT2D_MWHI"
+  ],
+  "wall_time_s": 807.5946958999994
+}
