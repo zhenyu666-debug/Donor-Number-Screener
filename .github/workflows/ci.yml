@@ -32,6 +32,12 @@ jobs:
           python -m pip install --quiet ruff
           python -m ruff check src/ tests/
 
+      - name: Build outreach PDFs (regenerable, .gitignore'd)
+        env:
+          PYTHONPATH: src
+        run: |
+          python src/12_build_pdf_safe.py
+
       - name: Run pipeline smoke tests (v2)
         env:
           PYTHONPATH: src

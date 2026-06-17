@@ -24,7 +24,13 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
+try:
+    # Pydantic v2
+    from pydantic import field_validator as _validator
+except ImportError:
+    # Pydantic v1 fallback
+    from pydantic import validator as _validator  # type: ignore
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import DATA_DIR, RESULTS_DIR, get_logger, set_global_seed  # noqa: E402
@@ -69,7 +75,7 @@ class SMILESListInput(BaseModel):
     k: int = Field(20, ge=1, le=100)
     include_pareto: bool = Field(True)
 
-    @validator("smiles_list")
+    @_validator("smiles_list")
     def _dedup_and_trim(cls, v: list[str]) -> list[str]:
         seen = set()
         out: list[str] = []
