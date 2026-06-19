@@ -31,7 +31,7 @@ from xgboost import XGBRegressor
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,  # noqa: E402
-                   get_logger, set_global_seed)
+                   get_logger, load_descriptors, set_global_seed)
 
 warnings.filterwarnings("ignore")
 set_global_seed(42)
@@ -43,7 +43,7 @@ NON_FEATURE_COLS = {"mol_id", "smiles", "smiles_x", "smiles_y",
 
 
 def load_xy():
-    desc = pd.read_csv(DATA_DIR / "descriptors.csv")
+    desc = load_descriptors()
     labels = pd.read_csv(DATA_DIR / "dn_labels.csv")
     df = desc.merge(labels[["mol_id", "dn_final", "is_anchor"]],
                     on="mol_id", how="left")

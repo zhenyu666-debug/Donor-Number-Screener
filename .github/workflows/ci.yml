@@ -9,7 +9,7 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
 
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +26,7 @@ jobs:
           pip install -r requirements.txt
           pip install "numpy<2"
           pip install pytest
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
 
       - name: Lint with ruff
         run: |
@@ -38,6 +39,13 @@ jobs:
         run: |
           python src/12_build_pdf_safe.py
 
+      - name: Generate candidate library (CI subset, 10k mols)
+        env:
+          PYTHONPATH: src
+          CI_MODE: "1"
+        run: |
+          python src/01_build_library.py
+
       - name: Run pipeline smoke tests (v2)
         env:
           PYTHONPATH: src
@@ -49,3 +57,9 @@ jobs:
           PYTHONPATH: src
         run: |
           python -m pytest tests/test_v3.py -v
+
+      - name: Run EBM / MCMC / hardware-stochasticity tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest tests/test_ebm.py -v

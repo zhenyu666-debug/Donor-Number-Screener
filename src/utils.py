@@ -43,6 +43,25 @@ def get_logger(name: str) -> logging.Logger:
     return logger
 
 
+def load_descriptors() -> "pd.DataFrame":
+    """Load the descriptor table, preferring v2 (1005-dim) when present.
+
+    All v4 scripts should use this helper instead of hard-coding
+    ``pd.read_csv(DATA_DIR / "descriptors.csv")`` so that the pipeline
+    transparently uses the larger v2 matrix when it is available.
+    """
+    import pandas as pd
+    v2_path = DATA_DIR / "descriptors_v2.csv"
+    v1_path = DATA_DIR / "descriptors.csv"
+    if v2_path.exists():
+        return pd.read_csv(v2_path)
+    if v1_path.exists():
+        return pd.read_csv(v1_path)
+    raise FileNotFoundError(
+        f"Neither {v2_path} nor {v1_path} exists. Run 02b first."
+    )
+
+
 def normalize_smiles(smiles: str) -> str:
     """Canonical SMILES using RDKit (returns original if RDKit fails)."""
     try:

@@ -1,113 +1,113 @@
 {
-  "n_candidates": 3551,
+  "n_candidates": 29513,
   "top20": [
     {
-      "mol_id": 3532,
-      "smiles": "Nc1ccccn1",
-      "dn_pred_ens": 36.37700747654918
-    },
-    {
-      "mol_id": 1890,
+      "mol_id": 3381,
       "smiles": "c1cnc(-n2cnc3ncncc32)cn1",
-      "dn_pred_ens": 34.205084448974695
+      "dn_pred_ens": 36.2373180596577
     },
     {
-      "mol_id": 1889,
+      "mol_id": 21380,
+      "smiles": "CN(CN)n1cnc2ncncc21",
+      "dn_pred_ens": 36.071859948594486
+    },
+    {
+      "mol_id": 21371,
+      "smiles": "NCCNn1cnc2ncncc21",
+      "dn_pred_ens": 35.982346892619205
+    },
+    {
+      "mol_id": 21389,
+      "smiles": "NC1CN1n1cnc2ncncc21",
+      "dn_pred_ens": 35.94324149316631
+    },
+    {
+      "mol_id": 21363,
+      "smiles": "NCNn1cnc2ncncc21",
+      "dn_pred_ens": 35.90026938030113
+    },
+    {
+      "mol_id": 21387,
+      "smiles": "CCC1CN1n1cnc2ncncc21",
+      "dn_pred_ens": 35.42604413670257
+    },
+    {
+      "mol_id": 21378,
+      "smiles": "CCCN(C)n1cnc2ncncc21",
+      "dn_pred_ens": 35.42402978610741
+    },
+    {
+      "mol_id": 21369,
+      "smiles": "CCCCNn1cnc2ncncc21",
+      "dn_pred_ens": 35.339310186012675
+    },
+    {
+      "mol_id": 21361,
+      "smiles": "CCCNn1cnc2ncncc21",
+      "dn_pred_ens": 35.30161246959217
+    },
+    {
+      "mol_id": 3380,
       "smiles": "c1cc(-n2cnc3ncncc32)ccn1",
-      "dn_pred_ens": 33.65657038775116
+      "dn_pred_ens": 35.20849938990095
     },
     {
-      "mol_id": 1894,
+      "mol_id": 21374,
+      "smiles": "N#CCCNn1cnc2ncncc21",
+      "dn_pred_ens": 35.13486228507833
+    },
+    {
+      "mol_id": 21355,
+      "smiles": "NNn1cnc2ncncc21",
+      "dn_pred_ens": 35.10841318008638
+    },
+    {
+      "mol_id": 21392,
+      "smiles": "N#CC1CN1n1cnc2ncncc21",
+      "dn_pred_ens": 35.058021166954646
+    },
+    {
+      "mol_id": 21383,
+      "smiles": "CN(CC#N)n1cnc2ncncc21",
+      "dn_pred_ens": 35.016857369163525
+    },
+    {
+      "mol_id": 3385,
       "smiles": "c1ncc2c(n1)ncn2C1CCNC1",
-      "dn_pred_ens": 33.289187212717465
+      "dn_pred_ens": 35.011725184612985
     },
     {
-      "mol_id": 1874,
-      "smiles": "CN(C)n1cnc2ncncc21",
-      "dn_pred_ens": 33.22310042238907
+      "mol_id": 21385,
+      "smiles": "CN(CS)n1cnc2ncncc21",
+      "dn_pred_ens": 34.99608298256639
     },
     {
-      "mol_id": 1873,
-      "smiles": "CCNn1cnc2ncncc21",
-      "dn_pred_ens": 33.21432622718456
+      "mol_id": 21366,
+      "smiles": "N#CCNn1cnc2ncncc21",
+      "dn_pred_ens": 34.98017826665573
     },
     {
-      "mol_id": 1872,
-      "smiles": "CNn1cnc2ncncc21",
-      "dn_pred_ens": 33.12149141943115
+      "mol_id": 21377,
+      "smiles": "CCN(C)n1cnc2ncncc21",
+      "dn_pred_ens": 34.97554358367968
     },
     {
-      "mol_id": 1875,
-      "smiles": "c1ncc2c(n1)ncn2N1CC1",
-      "dn_pred_ens": 33.1210586445281
+      "mol_id": 21386,
+      "smiles": "CC1CN1n1cnc2ncncc21",
+      "dn_pred_ens": 34.97029099223333
     },
     {
-      "mol_id": 1871,
-      "smiles": "Nn1cnc2ncncc21",
-      "dn_pred_ens": 32.97855360463099
-    },
-    {
-      "mol_id": 41,
-      "smiles": "c1ccncc1",
-      "dn_pred_ens": 32.503117214390606
-    },
-    {
-      "mol_id": 1411,
-      "smiles": "NCCCCNc1cnccn1",
-      "dn_pred_ens": 32.33144194372137
-    },
-    {
-      "mol_id": 1863,
-      "smiles": "CCCCn1cnc2ncncc21",
-      "dn_pred_ens": 32.29296440193991
-    },
-    {
-      "mol_id": 1528,
-      "smiles": "c1cnc(N2CCNCC2)cn1",
-      "dn_pred_ens": 32.27335776104032
-    },
-    {
-      "mol_id": 1862,
-      "smiles": "CCCn1cnc2ncncc21",
-      "dn_pred_ens": 32.269881091107
-    },
-    {
-      "mol_id": 1883,
-      "smiles": "N#Cn1cnc2ncncc21",
-      "dn_pred_ens": 32.26230117745878
-    },
-    {
-      "mol_id": 1888,
-      "smiles": "c1ccc(-n2cnc3ncncc32)cc1",
-      "dn_pred_ens": 32.166452666360705
-    },
-    {
-      "mol_id": 1372,
-      "smiles": "NCCNc1cnccn1",
-      "dn_pred_ens": 32.15449540903886
-    },
-    {
-      "mol_id": 1861,
-      "smiles": "CCn1cnc2ncncc21",
-      "dn_pred_ens": 32.046882542807616
-    },
-    {
-      "mol_id": 1929,
-      "smiles": "c1cc(-c2cnccn2)c2nccnc2c1",
-      "dn_pred_ens": 32.04159920926737
-    },
-    {
-      "mol_id": 1864,
-      "smiles": "CC(C)n1cnc2ncncc21",
-      "dn_pred_ens": 32.036998278339084
+      "mol_id": 21293,
+      "smiles": "CC(C)(CN)n1cnc2ncncc21",
+      "dn_pred_ens": 34.91178616874011
     }
   ],
   "efficiency": {
-    "n_molecules": 3551,
-    "ml_total_seconds": 1.436837600020226,
-    "dft_total_seconds": 12783600.0,
-    "experimental_total_seconds": 306806400.0,
-    "ml_vs_dft_speedup": 8897038.885828188,
-    "ml_vs_experiment_speedup": 213528933.25987652
+    "n_molecules": 29513,
+    "ml_total_seconds": 1.8136378999988665,
+    "dft_total_seconds": 106246800.0,
+    "experimental_total_seconds": 2549923200.0,
+    "ml_vs_dft_speedup": 58582145.86278022,
+    "ml_vs_experiment_speedup": 1405971500.7067254
   }
 }

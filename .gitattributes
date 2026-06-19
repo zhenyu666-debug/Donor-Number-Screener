@@ -1,0 +1,2 @@
+data/descriptors_v2.csv filter=lfs diff=lfs merge=lfs -text
+data/descriptors_v2_clean.csv filter=lfs diff=lfs merge=lfs -text

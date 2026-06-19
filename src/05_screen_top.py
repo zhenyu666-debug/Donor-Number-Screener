@@ -28,7 +28,7 @@ from rdkit import Chem
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,  # noqa: E402
-                   get_logger, set_global_seed)
+                   get_logger, load_descriptors, set_global_seed)
 
 warnings.filterwarnings("ignore")
 set_global_seed(42)
@@ -172,7 +172,7 @@ def plot_fig5() -> None:
     # Time the actual ML re-prediction for honest comparison.
     import xgboost  # noqa
     from sklearn.ensemble import RandomForestRegressor
-    desc = pd.read_csv(DATA_DIR / "descriptors.csv")
+    desc = load_descriptors()
     NON_FEATURE = {"mol_id", "smiles", "smiles_x", "smiles_y",
                    "dn_rf", "dn_empirical", "dn_final", "confidence",
                    "is_anchor"}

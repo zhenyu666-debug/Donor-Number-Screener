@@ -47,7 +47,16 @@ NON_FEATURE_COLS = {"mol_id", "smiles", "smiles_x", "smiles_y"}
 
 def load_data():
     lib = pd.read_csv(DATA_DIR / "candidate_library.csv")
-    desc = pd.read_csv(DATA_DIR / "descriptors.csv")
+    # v4: prefer v2 descriptors (1005 dims) when available, fall back
+    # to v1 (236 dims) for backward compatibility.
+    v2_path = DATA_DIR / "descriptors_v2.csv"
+    v1_path = DATA_DIR / "descriptors.csv"
+    if v2_path.exists() and v2_path.stat().st_mtime > v1_path.stat().st_mtime:
+        desc = pd.read_csv(v2_path)
+    elif v2_path.exists():
+        desc = pd.read_csv(v2_path)
+    else:
+        desc = pd.read_csv(v1_path)
     anchor = pd.read_csv(DATA_DIR / "dn_anchor_table.csv")
     # All numeric features (drop identifiers).
     feat_cols = [c for c in desc.columns
@@ -93,8 +102,13 @@ def fit_empirical_formula(anchor_df: pd.DataFrame,
     on the anchor subset.
     """
     feats = ["HOMO_proxy", "dipole_proxy", "n_O", "n_N", "n_F"]
-    X = desc.set_index("mol_id").loc[anchor_df["mol_id"], feats].values
-    y = anchor_df["dn_expt"].values
+    desc_indexed = desc.set_index("mol_id")
+    valid_ids = [mid for mid in anchor_df["mol_id"] if mid in desc_indexed.index]
+    if len(valid_ids) < len(anchor_df):
+        log.warning("Dropping %d anchors not in descriptors",
+                    len(anchor_df) - len(valid_ids))
+    X = desc_indexed.loc[valid_ids, feats].values
+    y = anchor_df.set_index("mol_id").loc[valid_ids, "dn_expt"].values
     model = Ridge(alpha=1.0)
     model.fit(X, y)
     y_pred = model.predict(X)
@@ -110,8 +124,10 @@ def fit_empirical_formula(anchor_df: pd.DataFrame,
 def fit_rf_anchor(anchor_df: pd.DataFrame,
                   desc: pd.DataFrame,
                   feat_cols: list[str]) -> tuple[RandomForestRegressor, dict]:
-    X = desc.set_index("mol_id").loc[anchor_df["mol_id"], feat_cols].values
-    y = anchor_df["dn_expt"].values
+    desc_indexed = desc.set_index("mol_id")
+    valid_ids = [mid for mid in anchor_df["mol_id"] if mid in desc_indexed.index]
+    X = desc_indexed.loc[valid_ids, feat_cols].values
+    y = anchor_df.set_index("mol_id").loc[valid_ids, "dn_expt"].values
     rf = RandomForestRegressor(
         n_estimators=500, max_depth=None, random_state=42, n_jobs=-1
     )
@@ -140,7 +156,9 @@ def main() -> None:
     # 3. RF on anchors using all features.
     rf, rf_meta = fit_rf_anchor(anchor_merged, desc, feat_cols)
 
-    # 4. Predict DN for the full library.
+    # 4. Predict DN for the full library.  Use a (desc, lib) merge so
+    #    we never lose rows due to set_index NaN keys.
+    desc_indexed = desc.set_index("mol_id")
     X_all = desc[feat_cols].values
     dn_rf = rf.predict(X_all)
     dn_emp = emp_model.predict(desc[emp_feats].values)
@@ -160,11 +178,17 @@ def main() -> None:
     # The anchors themselves get their experimental value, not the
     # predicted one, so the regression models in step 4 are training
     # on a self-consistent dataset anchored to reality.
-    is_anchor_mask = desc["mol_id"].isin(anchor_merged["mol_id"]).values
+    valid_desc_ids = set(int(m) for m in desc["mol_id"] if pd.notna(m))
+    valid_anchors = anchor_merged[
+        anchor_merged["mol_id"].isin(valid_desc_ids)
+    ]
+    desc_id_arr = desc["mol_id"].astype(int).to_numpy()
+    is_anchor_mask = np.isin(desc_id_arr, valid_anchors["mol_id"].to_numpy())
     dn_final = dn_geo.copy()
-    dn_final[is_anchor_mask] = anchor_merged.set_index("mol_id").loc[
-        desc.loc[is_anchor_mask, "mol_id"], "dn_expt"
-    ].values
+    if is_anchor_mask.any():
+        dn_final[is_anchor_mask] = valid_anchors.set_index("mol_id").loc[
+            desc_id_arr[is_anchor_mask], "dn_expt"
+        ].values
 
     # 6. Persist.
     out = desc[["mol_id", "smiles"]].copy()

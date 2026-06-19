@@ -36,7 +36,7 @@ from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,
-                   get_logger, set_global_seed)
+                   get_logger, load_descriptors, set_global_seed)
 
 warnings.filterwarnings("ignore")
 set_global_seed(42)
@@ -196,7 +196,7 @@ def main():
              baseline.get("test_rf", {}).get("R2", float("nan")),
              baseline.get("test_xgb", {}).get("R2", float("nan")))
 
-    desc = pd.read_csv(DATA_DIR / "descriptors.csv")
+    desc = load_descriptors()
     labels = pd.read_csv(DATA_DIR / "dn_labels.csv")
     df = desc.merge(labels[["mol_id", "dn_final"]], on="mol_id", how="left")
     NON_FEATURE_COLS = {

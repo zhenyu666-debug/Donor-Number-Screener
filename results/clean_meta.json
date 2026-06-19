@@ -1,25 +1,25 @@
 {
-  "raw_n_rows": 3551,
+  "raw_n_rows": 29513,
   "raw_n_cols": 996,
-  "clean_n_rows": 3548,
+  "clean_n_rows": 29427,
   "clean_n_cols": 994,
   "dropped_columns_nan50pct": [],
   "dropped_dup_smiles": 0,
   "dropped_nonfinite_dn": 0,
-  "dropped_outliers_3sigma": 3,
-  "dn_y_median": 24.328152530408765,
-  "dn_y_std": 4.504441928042882,
-  "wall_time_s": 18.89,
+  "dropped_outliers_3sigma": 86,
+  "dn_y_median": 26.49818013434657,
+  "dn_y_std": 3.690484029163474,
+  "wall_time_s": 239.09,
   "top10_features": [
     "n_N",
     "maccs_161",
     "maccs_142",
-    "mean_electronegativity",
-    "SMR_VSA1",
-    "MeanEStateIndex",
-    "HOMO_proxy",
+    "MaxAbsEStateIndex",
+    "MaxEStateIndex",
+    "maccs_42",
     "n_F",
-    "HL_gap_proxy",
-    "SlogP_VSA10"
+    "mean_electronegativity",
+    "MolMR",
+    "maccs_102"
   ]
 }

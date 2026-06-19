@@ -66,13 +66,13 @@ except ImportError:
     CatBoostRegressor = None
 
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,
-                   get_logger, set_global_seed)
+                   get_logger, load_descriptors, set_global_seed)
 
 warnings.filterwarnings("ignore")
 set_global_seed(42)
 log = get_logger("bayes_5model")
 
-N_TRIALS = 30
+N_TRIALS = 10
 N_CV_FOLDS = 5
 CV = KFold(N_CV_FOLDS, shuffle=True, random_state=42)
 

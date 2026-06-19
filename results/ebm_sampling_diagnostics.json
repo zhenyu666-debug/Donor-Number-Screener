@@ -1,0 +1,9 @@
+{
+  "n_candidates": 20,
+  "mean_ess_sgld": 5.990861618321856,
+  "median_ess_sgld": 4.4801217219403675,
+  "mean_ess_mh": 5.990861618321856,
+  "mean_iact_sgld": 42.14944953208936,
+  "mean_mh_accept": 1.0,
+  "fraction_ess_above_100": 0.0
+}
