@@ -34,6 +34,9 @@ results/optuna_cache.db
 # Catboost training artefacts
 catboost_info/
 
+# Local run logs (regenerable, not part of the artefact set)
+data/_*.log
+
 # Keep the small / source data
 !data/dn_anchor_table.csv
 !data/candidate_library.csv
