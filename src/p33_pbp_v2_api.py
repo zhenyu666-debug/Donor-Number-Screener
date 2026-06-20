@@ -17,11 +17,11 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import DATA_DIR, RESULTS_DIR, load_yaml  # noqa: E402
+from utils_pb import load_yaml  # noqa: E402
 import ml_aimd as aimd  # noqa: E402
 import p2d_3d_micro as p2d  # noqa: E402
 import sse_redn as sse  # noqa: E402

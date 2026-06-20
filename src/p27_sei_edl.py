@@ -21,15 +21,13 @@ import argparse
 import math
 import sys
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from utils_pb import (  # noqa: E402
-    RESULTS_DIR, EPS_0, E_CHARGE, K_B, K_B_eV, N_A, PI,
-    load_yaml, write_csv, write_json,
+    RESULTS_DIR, EPS_0, E_CHARGE, K_B, N_A, load_yaml, write_csv, write_json,
 )
 
 
@@ -45,7 +43,6 @@ def helmholtz_capacitance(eps_r: float) -> float:
 def debye_length(eps_r: float, c_bulk: float, T: float) -> float:
     """Debye length [m] for a symmetric 1:1 electrolyte at concentration c [mol/m^3]."""
     F = E_CHARGE
-    e = F / (K_B * T)
     return math.sqrt(eps_r * EPS_0 * K_B * T / (2.0 * c_bulk * N_A * F ** 2))
 
 
@@ -97,7 +94,6 @@ def sweep_thickness(params: dict, dn_bulk: float = 20.0, T: float = 298.15) -> l
     sei = params["sei"]
     edl = params["edl"]
     cath = params["cathode"]
-    an = params["anode"]
     op = params["operating"]
 
     n_steps = int(sei["thickness_nm_steps"])

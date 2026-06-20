@@ -1,17 +1,15 @@
 ﻿"""test_sei.py - physics constraints + monotonicity tests for SEI/EDL."""
-import math
 import sys
 from pathlib import Path
 
-import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from sei_edl import (  # noqa: E402
+from p27_sei_edl import (  # noqa: E402
     helmholtz_capacitance, debye_length, ionic_conductivity_bulk,
-    sei_resistance, butler_volmer_j, plating_overpotential, dn_attenuation, run,
+    sei_resistance, butler_volmer_j, dn_attenuation, run,
 )
-from utils_pb import load_yaml, EPS_0  # noqa: E402
+from utils_pb import load_yaml  # noqa: E402
 
 
 def test_helmholtz_capacitance_units():

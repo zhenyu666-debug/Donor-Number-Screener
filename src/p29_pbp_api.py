@@ -13,14 +13,14 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import RESULTS_DIR, load_yaml  # noqa: E402
+from utils_pb import load_yaml  # noqa: E402
 import particle_md as pmd  # noqa: E402
 import collision_xs as cxs  # noqa: E402
 import bayesian_langevin as bl  # noqa: E402

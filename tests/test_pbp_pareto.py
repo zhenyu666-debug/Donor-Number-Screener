@@ -1,5 +1,4 @@
 ﻿"""test_pareto.py - tests for the Pareto front computation."""
-import math
 import sys
 from pathlib import Path
 
@@ -7,7 +6,7 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from pareto_best_sse import (  # noqa: E402
+from p35_pareto_best_sse import (  # noqa: E402
     dominates, non_dominated_sort, build_objective_matrix, normalize,
     representative_by_distance, representative_per_family,
 )
@@ -18,9 +17,13 @@ def test_dominates_strict():
     b = np.array([1.0, 1.0])
     assert dominates(a, b)
     assert not dominates(b, a)
-    # equal in one dim: still non-dominating
+    # equal in one dim, strictly better in the other -> still dominates
+    # (this is the standard Pareto definition)
     c = np.array([2.0, 1.0])
-    assert not dominates(a, c)
+    assert dominates(a, c)
+    # equal in all dims -> not a strict dominance
+    d = np.array([2.0, 2.0])
+    assert not dominates(a, d)
     assert not dominates(c, a)
 
 

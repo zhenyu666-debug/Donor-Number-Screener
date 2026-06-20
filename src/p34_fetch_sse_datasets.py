@@ -28,12 +28,11 @@ import time
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
-import numpy as np
 import yaml
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import DATA_DIR, RESULTS_DIR, write_csv, write_json, set_seed  # noqa: E402
+from utils_pb import DATA_DIR, write_csv, write_json, set_seed  # noqa: E402
 
 
 OBELIX_URL = ("https://raw.githubusercontent.com/NRC-Mila/OBELiX/"
@@ -82,6 +81,10 @@ def classify_family(name: str, formula: str) -> str:
                 return fam
     # rough fallback
     if "sulfide" in s or "ps" in s or "li2s" in s:
+        return "sulfide"
+    # P + S present and no O -> sulfide (catches Li7P3S11, Li3PS4, etc.)
+    fl = formula.lower()
+    if "p" in fl and "s" in fl and "o" not in fl and "ge" not in fl and "si" not in fl:
         return "sulfide"
     if "oxide" in s or "o)" in formula.lower() or "O12" in formula:
         return "oxide"
@@ -145,10 +148,6 @@ def fetch_obelix() -> List[Dict[str, Any]]:
             ic = float(r.get("Ionic conductivity (S cm-1)") or "nan")
         except Exception:
             ic = float("nan")
-        try:
-            z = int(float(r.get("Z") or 0))
-        except Exception:
-            z = 0
         name = (r.get("Reduced Composition") or "").strip()
         family = (r.get("Family") or "").strip().lower() or "other"
         if family not in {"sulfide", "oxide", "polymer", "halide",
@@ -259,7 +258,7 @@ def fetch_paper_extra() -> List[Dict[str, Any]]:
     p = DATA_DIR / "paper_sse_extra.yaml"
     if not p.exists():
         return []
-    with p.open() as f:
+    with p.open(encoding="utf-8-sig") as f:
         d = yaml.safe_load(f) or {}
     rows: List[Dict[str, Any]] = []
     for i, s in enumerate(d.get("sse", [])):
@@ -337,20 +336,20 @@ def compute_dn_pbp_v2(row: Dict[str, Any]) -> float:
         Eg = 4.0
     if not math.isfinite(migration):
         migration = 0.4
-    em = 1.0e3 * math.log10(sigma) + 1.0 * Eg + 5.0 - 2.0 * migration
-    em_clamped = max(5.0, min(40.0, em))
+    raw_em = 1.0e3 * math.log10(sigma) + 1.0 * Eg + 5.0 - 2.0 * migration
+    em = max(5.0, min(40.0, raw_em))
     anchor_dn = 22.0
     weights = {"langevin": 0.5, "particle": 0.1, "sei": 0.1,
                "aimd": 0.2, "empirical": 0.1}
-    l = em + np.random.normal(0.0, 0.0)  # deterministic
+    lang_dn = em
     p_corr = anchor_dn
     s = max(0.0, 1.0 - 0.5 * migration)
     a = 8.0 + 5.0 * math.sqrt(sigma)
-    dn = (weights["langevin"] * l
+    dn = (weights["langevin"] * lang_dn
           + weights["particle"] * p_corr
-          + weights["sei"] * em_clamped * s
+          + weights["sei"] * em * s
           + weights["aimd"] * a
-          + weights["empirical"] * em_clamped)
+          + weights["empirical"] * em)
     return float(dn)
 
 

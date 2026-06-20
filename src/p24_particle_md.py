@@ -9,7 +9,6 @@ Outputs: g_Li-O(r) radial distribution + coordination number
 from __future__ import annotations
 
 import argparse
-import json
 import math
 import sys
 from pathlib import Path
@@ -20,7 +19,7 @@ import numpy as np
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from utils_pb import (  # noqa: E402
-    DATA_DIR, RESULTS_DIR, K_B, K_B_eV, EPS_0, E_CHARGE, PI,
+    RESULTS_DIR, K_B_eV, EPS_0, E_CHARGE, PI,
     load_yaml, set_seed, write_csv, write_json, parse_atoms,
 )
 
@@ -223,7 +222,6 @@ def run_md(smiles: str, params: dict, atom_table: dict,
     rdf_bins = np.linspace(0.0, min(cutoff, edge / 2.0), 60)
     rdf_hist = np.zeros(len(rdf_bins) - 1)
     rdf_samples = 0
-    ke_scale = 0.5 * (masses[:, None] * vel * vel).sum() * E_CHARGE / 1.602176634e-19  # to eV
 
     for step in range(n_steps):
         # half-kick

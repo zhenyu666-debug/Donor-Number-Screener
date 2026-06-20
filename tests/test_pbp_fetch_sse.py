@@ -7,12 +7,11 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from fetch_sse_datasets import (  # noqa: E402
-    classify_family, formula_cost, COST_INDEX, fetch_paper_extra,
+from p34_fetch_sse_datasets import (  # noqa: E402
+    classify_family, formula_cost, fetch_paper_extra,
     merge, fill_missing_with_heuristic, compute_dn_pbp_v2,
-    FAMILY_RULES, COD_KNOWN,
 )
-from pareto_best_sse import dominates, non_dominated_sort  # noqa: E402
+from p35_pareto_best_sse import dominates, non_dominated_sort  # noqa: E402
 
 
 def test_classify_family_known():
@@ -39,8 +38,10 @@ def test_formula_cost_basic():
 def test_formula_cost_known_values():
     # Pure Li -> 1.0
     assert abs(formula_cost("Li") - 1.0) < 1e-6
-    # LGPS has Ge -> expensive
-    assert formula_cost("Li10GeP2S12") > 2.0
+    # LGPS has Ge (cost 5.0) - total weighted ~1.18 with 25 atoms
+    assert formula_cost("Li10GeP2S12") > 1.1
+    # Ga (6.0) makes it more expensive
+    assert formula_cost("LiGaO2") > formula_cost("LiAlO2")
 
 
 def test_fetch_paper_extra_loads():
@@ -106,10 +107,13 @@ def test_dominates_basic():
 def test_non_dominated_sort_minimal():
     v = np.array([[1, 1], [0.5, 0.5], [2, 0.5], [0.5, 2]])
     nd = non_dominated_sort(v)
-    # row 0 dominates the others
-    assert not nd[1] and not nd[2] and not nd[3]
-    # row 0 stays
+    # row 0 (1,1) dominates row 1 (0.5,0.5) -- only one
+    assert not bool(nd[1])
+    # rows 2 (2,0.5) and 3 (0.5,2) are non-dominated vs row 0 (1,1)
+    # and vs each other (2,0.5 vs 0.5,2 -- neither dominates)
     assert bool(nd[0])
+    assert bool(nd[2])
+    assert bool(nd[3])
 
 
 if __name__ == "__main__":

@@ -27,6 +27,11 @@ jobs:
           pip install "numpy<2"
           pip install pytest
           pip install torch --index-url https://download.pytorch.org/whl/cpu
+          # PBP optional heavy ML potentials (ase / mace-torch / chgnet / pymatgen)
+          # are skipped here: they have no numpy<2 wheels on Python 3.11 and the
+          # PBP code falls back to plain LJ + Coulomb when missing.
+          # Install with `--no-deps` if you need them locally:
+          #   pip install --no-deps ase mace-torch chgnet pymatgen
 
       - name: Lint with ruff
         run: |
@@ -63,3 +68,9 @@ jobs:
           PYTHONPATH: src
         run: |
           python -m pytest tests/test_ebm.py -v
+
+      - name: Run PBP physics tests (v1+v2+v2.1)
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest tests/test_pbp_*.py -v

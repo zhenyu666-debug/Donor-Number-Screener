@@ -14,9 +14,8 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from ml_aimd import (  # noqa: E402
-    LJCalculator, load_sse_library, run_one_sse, load_calculator,
-    SSE_COMPOSITIONS,
+from p30_ml_aimd import (  # noqa: E402
+    LJCalculator, load_sse_library, run_one_sse, SSE_COMPOSITIONS,
 )
 from utils_pb import load_yaml  # noqa: E402
 
@@ -24,7 +23,7 @@ from utils_pb import load_yaml  # noqa: E402
 def test_lj_calculator_energy_finite():
     from ase import Atoms
     a = Atoms("Li3", positions=[[0, 0, 0], [3, 0, 0], [0, 3, 0]], cell=[6, 6, 6], pbc=True)
-    calc = LJCalculator(eps=0.005, sigma_A=3.0)
+    calc = LJCalculator(eps_eV=0.005, sigma_A=3.0)
     e = calc.get_potential_energy(a)
     assert math.isfinite(e)
     f = calc.get_forces(a)
@@ -36,7 +35,7 @@ def test_lj_calculator_pair_signs():
     from ase import Atoms
     a_close = Atoms("Li2", positions=[[0, 0, 0], [1.5, 0, 0]], cell=[5, 5, 5], pbc=True)
     a_far = Atoms("Li2", positions=[[0, 0, 0], [3.0, 0, 0]], cell=[5, 5, 5], pbc=True)
-    calc = LJCalculator(eps=0.005, sigma_A=3.0)
+    calc = LJCalculator(eps_eV=0.005, sigma_A=3.0)
     e_close = calc.get_potential_energy(a_close)
     e_far = calc.get_potential_energy(a_far)
     # at r=1.5 (below LJ minimum ~3.16) energy is repulsive
@@ -47,15 +46,29 @@ def test_sse_library_loadable():
     lib = load_sse_library()
     assert len(lib) == 14
     names = [x["name"] for x in lib]
+    # Library uses "Name (alias)" format
     for n in ("Li3PS4 (beta)", "LGPS", "LLZO (Ta-doped)", "LATP"):
-        assert n in names
+        # either exact match OR (alias) suffix
+        assert any((n == nm) or (nm.endswith(f"({n})")) for nm in names), f"{n} not in {names}"
 
 
 def test_sse_compositions_known():
-    # All 14 SSEs must have a composition entry
-    for k in ("Li3PS4 (beta)", "LGPS", "LLZO (Ta-doped)", "PEO+LiTFSI (polymer)"):
-        assert k in SSE_COMPOSITIONS
-        assert len(SSE_COMPOSITIONS[k]) > 0
+    # All 14 SSEs must have a composition entry; allow alias or full name.
+    # Library keys are like "Li10GeP2S12 (LGPS)" — match by substring (case-insensitive).
+    keys = list(SSE_COMPOSITIONS.keys())
+    def find(full: str) -> str | None:
+        if full in keys:
+            return full
+        fl = full.lower()
+        for k in keys:
+            kl = k.lower()
+            if fl in kl:
+                return k
+        return None
+    for full in ("Li3PS4 (beta)", "LGPS", "LLZO (Ta-doped)", "PEO+LiTFSI (polymer)"):
+        match = find(full)
+        assert match is not None, f"missing {full} in {sorted(keys)[:5]}..."
+        assert len(SSE_COMPOSITIONS[match]) > 0
 
 
 def test_run_one_sse_lib_only_fallback():

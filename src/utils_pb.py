@@ -33,7 +33,7 @@ def load_yaml(name: str) -> dict:
     p = DATA_DIR / name
     if not p.exists():
         return {}
-    with p.open() as f:
+    with p.open(encoding="utf-8-sig") as f:
         return yaml.safe_load(f) or {}
 
 
@@ -99,6 +99,19 @@ def coulomb_energy(r: np.ndarray, q_i: float, q_j: float, eps_r: float = 12.0) -
     return j_per_pair / E_CHARGE  # eV
 
 
+def coulomb_force(r_angstrom: np.ndarray, q_i: float, q_j: float,
+                  eps_r: float = 12.0) -> np.ndarray:
+    """Coulomb pair force magnitude in eV/A for an array of distances r in A.
+    F = -dU/dr where U = k q_i q_j / r.  Returns magnitude (positive when repulsive).
+    """
+    r = np.asarray(r_angstrom, dtype=float) * 1e-10  # A -> m
+    k = 1.0 / (4.0 * PI * EPS_0 * eps_r)  # J*m
+    # dU/dr = -k q_i q_j / r^2, force along r-hat = -dU/dr = +k q_i q_j / r^2
+    j_per_pair_per_m = k * q_i * q_j / np.maximum(r * r, 1e-24)
+    # J/m -> eV/A: 1 J = 1/eV_C eV; per m = per A * 1e-10; so J/m -> eV/A: /E_CHARGE * 1e-10
+    return j_per_pair_per_m / E_CHARGE * 1e-10  # eV/A (sign-preserving)
+
+
 def pair_energy(r_angstrom: np.ndarray, q_i: float, q_j: float,
                 eps_lj: float, sig_lj: float, eps_r: float = 12.0,
                 cutoff: float = 12.0) -> np.ndarray:
@@ -136,7 +149,8 @@ def gelman_rubin(chains: np.ndarray) -> float:
     B = n * chain_means.var(ddof=1)
     var_hat = (1.0 - 1.0 / n) * W + B / n
     if W <= 0:
-        return float("nan")
+        # All chains identical -> perfect agreement.
+        return 1.0
     return float(np.sqrt(var_hat / W))
 
 

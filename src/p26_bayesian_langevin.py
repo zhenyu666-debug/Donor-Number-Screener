@@ -17,18 +17,15 @@ Outputs: chain samples, posterior mean, 95% CI, R-hat, ESS.
 from __future__ import annotations
 
 import argparse
-import json
-import math
 import sys
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from utils_pb import (  # noqa: E402
-    RESULTS_DIR, write_csv, write_json, gelman_rubin, set_seed,
+    RESULTS_DIR, write_json, gelman_rubin, set_seed,
 )
 
 
@@ -91,16 +88,17 @@ class EBMEnergy:
 # Langevin sampler
 # --------------------------------------------------------------------------- #
 
-def langevin_step(x: np.ndarray, energy_grad, eps_k: float, noise_scale: float) -> np.ndarray:
+def langevin_step(x: np.ndarray, energy_grad, eps: float, noise_scale: float) -> np.ndarray:
     """One SGLD step.  Returns the next state, same shape as x."""
     grad = energy_grad(x)
     noise = np.random.normal(0.0, 1.0, size=x.shape)
-    return x - 0.5 * eps_k * grad + np.sqrt(eps_k) * noise_scale * noise
+    return x - 0.5 * eps * grad + np.sqrt(eps) * noise_scale * noise
 
 
 def run_chains(energy, x0: np.ndarray, n_steps: int, eps: float, n_chains: int = 4,
-               burn_in: int = 200) -> dict:
+               burn_in: int = 200, seed: int = 0) -> dict:
     """Run multiple SGLD chains from x0 (replicated if needed) and return diagnostics."""
+    rng = np.random.default_rng(seed)
     if x0.ndim == 1:
         x0 = np.tile(x0, (n_chains, 1))
     elif x0.shape[0] < n_chains:
@@ -109,7 +107,9 @@ def run_chains(energy, x0: np.ndarray, n_steps: int, eps: float, n_chains: int =
     samples = np.zeros((n_chains, n_steps, x0.shape[1]))
     x = x0.copy()
     for k in range(n_steps):
-        x = langevin_step(x, energy.grad, eps, noise_scale=1.0)
+        noise = rng.normal(0.0, 1.0, size=x.shape)
+        grad = energy.grad(x)
+        x = x - 0.5 * eps * grad + np.sqrt(eps) * noise
         samples[:, k] = x
     post = samples[:, burn_in:]
     flat = post.reshape(-1, post.shape[-1])
@@ -119,7 +119,6 @@ def run_chains(energy, x0: np.ndarray, n_steps: int, eps: float, n_chains: int =
     chain_means = post.mean(axis=1)
     rhat = gelman_rubin(chain_means)
     # ESS using lag-1 autocorrelation (rough)
-    diffs = np.diff(flat.mean(axis=1))
     ess = max(1, int(flat.shape[0] / (1.0 + 2.0 * np.corrcoef(flat[:-1].mean(axis=1), flat[1:].mean(axis=1))[0, 1])))
     return {
         "mean": mean,

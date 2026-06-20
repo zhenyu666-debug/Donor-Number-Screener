@@ -7,8 +7,8 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from sse_redn import (  # noqa: E402
-    empirical_dn, langevin_proxy_dn, particle_correction, sei_attenuation,
+from p32_sse_redn import (  # noqa: E402
+    empirical_dn, langevin_proxy_dn, sei_attenuation,
     load_sse_library, rerank,
 )
 

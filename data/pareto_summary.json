@@ -1,0 +1,162 @@
+{
+  "n_input": 10,
+  "n_pareto": 8,
+  "objectives": [
+    "sigma_ion",
+    "E_g",
+    "stability",
+    "low_migration",
+    "low_cost"
+  ],
+  "top3_per_objective": {
+    "sigma_ion": [
+      {
+        "rank": "1",
+        "formula": "Li5.5PS4.5Cl1.5Br0.5I0.5",
+        "name": "LGSSSI (high-entropy argyrodite)",
+        "family": "halide",
+        "value": -1.4921441283041692
+      },
+      {
+        "rank": "2",
+        "formula": "Li3PS3.5O0.5",
+        "name": "O-doped Li3PS4",
+        "family": "sulfide",
+        "value": -2.494850021680094
+      },
+      {
+        "rank": "3",
+        "formula": "Li3YCl6",
+        "name": "Li3YCl6 (halide)",
+        "family": "halide",
+        "value": -3.0
+      }
+    ],
+    "E_g": [
+      {
+        "rank": "10",
+        "formula": "Li2SiO3",
+        "name": "Li2SiO3 (cathode coating)",
+        "family": "oxide",
+        "value": 6.5
+      },
+      {
+        "rank": "6",
+        "formula": "LiBH4",
+        "name": "LiBH4 (hydride)",
+        "family": "hydride",
+        "value": 5.5
+      },
+      {
+        "rank": "9",
+        "formula": "Li2SnO3",
+        "name": "Li2SnO3 (cathode coating)",
+        "family": "oxide",
+        "value": 5.5
+      }
+    ],
+    "stability": [
+      {
+        "rank": "1",
+        "formula": "Li5.5PS4.5Cl1.5Br0.5I0.5",
+        "name": "LGSSSI (high-entropy argyrodite)",
+        "family": "halide",
+        "value": 5.5
+      },
+      {
+        "rank": "2",
+        "formula": "Li3PS3.5O0.5",
+        "name": "O-doped Li3PS4",
+        "family": "sulfide",
+        "value": 5.5
+      },
+      {
+        "rank": "10",
+        "formula": "Li2SiO3",
+        "name": "Li2SiO3 (cathode coating)",
+        "family": "oxide",
+        "value": 5.0
+      }
+    ],
+    "low_migration": [
+      {
+        "rank": "1",
+        "formula": "Li5.5PS4.5Cl1.5Br0.5I0.5",
+        "name": "LGSSSI (high-entropy argyrodite)",
+        "family": "halide",
+        "value": -0.18
+      },
+      {
+        "rank": "2",
+        "formula": "Li3PS3.5O0.5",
+        "name": "O-doped Li3PS4",
+        "family": "sulfide",
+        "value": -0.28
+      },
+      {
+        "rank": "3",
+        "formula": "Li3YCl6",
+        "name": "Li3YCl6 (halide)",
+        "family": "halide",
+        "value": -0.34
+      }
+    ],
+    "low_cost": [
+      {
+        "rank": "2",
+        "formula": "Li3PS3.5O0.5",
+        "name": "O-doped Li3PS4",
+        "family": "sulfide",
+        "value": -1.2
+      },
+      {
+        "rank": "10",
+        "formula": "Li2SiO3",
+        "name": "Li2SiO3 (cathode coating)",
+        "family": "oxide",
+        "value": -1.5
+      },
+      {
+        "rank": "6",
+        "formula": "LiBH4",
+        "name": "LiBH4 (hydride)",
+        "family": "hydride",
+        "value": -2.0
+      }
+    ]
+  },
+  "balanced_representative": {
+    "formula": "Li2ZrCl6",
+    "name": "Li2ZrCl6",
+    "family": "halide",
+    "dn_pbp_v2": 7.233284271247462
+  },
+  "representative_per_family": {
+    "halide": {
+      "formula": "Li5.5PS4.5Cl1.5Br0.5I0.5",
+      "name": "LGSSSI (high-entropy argyrodite)"
+    },
+    "sulfide": {
+      "formula": "Li3PS3.5O0.5",
+      "name": "O-doped Li3PS4"
+    },
+    "hydride": {
+      "formula": "LiBH4",
+      "name": "LiBH4 (hydride)"
+    },
+    "oxide": {
+      "formula": "LiNbO3",
+      "name": "LiNbO3"
+    }
+  },
+  "pareto_formulas": [
+    "Li5.5PS4.5Cl1.5Br0.5I0.5",
+    "Li3PS3.5O0.5",
+    "Li3YCl6",
+    "Li2ZrCl6",
+    "LiBH4",
+    "LiNbO3",
+    "Li2SnO3",
+    "Li2SiO3"
+  ]
+}

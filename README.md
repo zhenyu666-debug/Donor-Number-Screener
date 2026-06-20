@@ -11,6 +11,15 @@
 
 ---
 
+## What this is — quick map
+
+> The repo now also ships a **Particle-Bayes-Physics (PBP) layer** that adds
+> four physics simulators and a v2.1 SSE dataset / Pareto tool on top of
+> the 5-model stacking ensemble. **All PBP scripts and tests live at the
+> repo root** in `src/p24_*.py` ... `src/p35_*.py` and `tests/test_pbp_*.py`,
+> not inside a subfolder. See [Particle-Bayes-Physics (PBP) layer](#particle-bayes-physics-pbp-layer)
+> for the full v1+v2+v2.1 feature list.
+
 ## What this is
 
 A drop-in screening service for Li-S battery additive R&D. You give me a
@@ -752,6 +761,142 @@ python src/21_hardware_stochasticity.py   # RNG / 相关性 / 漂移
 - `torch` (CPU-only 即可, 无需 GPU)
 
 完整 30,000 分子流水线 (含描述符, 5-model 训练, Top-20, EBM addon) 在笔记本上**10 分钟内**跑完.
+
+---
+
+## Particle-Bayes-Physics (PBP) layer
+
+Four physics simulators + a v2.1 dataset fetcher + multi-objective Pareto
+that complement the 5-model GBDT stack. **All PBP code lives at the repo
+root** (no subfolder) so it shows up in the GitHub code-search and file
+tree without a click.
+
+### v1 — the four physics models
+
+1. **Particle MD** ([`src/p24_particle_md.py`](src/p24_particle_md.py)) —
+   Lennard-Jones + Coulomb NVT simulation in a 64-particle periodic box.
+   Outputs Li-O radial distribution g(r), Li-O coordination number, and
+   a DN correction.
+2. **Collision cross-section** ([`src/p25_collision_xs.py`](src/p25_collision_xs.py)) —
+   classical scattering on the LJ potential. Outputs the transport
+   cross-section sigma*, the dimensionless collision integral Omega^(1,1),
+   mobility mu, and Nernst-Einstein ionic conductivity kappa.
+3. **Bayesian Langevin diffusion** ([`src/p26_bayesian_langevin.py`](src/p26_bayesian_langevin.py)) —
+   994-dim stochastic gradient Langevin dynamics on a Gaussian posterior
+   anchored on the 5-model stack. Multi-chain sampling with R-hat
+   diagnostic, 95% CI, effective sample size.
+4. **SEI / EDL impedance** ([`src/p27_sei_edl.py`](src/p27_sei_edl.py)) —
+   three-sandwich cathode | CEI | electrolyte | SEI | Li metal analytical
+   model. Helmholtz capacitance, Butler-Volmer kinetics, Nernst-Planck
+   bulk conductivity, and a DN attenuation factor through the dense
+   SEI layer.
+
+A calibration script ([`src/p28_calibrate_5anchors.py`](src/p28_calibrate_5anchors.py))
+runs all four on five new anchor molecules (FEC, EC, DOL, Acetyl chloride,
+LiBOB — see [`data/new_anchors_5.csv`](data/new_anchors_5.csv)) and reports
+MAE / RMSE against experimental DN values.
+
+A FastAPI service ([`src/p29_pbp_api.py`](src/p29_pbp_api.py)) exposes six
+endpoints (`/health`, `/particle_dn`, `/collision_xs`, `/langevin_dn`,
+`/sei_impedance`, `/pbp_combine`).
+
+### v2 — micro + macro physics
+
+5. **ML-AIMD** ([`src/p30_ml_aimd.py`](src/p30_ml_aimd.py)) — ML-accelerated
+   MD with MACE-MP-0 / CHGNet foundation models + ASE NVT. Builds a
+   Li | SSE interface and reports interface adhesion energy, Li migration
+   barrier, and a DN correction. Falls back to LJ + Coulomb when
+   MACE/CHGNet/ASE are unavailable.
+6. **P2D + 3D micro-structure** ([`src/p31_p2d_3d_micro.py`](src/p31_p2d_3d_micro.py)) —
+   full Newman 1991 P2D (radial + 1D + Butler-Volmer + Poisson) with the
+   three additional coupled fields:
+   - thermal: Fourier heat + Joule + entropic heat
+   - mechanical: Hooke + diffusion-induced stress
+   - 3D micro: random-close-packed NMC particles with per-particle j
+7. **SSE re-ranking** ([`src/p32_sse_redn.py`](src/p32_sse_redn.py)) — 14
+   mainstream solid electrolytes (Li3PS4, Li6PS5Cl, LGPS, Li7P3S11,
+   Li2S-P2S5 glass, Li6PS5Br, Li3PS4 glass, LLZO, LATP, LAGP, LiPON,
+   LISICON, Li6PS5I, PEO+LiTFSI) re-estimated with the 7-model combined DN.
+
+A second FastAPI service ([`src/p33_pbp_v2_api.py`](src/p33_pbp_v2_api.py),
+port 8002) exposes three new endpoints (`/aimd_interface`, `/p2d_solve`,
+`/sse_rank`).
+
+### v2.1 — dataset fetcher + Pareto
+
+8. **SSE dataset fetcher** ([`src/p34_fetch_sse_datasets.py`](src/p34_fetch_sse_datasets.py)) —
+   pulls from four open data sources and merges them into a single
+   ~620-row CSV ([`data/sse_datasets_combined.csv`](data/sse_datasets_combined.csv)):
+   - OBELiX (NRC-Mila) — 599 experimentally-measured Li-SSE ionic
+     conductivities from arXiv:2502.14234
+   - COD (Crystallography Open Database) — CIF metadata for the 14
+     known SSE formulas
+   - CEMP (cleanenergymaterials.cn) — probe (graceful empty fallback)
+   - [`data/paper_sse_extra.yaml`](data/paper_sse_extra.yaml) — hand-curated
+     CAS / IOP high-throughput results
+9. **Pareto best SSE** ([`src/p35_pareto_best_sse.py`](src/p35_pareto_best_sse.py)) —
+   five-objective Pareto front over the merged dataset:
+   - log10(sigma_ion), E_g, stability_window, -migration_barrier, -cost
+   - reports per-objective Top-3, a balanced representative, and one
+     representative per family (sulfide / oxide / halide / polymer / ...)
+
+```bash
+python src/p34_fetch_sse_datasets.py --offline
+python src/p35_pareto_best_sse.py
+python -m pytest tests/test_pbp_fetch_sse.py tests/test_pbp_pareto.py -v
+```
+
+### PBP quick start
+
+```bash
+python -m pip install -r requirements.txt   # also pulls ase, mace-torch, chgnet, pymatgen
+python src/p24_particle_md.py --smiles CCO
+python src/p25_collision_xs.py --smiles CCO
+python src/p26_bayesian_langevin.py --smiles CCO --rf 20 --xgb 21 --mlp 20.5 --lgbm 20.8 --cat 20.3 --stack 20.6
+python src/p27_sei_edl.py --dn_bulk 22
+python src/p28_calibrate_5anchors.py
+python -m uvicorn src.p29_pbp_api:app --port 8001
+# v2
+python -m uvicorn src.p33_pbp_v2_api:app --port 8002
+```
+
+```bash
+curl -s http://127.0.0.1:8001/health
+curl -s -X POST http://127.0.0.1:8001/collision_xs -H 'Content-Type: application/json' \
+     -d '{"smiles": "CCO", "T": 298.15}'
+```
+
+### PBP tests
+
+```bash
+python -m pytest tests/test_pbp_*.py -v
+```
+
+### Key equations (PBP)
+
+- Lennard-Jones: `V(r) = 4 eps [(sig/r)^12 - (sig/r)^6]`
+- Coulomb: `V(r) = q_i q_j / (4 pi eps_0 eps_r r)` (SI, then convert to eV)
+- Transport xs: `sigma* = 2 pi int (1 - cos chi) b db`
+- Langevin SDE: `dx = -grad U(x) dt + sqrt(2 D) dW`
+- Butler-Volmer: `j = j0 [exp(alpha_a F eta / RT) - exp(-alpha_c F eta / RT)]`
+- Nernst-Einstein: `kappa = c F^2 D / (kT)`
+- DN attenuation: `d_eff = d_bulk * (f + (1 - f) * exp(-L / L_sat))`
+
+### PBP data + results
+
+| File | What it contains |
+|---|---|
+| [`data/particle_params.yaml`](data/particle_params.yaml) | LJ table for Li / C / N / O / F / P / S / Cl / B / H |
+| [`data/sei_params.yaml`](data/sei_params.yaml) | SEI / EDL / cathode / anode / operating params |
+| [`data/ml_aimd_params.yaml`](data/ml_aimd_params.yaml) | MACE / CHGNet + ASE NVT settings |
+| [`data/p2d_3d_params.yaml`](data/p2d_3d_params.yaml) | P2D + thermal + mechanical + micro3d |
+| [`data/sse_library.yaml`](data/sse_library.yaml) | 14 SSEs with sigma_ion, E_g, migration |
+| [`data/paper_sse_extra.yaml`](data/paper_sse_extra.yaml) | hand-curated CAS / IOP high-throughput SSE |
+| [`data/new_anchors_5.csv`](data/new_anchors_5.csv) | 5 calibration anchors (FEC, EC, DOL, AcCl, LiBOB) |
+| [`data/sse_datasets_combined.csv`](data/sse_datasets_combined.csv) | ~620 SSEs (OBELiX + COD + paper) |
+| [`data/sse_datasets_meta.json`](data/sse_datasets_meta.json) | per-source fetch counts + elapsed time |
+| [`data/pareto_front.csv`](data/pareto_front.csv) | non-dominated SSEs |
+| [`data/pareto_summary.json`](data/pareto_summary.json) | top-3 per objective + family representatives |
 
 ---
 

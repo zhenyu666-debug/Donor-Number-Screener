@@ -17,10 +17,8 @@ For each SSE listed in data/sse_library.yaml we compute one row.
 from __future__ import annotations
 
 import argparse
-import math
 import sys
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 
@@ -45,9 +43,10 @@ class LJCalculator:
         self.sigma = sigma_A
         self.q_scale = q_scale
         self.eps_r = eps_r
-        from utils_pb import lj_energy, coulomb_energy, K_B_eV, EPS_0, E_CHARGE, PI  # noqa
+        from utils_pb import lj_energy, coulomb_energy, E_CHARGE  # noqa
         self._lj = lj_energy
         self._c = coulomb_energy
+        self._E_CHARGE = E_CHARGE
 
     def get_potential_energy(self, atoms):
         pos = np.asarray(atoms.get_positions())
@@ -61,13 +60,16 @@ class LJCalculator:
                 continue
             r2 = r[mask]
             e += float(self._lj(r2, self.eps, self.sigma).sum())
-            e += float(self._c(r2, self.q_scale, -self.q_scale, self.eps_r).sum())
+            # q_scale is a unitless partial charge (e.g. +-0.3 e) -> convert to C
+            e += float(self._c(r2, self.q_scale * self._E_CHARGE,
+                               -self.q_scale * self._E_CHARGE, self.eps_r).sum())
         return e
 
     def get_forces(self, atoms):
         pos = np.asarray(atoms.get_positions())
         n = len(atoms)
         forces = np.zeros_like(pos)
+        from utils_pb import coulomb_force  # noqa
         for i in range(n - 1):
             d = pos[i + 1:] - pos[i]
             r = np.linalg.norm(d, axis=1)
@@ -76,7 +78,9 @@ class LJCalculator:
                 continue
             r2 = r[mask]
             r6 = (self.sigma / r2) ** 3
-            f_mag = 24.0 * self.eps * (2.0 * r6 * r6 - r6) / r2
+            f_mag = 24.0 * self.eps * (2.0 * r6 * r6 - r6) / (r2 * r2)
+            f_mag += coulomb_force(r2, self.q_scale * self._E_CHARGE,
+                                   -self.q_scale * self._E_CHARGE, self.eps_r)
             hat = d[mask] / r2[:, None]
             fv = f_mag[:, None] * hat
             forces[i] += fv.sum(axis=0)
@@ -237,7 +241,7 @@ def run_simple_verlet(atoms, calc, params, T=300.0, n_steps=100, dt=1.0):
     """
     pos = np.asarray(atoms.get_positions())
     masses = np.asarray(atoms.get_masses())[:, None]
-    sigma_v = math.sqrt(8.617e-5 * T / masses)
+    sigma_v = np.sqrt(8.617e-5 * T / masses)
     rng = np.random.default_rng(0)
     v = rng.normal(0.0, 1.0, size=pos.shape) * sigma_v
     v -= v.mean(axis=0)
@@ -262,7 +266,6 @@ def run_simple_verlet(atoms, calc, params, T=300.0, n_steps=100, dt=1.0):
 def compute_interface_metrics(atoms, calc, sse_name: str, params: dict, lib_entry: dict) -> dict:
     """Compute E_int, E_reaction, barrier estimate and DN correction."""
     n_atoms = len(atoms)
-    pos = np.asarray(atoms.get_positions())
     cell_xy = atoms.cell[0, 0] * atoms.cell[1, 1]
     e_tot = float(calc.get_potential_energy(atoms)) if hasattr(calc, "get_potential_energy") else 0.0
     # Crude E_int: (E_tot - E_Li_slab - E_SSE_slab) / (area)
@@ -342,7 +345,7 @@ def load_sse_library() -> list:
         import yaml
     except Exception:
         return []
-    with (cfg / "sse_library.yaml").open() as f:
+    with (cfg / "sse_library.yaml").open(encoding="utf-8-sig") as f:
         d = yaml.safe_load(f) or {}
     return d.get("sse", [])
 
@@ -355,7 +358,7 @@ def main() -> int:
     set_seed(0)
     params = (Path(__file__).resolve().parent.parent / "data" / "ml_aimd_params.yaml")
     import yaml
-    with params.open() as f:
+    with params.open(encoding="utf-8-sig") as f:
         params = yaml.safe_load(f)
     lib = load_sse_library()
     by_name = {x["name"]: x for x in lib}

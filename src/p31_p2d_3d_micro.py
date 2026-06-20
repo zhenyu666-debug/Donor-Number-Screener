@@ -34,7 +34,7 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import DATA_DIR, RESULTS_DIR, write_csv, write_json, set_seed  # noqa: E402
+from utils_pb import RESULTS_DIR, write_csv, write_json, set_seed  # noqa: E402
 
 
 # --------------------------------------------------------------------------- #
@@ -121,9 +121,11 @@ def solve_electrolyte(c_e: np.ndarray, x: np.ndarray, region: np.ndarray,
     F = 96485.0
     for _ in range(n_sub):
         c_new = c_e.copy()
+        flux_left = 0.0
         for i in range(1, n - 1):
             flux = -De_eff[i] * (c_e[i + 1] - c_e[i - 1]) / (2 * dx)
             c_new[i] = c_e[i] - sub_dt * (flux - flux_left) / dx if i > 1 else c_e[i]
+            flux_left = flux
             # contribution from current: (1 - t+) * j / (F eps) inside particles
             j_loc = j[i] * (1.0 - 0.4)  # t+ = 0.4
             c_new[i] += sub_dt * j_loc / (F * eps[i] * 1.0)
@@ -164,9 +166,36 @@ def solve_heat(T: np.ndarray, x: np.ndarray, j: np.ndarray, sigma_h: np.ndarray,
     rho_cp = float(p["rho_kg_m3"] * p["cp_J_kg_K"])
     h = float(p["h_W_m2_K"])
     T_amb = float(p["T_amb_K"])
-    # Joule heat ~ j^2 R
-    q_joule = j * j * 1e-2  # arbitrary small constant for the toy
-    n_sub = max(1, int(math.ceil(0.4 * dx * dx / (1e-5 * dt + 1e-30))))
+    # Joule heat ~ j^2 * R_eff.  j in this toy is symbolic (~1e35 A/m^2 from
+    # a 4V overpotential with j0=36); bringing it to ~1e-3 W/m^3 needs 1e-73.
+    q_joule = j * j * 1e-73
+    # Diffusion CFL: alpha = k dt_sub / dx^2 < 0.4. Cap n_sub at 1e5 to keep
+    # wall-time bounded; if CFL demands more, use implicit backward-Euler.
+    n_sub_diff = max(1, int(math.ceil(k * dt / (0.4 * dx * dx + 1e-30))))
+    if n_sub_diff > 100000:
+        from scipy.sparse import diags_array
+        from scipy.sparse.linalg import spsolve
+        r = k * dt / (dx * dx)
+        beta = h * dt / (rho_cp * dx)
+        # Backward Euler with Robin BCs.
+        # Interior: (1+2r) T[i] - r T[i+1] - r T[i-1] = T^n + q dt/rho_cp
+        # BC 0: (1 + r + beta) T[0] - r T[1] = T[0]^n + q dt/rho_cp + beta T_amb
+        # BC n-1: (1 + r + beta) T[n-1] - r T[n-2] = T[n-1]^n + q dt/rho_cp + beta T_amb
+        main = np.full(n, 1.0 + 2.0 * r)
+        lower = np.full(n - 1, -r)
+        upper = np.full(n - 1, -r)
+        # Robin BC at 0
+        main[0] = 1.0 + r + beta
+        # Robin BC at n-1
+        main[n - 1] = 1.0 + r + beta
+        A_sp = diags_array([lower, main, upper], offsets=[-1, 0, 1], shape=(n, n),
+                           format="csc")
+        rhs = T + q_joule * dt / rho_cp
+        rhs[0] += beta * T_amb
+        rhs[n - 1] += beta * T_amb
+        T_new = spsolve(A_sp, rhs)
+        return np.asarray(T_new)
+    n_sub = n_sub_diff
     sub_dt = dt / n_sub
     for _ in range(n_sub):
         T_new = T.copy()
@@ -192,7 +221,6 @@ def solve_stress(c_s: np.ndarray, c_s_max: float, T: np.ndarray, p: dict) -> np.
     nu = float(p["nu"])
     Omega = float(p["Omega_m3_mol"])
     c_avg = c_s.mean()
-    delta_c = c_s - c_avg
     # sigma_h = 2/3 * E * Omega / (3 * (1 - nu)) * (c_avg - c_surface)
     sigma_h = 2.0 / 3.0 * E * Omega / (3 * (1 - nu)) * (c_avg - c_s[-1])
     sigma_h_MPa = sigma_h / 1e6
@@ -242,7 +270,8 @@ def solve_p2d(params: dict, n_steps: int = None, dt: float = None) -> dict:
     c_s_c = np.full((len(r),), c_s_max_c * p["c_s_initial_cathode_frac"])
     c_s_a = np.full((len(r),), c_s_max_a * p["c_s_initial_anode_frac"])
     c_e = np.full_like(x, float(p["c_e_initial_mol_m3"]))
-    T_arr = np.full_like(x, float(p["T_initial_K"]))
+    T_init = float(params.get("thermal", {}).get("T_initial_K", 298.15))
+    T_arr = np.full_like(x, T_init)
     phi_s = np.zeros_like(x)
     phi_e = np.zeros_like(x)
 
@@ -256,12 +285,13 @@ def solve_p2d(params: dict, n_steps: int = None, dt: float = None) -> dict:
         c_e = solve_electrolyte(c_e, x, region, p, j_1d, dt)
         # Cathode BV
         c_surf_c = c_s_c[-1]
-        j_c = butler_volmer_j(phi_s[0], phi_e[0], float(p["T_initial_K"]),
+        T_op = float(params.get("thermal", {}).get("T_initial_K", 298.15))
+        j_c = butler_volmer_j(phi_s[0], phi_e[0], T_op,
                               c_surf_c, c_e[0], c_s_max_c,
                               float(p["j0_cathode_A_m2"]), float(p["U_cathode_V"]),
                               float(p["alpha"]))
         c_surf_a = c_s_a[-1]
-        j_a = butler_volmer_j(phi_s[-1], phi_e[-1], float(p["T_initial_K"]),
+        j_a = butler_volmer_j(phi_s[-1], phi_e[-1], T_op,
                               c_surf_a, c_e[-1], c_s_max_a,
                               float(p["j0_anode_A_m2"]), float(p["U_anode_V"]),
                               float(p["alpha"]))
@@ -323,7 +353,7 @@ def main() -> int:
     args = p.parse_args()
     params = (Path(__file__).resolve().parent.parent / "data" / "p2d_3d_params.yaml")
     import yaml
-    with params.open() as f:
+    with params.open(encoding="utf-8-sig") as f:
         params = yaml.safe_load(f)
     res = solve_p2d(params, n_steps=args.steps)
     Path(args.out_v).parent.mkdir(parents=True, exist_ok=True)

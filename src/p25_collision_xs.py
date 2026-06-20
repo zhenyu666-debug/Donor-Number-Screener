@@ -20,8 +20,7 @@ import numpy as np
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from utils_pb import (  # noqa: E402
-    K_B, K_B_eV, E_CHARGE, N_A, PI,
-    load_yaml, write_csv,
+    K_B, K_B_eV, E_CHARGE, N_A, load_yaml, write_csv,
 )
 
 
@@ -64,8 +63,8 @@ def deflection_chi(b: np.ndarray, eps: float, sigma: float,
         u = 1.0 - lj_potential(rs, eps_eps, sigma) / E - (b_val / rs) ** 2
         u = np.clip(u, 0.0, None)
         integrand = np.where(u > 0, 1.0 / (rs * rs * np.sqrt(u + 1e-30)), 0.0)
-        I = np.trapz(integrand, rs)
-        return math.pi - 2.0 * b_val * I
+        integral = np.trapezoid(integrand, rs)
+        return math.pi - 2.0 * b_val * integral
 
     return np.array([chi_one(bv) for bv in b])
 
@@ -83,7 +82,7 @@ def transport_cross_section(eps: float, sigma: float, mu_amu: float, T: float,
     one_minus_cos = 1.0 - np.cos(chi)
     integrand = one_minus_cos * b_grid
     # Trapezoid
-    sigma_star = 2.0 * math.pi * float(np.trapz(integrand, b_grid))  # A^2
+    sigma_star = 2.0 * math.pi * float(np.trapezoid(integrand, b_grid))  # A^2
 
     # Hard-sphere reference pi sigma^2 to make Omega^(1,1) dimensionless
     sigma_hs = math.pi * sigma * sigma

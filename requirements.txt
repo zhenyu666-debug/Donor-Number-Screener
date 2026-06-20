@@ -23,3 +23,16 @@ scipy>=1.10.0         # v3: Pearson/Spearman for external validation
 ruff>=0.1.0           # v3: code-quality linter
 # Optional: better PDF rendering
 # weasyprint>=60.0  # requires cairo/pango system libraries
+
+# ---------------------------------------------------------------------------
+# v2.1 — PBP (Particle-Bayes-Physics) layer
+# ---------------------------------------------------------------------------
+# Optional heavy ML potentials — install with --no-deps if a wheel is missing
+# on Python 3.11 / numpy<2. The PBP physics code falls back to plain LJ + Coulomb
+# when ase / mace-torch / chgnet are unavailable, so the FastAPI endpoints and
+# pytest suite still work.
+ase>=3.23            # PBP ML-AIMD (LJCalculator fallback when ase missing)
+mace-torch>=0.3.10   # PBP ML-AIMD foundation model (optional, fallback LJ)
+chgnet>=0.3.0        # PBP ML-AIMD foundation model (optional, fallback LJ)
+pymatgen>=2024.9     # PBP ML-AIMD structure (optional, fallback LJ)
+torch>=2.0           # PBP ML-AIMD backend (CPU-only is fine)

@@ -23,13 +23,13 @@ import argparse
 import math
 import sys
 from pathlib import Path
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
 
 import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import DATA_DIR, RESULTS_DIR, write_csv, write_json, set_seed  # noqa: E402
+from utils_pb import DATA_DIR, write_csv, write_json, set_seed  # noqa: E402
 
 
 # --------------------------------------------------------------------------- #
@@ -220,7 +220,7 @@ def main() -> int:
         "pareto_formulas": [r.get("formula", "") for r in front_rows],
     }
     write_json(Path(args.out_json), summary)
-    print(f"[pareto] top-3 per objective:")
+    print("[pareto] top-3 per objective:")
     for name, lst in top3_per_obj.items():
         s = ", ".join(f"{x['formula']}({x['value']:.2f})" for x in lst)
         print(f"  {name:14s}: {s}")

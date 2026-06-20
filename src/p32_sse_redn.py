@@ -26,7 +26,7 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils_pb import DATA_DIR, RESULTS_DIR, write_csv, write_json, set_seed, load_yaml  # noqa: E402
+from utils_pb import DATA_DIR, RESULTS_DIR, write_csv, write_json, set_seed  # noqa: E402
 
 
 # --------------------------------------------------------------------------- #
@@ -80,7 +80,7 @@ def aimd_dn_from_csv(entry: dict, aimd_rows: list) -> float:
 # --------------------------------------------------------------------------- #
 
 def load_sse_library() -> list:
-    with (DATA_DIR / "sse_library.yaml").open() as f:
+    with (DATA_DIR / "sse_library.yaml").open(encoding="utf-8-sig") as f:
         import yaml
         d = yaml.safe_load(f) or {}
     return d.get("sse", []), d.get("ranking", {})
@@ -112,11 +112,11 @@ def rerank(weights: dict = None, anchor_dn: float = 22.0) -> List[dict]:
     for entry in lib:
         em = empirical_dn(entry, rk_w)
         em_clamped = max(5.0, min(40.0, em))
-        l = langevin_proxy_dn(entry, anchor_dn)
+        lang_dn = langevin_proxy_dn(entry, anchor_dn)
         p_corr = particle_correction(entry)
         s = sei_attenuation(entry)
         a = aimd_dn_from_csv(entry, aimd_rows)
-        dn = (weights["langevin"] * l
+        dn = (weights["langevin"] * lang_dn
               + weights["particle"] * (anchor_dn + p_corr)
               + weights["sei"] * em_clamped * s
               + weights["aimd"] * a
@@ -129,7 +129,7 @@ def rerank(weights: dict = None, anchor_dn: float = 22.0) -> List[dict]:
             "E_g_eV": entry["E_g_eV"],
             "migration_eV": entry["migration_eV"],
             "dn_empirical": em_clamped,
-            "dn_langevin": l,
+            "dn_langevin": lang_dn,
             "dn_particle": anchor_dn + p_corr,
             "dn_sei": em_clamped * s,
             "dn_aimd": a,
@@ -162,7 +162,7 @@ def main() -> int:
         "rows": rows,
     }
     write_json(Path(args.out_json), metrics)
-    print(f"[sse_redn] 14 SSEs ranked. Top 3:")
+    print("[sse_redn] 14 SSEs ranked. Top 3:")
     for r in rows[:3]:
         print(f"  #{r['rank']} {r['sse']:30s} dn_pbp_v2={r['dn_pbp_v2']:.2f}")
     return 0

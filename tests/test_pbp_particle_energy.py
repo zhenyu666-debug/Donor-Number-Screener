@@ -1,5 +1,4 @@
 ﻿"""test_particle_energy.py - LJ + Coulomb sanity tests."""
-import math
 import sys
 from pathlib import Path
 
@@ -8,16 +7,17 @@ import numpy as np
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
 from utils_pb import lj_energy, coulomb_energy, pair_energy  # noqa: E402
-from particle_md import _ATOMIC_MASS  # noqa: E402
+from p24_particle_md import _ATOMIC_MASS  # noqa: E402
 
 
 def test_lj_minimum():
     r = np.array([0.95, 1.0, 1.122, 1.5, 2.5])  # sigma=1.0, eps=1.0
     e = lj_energy(r, eps=1.0, sigma=1.0)
-    # minimum near r = 2^(1/6) sigma
-    assert e[2] < e[1] < 0  # r=1.122 should be < r=1.0 which is < 0
+    # minimum near r = 2^(1/6) sigma -> e[2] is the well depth ~ -1
+    assert e[2] < e[1]  # r=1.122 well below r=sigma
+    assert e[2] < 0  # negative at the bottom
     assert e[0] > 0  # below 0.95*sigma -> strong repulsion
-    # Monotonic decay after minimum (with possible tiny residual at large r)
+    # Monotonic decay after minimum
     assert e[4] > e[3] > e[2]
 
 

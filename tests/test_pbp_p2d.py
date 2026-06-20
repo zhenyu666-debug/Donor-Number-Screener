@@ -1,5 +1,4 @@
 ﻿"""test_p2d.py - physics constraints for the P2D / 3D module."""
-import math
 import sys
 from pathlib import Path
 
@@ -7,9 +6,8 @@ import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR.parent / "src"))
-from p2d_3d_micro import (  # noqa: E402
-    build_x_grid, build_r_grid, solve_radial_diffusion, solve_electrolyte,
-    butler_volmer_j, solve_heat, solve_stress,
+from p31_p2d_3d_micro import (  # noqa: E402
+    build_x_grid, build_r_grid, solve_radial_diffusion, butler_volmer_j, solve_heat, solve_stress,
     random_close_packing, micro_structure_currents, solve_p2d,
 )
 from utils_pb import load_yaml  # noqa: E402
