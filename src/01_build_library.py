@@ -47,7 +47,6 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
-from itertools import product
 
 import pandas as pd
 from rdkit import Chem, RDLogger

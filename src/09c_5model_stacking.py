@@ -66,7 +66,7 @@ except ImportError:
     CatBoostRegressor = None
 
 from utils import (DATA_DIR, FIGURES_DIR, RESULTS_DIR,
-                   get_logger, load_descriptors, set_global_seed)
+                   get_logger, set_global_seed)
 
 warnings.filterwarnings("ignore")
 set_global_seed(42)

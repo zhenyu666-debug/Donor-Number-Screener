@@ -33,10 +33,9 @@ import time
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import DATA_DIR, RESULTS_DIR, get_logger, set_global_seed  # noqa: E402
+from utils import RESULTS_DIR, get_logger, set_global_seed  # noqa: E402
 
 set_global_seed(42)
 log = get_logger("hw_stochasticity")
