@@ -21,6 +21,7 @@ pydantic>=2.0.0       # v3: input validation
 bs4>=0.0.1            # v3: HTML parsing for fpdf2 backend
 scipy>=1.10.0         # v3: Pearson/Spearman for external validation
 ruff>=0.1.0           # v3: code-quality linter
+pyyaml>=6.0            # v2.1: PBP utils_pb / fetch_sse YAML I/O
 # Optional: better PDF rendering
 # weasyprint>=60.0  # requires cairo/pango system libraries
 
