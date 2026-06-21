@@ -69,3 +69,7 @@ FC(F)(F)c1ccccc1,Benzotrifluoride,14.0,Persson 1986
 OC(F)(F)F,Trifluoromethanol,15.0,Amanchukwu 2015
 C(F)(F)(F)C(F)(F)F,Hexafluoroethane,0.0,Inus 1984
 CC(F)(F)F,1-1-1-Trifluoroethane,5.0,Amanchukwu 2015
+O=C1N(C)CCC1,N,N-Dimethyl-2-imidazolidinone (DMI),29.0,Kalra DEER 2026 E&E
+O=P(OC)(OC)=O,Trimethyl phosphate (TMP),23.0,Literature estimate 2024
+CN(C)C(=N)N(C)C,Tetramethylguanidine (TMG),30.0,Persson 1986
+CC(=O)N(C)C,N,N-Dimethylformamide (DMF),26.6,Marcus 1984

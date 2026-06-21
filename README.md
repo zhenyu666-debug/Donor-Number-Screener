@@ -804,6 +804,76 @@ python -m pytest tests/test_pbp_*.py -v
 | [`data/pareto_front.csv`](data/pareto_front.csv) | non-dominated SSEs |
 | [`data/pareto_summary.json`](data/pareto_summary.json) | top-3 per objective + family representatives |
 
+## EEI Dissolution Solvent Screening (DEER Layer)
+
+基于 Kalra DEER 论文 (Energy & Environmental Science 2026) 开发的退役电池直接再生筛选模块。
+
+### 核心原理
+
+退役电池（SOH < 80%）的性能衰减并非活性材料结构坍塌，而是正极 CEI（10-20 nm）和负极 SEI（30-40 nm）界面层过度生长导致的巨大阻抗。高供体数（DN）溶剂可以在电化学驱动下选择性溶解这层"界面死皮"，同时保留完整的电极结构。
+
+### Layer 1 — EEI 溶解溶剂筛选（`p40_solvent_screening.py`）
+
+基于物理化学原理 + ML 的三层目标评分：
+
+1. **EEI dissolution score**：高 DN（> 26）+ 适中介电常数 → 有机 EEI 溶解
+2. **Electrode compatibility score**：高 DN 但不过高（< 32）+ 氧化稳定性 > 4.1 V → 保护活性晶体
+3. **Regeneration potential %**：综合评分 → 预测容量恢复率
+
+筛选规则：DMI（DN=29.0 kcal/mol，氧化稳定性 4.8 V）锚定为基准，得分 0.95。
+
+### Layer 2 — 再生协议模拟（`p41_regeneration_protocol.py`）
+
+模拟 CV 扫描下 EEI 电阻衰减：
+
+```
+R_EEI(n) = R_EEI_0 * exp(-k_diss * n)
+k_diss = k_0 * exp(-alpha * DN / (kB * T))
+```
+
+### Layer 3 — 技术经济与环境评估（`p42_tea_lca.py`）
+
+5 种路径横向对比：DEER（$15.25/kg）vs 火法（$26.31）vs 湿法（$31.07）vs 换电解液（$5.20）vs 直接修复正极（$18.50）。
+
+DEER vs 火法：制造成本降低 42%，能耗降低 34%，温室气体排放降低 56%（来源：Kalra 2026 E&E）。
+
+### DEER quick start
+
+```bash
+# Phase 1: 溶剂筛选
+python src/p40_solvent_screening.py                      # 溶剂评分
+python src/p40b_solvent_pareto.py                       # Pareto 前沿
+python src/p40c_solvent_rest_api.py                     # FastAPI（端口 8001）
+uvicorn src.p40c_solvent_rest_api:app --host 0.0.0.0 --port 8001
+
+# Phase 2: 再生协议
+python src/p41_regeneration_protocol.py --dn 29.0 --electrode dual --n-scans 5
+python src/p41b_lif_stabilization.py --lif-nm 2.0 --n-cycles 500
+python src/p41c_pouch_validation.py                     # 3 Ah 软包规模验证
+
+# Phase 3: 经济评估
+python src/p42_tea_lca.py
+python src/p42b_viz_tea.py
+python src/p42c_sensitivity.py
+
+# 全部测试
+python -m pytest tests/test_pbp_eei_screening.py tests/test_pbp_regeneration.py tests/test_pbp_tea_lca.py -v
+```
+
+### DEER data + results
+
+| File | What it contains |
+|---|---|
+| [`data/solvent_eei_properties.csv`](data/solvent_eei_properties.csv) | 46 种溶剂的 DN/AN/epsilon_r/HOMO/LUMO + EEI 溶解评分锚点 |
+| [`data/solvent_library.yaml`](data/solvent_library.yaml) | DMI / DMSO / EC / FEC 等溶剂的 DEER 物理参数 |
+| [`results/solvent_eei_predictions.csv`](results/solvent_eei_predictions.csv) | 全部候选溶剂评分排名 |
+| [`data/solvent_pareto_front.csv`](data/solvent_pareto_front.csv) | Pareto 前沿非支配解 |
+| [`results/regeneration_cv_curves.csv`](results/regeneration_cv_curves.csv) | R_EEI vs CV 扫描次数曲线 |
+| [`results/lif_cycling_curve.csv`](results/lif_cycling_curve.csv) | LiF 残余层对循环寿命的影响 |
+| [`results/pouch_scale_validation.json`](results/pouch_scale_validation.json) | 扣电→3 Ah 软包规模放大验证 |
+| [`results/deer_tea_lca.csv`](results/deer_tea_lca.csv) | 5 种路径 TEA + LCA 对比 |
+| [`results/deer_sensitivity.json`](results/deer_sensitivity.json) | 敏感性分析（Tornado）|
+
 ---
 
 ## 许可

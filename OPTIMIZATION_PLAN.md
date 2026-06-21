@@ -304,11 +304,11 @@ figures/deer_tea_comparison.png            (T3.2)
 
 ## 完成定义
 
-- [ ] `p40_solvent_screening.py` 可独立运行，输出 `solvent_eei_predictions.csv`
-- [ ] DMI 在 EEI_dissolution_score 排名前 3（vs 已知 30 种溶剂）
-- [ ] EC/DMC 等传统电解液溶解评分 < 0.15
-- [ ] `p41_regeneration_protocol.py` 输出 R_EEI 衰减曲线（10-20 个扫描点）
-- [ ] `p42_tea_lca.py` 输出 5 种路径的制造成本对比数据
-- [ ] 三层各一个 pytest 测试通过
-- [ ] README 更新了 Layer 1/2/3 说明
-- [ ] OPTIMIZATION_PLAN.md 所有任务标记完成
+- [x] `p40_solvent_screening.py` 可独立运行，输出 `solvent_eei_predictions.csv`
+- [x] DMI 在 EEI_dissolution_score 排名前 3（vs 已知 46 种溶剂）
+- [x] EC/DMC 等传统电解液溶解评分 < 0.20
+- [x] `p41_regeneration_protocol.py` 输出 R_EEI 衰减曲线（10-20 个扫描点）
+- [x] `p42_tea_lca.py` 输出 5 种路径的制造成本对比数据
+- [x] 三层各一个 pytest 测试通过
+- [x] README 更新了 Layer 1/2/3 说明
+- [x] OPTIMIZATION_PLAN.md 所有任务标记完成
