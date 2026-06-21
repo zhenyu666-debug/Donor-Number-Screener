@@ -1,4 +1,4 @@
-"""Step 2b (v2 descriptors): 升级版描述符计算。
+﻿"""Step 2b (v2 descriptors): 升级版描述符计算。
 
 在 `02_compute_descriptors.py` 的 236 维基础上,追加:
   - Morgan 指纹 (radius=2, nBits=512)        -> 512 维

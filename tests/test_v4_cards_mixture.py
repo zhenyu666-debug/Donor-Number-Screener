@@ -1,4 +1,4 @@
-"""Tests for v4 additions: per-molecule cards (22) and mixture optimization (23)."""
+﻿"""Tests for v4 additions: per-molecule cards (22) and mixture optimization (23)."""
 from __future__ import annotations
 
 import sys

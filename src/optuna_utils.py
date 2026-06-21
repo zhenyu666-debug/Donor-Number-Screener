@@ -1,4 +1,4 @@
-"""Step 9d: Optuna study caching for fast re-runs.
+﻿"""Step 9d: Optuna study caching for fast re-runs.
 
 Wraps any Optuna study in a SQLite-backed RDB storage. On first
 run it executes the search; on subsequent runs it loads the cached

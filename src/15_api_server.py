@@ -1,4 +1,4 @@
-"""Step 15 (v3): FastAPI REST server exposing the 5-model stacking
+﻿"""Step 15 (v3): FastAPI REST server exposing the 5-model stacking
 ensemble as 3 endpoints:
 
   POST /predict_smiles   - one SMILES -> DN prediction + uncertainty

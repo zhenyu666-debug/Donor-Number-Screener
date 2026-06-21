@@ -1,4 +1,4 @@
-"""Step 2: Compute molecular descriptors with RDKit.
+﻿"""Step 2: Compute molecular descriptors with RDKit.
 
 Output features (per molecule):
 - 200+ RDKit 2D descriptors (Descriptors.descList)

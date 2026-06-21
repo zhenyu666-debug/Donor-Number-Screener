@@ -1,4 +1,4 @@
-"""Step 11: Render Top-20 candidate molecules to a color-graded SVG.
+﻿"""Step 11: Render Top-20 candidate molecules to a color-graded SVG.
 
 Reads the latest top-20 from `results/top20_candidates_5model.csv`
 (falls back to bayes / gridsearch versions if missing) and renders

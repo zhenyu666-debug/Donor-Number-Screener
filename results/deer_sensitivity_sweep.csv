@@ -1,0 +1,15 @@
+solvent_cost_usd_kg,solvent_recovery_rate,solvent_net_cost_kg,energy_cost_kg,labor_cost_kg,overhead_cost_kg,total_cost_kg,parameter,param_value,vs_base_cost
+10.0,0.7,0.15,0.28,2.5,0.5581,3.4881,solvent_cost_usd_kg,10.0,0.848
+20.0,0.7,0.3,0.28,2.5,0.5867,3.6667,solvent_cost_usd_kg,20.0,0.8915
+30.0,0.7,0.45,0.28,2.5,0.6152,3.8452,solvent_cost_usd_kg,30.0,0.9349
+40.0,0.7,0.6,0.28,2.5,0.6438,4.0238,solvent_cost_usd_kg,40.0,0.9783
+50.0,0.7,0.75,0.28,2.5,0.6724,4.2024,solvent_cost_usd_kg,50.0,1.0217
+60.0,0.7,0.9,0.28,2.5,0.701,4.381,solvent_cost_usd_kg,60.0,1.0651
+80.0,0.7,1.2,0.28,2.5,0.7581,4.7381,solvent_cost_usd_kg,80.0,1.152
+100.0,0.7,1.5,0.28,2.5,0.8152,5.0952,solvent_cost_usd_kg,100.0,1.2388
+45.0,0.5,1.125,0.28,2.5,0.7438,4.6488,solvent_recovery_rate,0.5,1.1302
+45.0,0.6,0.9,0.28,2.5,0.701,4.381,solvent_recovery_rate,0.6,1.0651
+45.0,0.7,0.675,0.28,2.5,0.6581,4.1131,solvent_recovery_rate,0.7,1.0
+45.0,0.8,0.45,0.28,2.5,0.6152,3.8452,solvent_recovery_rate,0.8,0.9349
+45.0,0.9,0.225,0.28,2.5,0.5724,3.5774,solvent_recovery_rate,0.9,0.8698
+45.0,0.95,0.1125,0.28,2.5,0.551,3.4435,solvent_recovery_rate,0.95,0.8372

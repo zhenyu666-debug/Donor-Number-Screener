@@ -1,4 +1,4 @@
-"""Tests for the v3 scripts (14-18).
+﻿"""Tests for the v3 scripts (14-18).
 
 These tests are designed to be fast (< 30 s) and exercise the v3
 artefacts and APIs without running the heavy training (which is

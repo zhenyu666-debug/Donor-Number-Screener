@@ -1,4 +1,4 @@
-"""Utility helpers for the Li-S additive screening reproduction.
+﻿"""Utility helpers for the Li-S additive screening reproduction.
 
 Common functions: project paths, fingerprint seeding, log setup,
 descriptor sanity checks, and deterministic RNG.

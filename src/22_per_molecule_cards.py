@@ -1,4 +1,4 @@
-"""Step 22: Per-molecule structure cards for the Top-20 candidates.
+﻿"""Step 22: Per-molecule structure cards for the Top-20 candidates.
 
 Generates one PNG per molecule (and a combined contact-sheet PNG) using
 RDKit's default white-background renderer, decorated with:

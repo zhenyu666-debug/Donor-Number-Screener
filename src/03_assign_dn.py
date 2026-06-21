@@ -1,4 +1,4 @@
-"""Step 3: Assign DN labels to every candidate molecule.
+﻿"""Step 3: Assign DN labels to every candidate molecule.
 
 The paper's DN values come from DFT calculations of Li+ binding
 energies.  We do not run DFT.  Instead we build a self-consistent

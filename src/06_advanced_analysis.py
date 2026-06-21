@@ -1,4 +1,4 @@
-"""Step 6: Advanced analysis layer.
+﻿"""Step 6: Advanced analysis layer.
 
 Reproduces the spirit of the eScience 2026 paper Fig. 6-15 plus five
 innovation overlays on top of the existing 01-05 reproduction:

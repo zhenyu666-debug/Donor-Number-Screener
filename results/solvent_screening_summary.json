@@ -1,0 +1,55 @@
+{
+  "n_solvents": 25,
+  "n_anchors": 25,
+  "has_rdkit": true,
+  "dmi_eei_dissolution_score": 0.8753600000000006,
+  "ec_eei_dissolution_score": 0.12798,
+  "dmso_eei_dissolution_score": 0.8300400000000001,
+  "top5": [
+    {
+      "name": "DMI - N,N-Dimethyl-2-imidazolidinone",
+      "smiles": "O=C1N(C)CCC1",
+      "dn": 29.0,
+      "eei_dissolution_score": 0.8753600000000006,
+      "electrode_compat_score": 0.8582000000000003,
+      "regeneration_potential_pct": 87.68,
+      "composite_score": 0.8705000000000003
+    },
+    {
+      "name": "1-Methylpyrrolidine",
+      "smiles": "C1CCCN1C",
+      "dn": 30.0,
+      "eei_dissolution_score": 0.8634799999999998,
+      "electrode_compat_score": 0.81888,
+      "regeneration_potential_pct": 84.22399999999999,
+      "composite_score": 0.8458519999999998
+    },
+    {
+      "name": "TMEDA - N,N,N,N-Tetramethylethylenediamine",
+      "smiles": "CN(C)CCN(C)C",
+      "dn": 29.0,
+      "eei_dissolution_score": 0.85276,
+      "electrode_compat_score": 0.8137200000000001,
+      "regeneration_potential_pct": 84.076,
+      "composite_score": 0.838648
+    },
+    {
+      "name": "2-Pyrrolidinone",
+      "smiles": "C1CC(=O)NC1",
+      "dn": 27.3,
+      "eei_dissolution_score": 0.7926400000000002,
+      "electrode_compat_score": 0.85192,
+      "regeneration_potential_pct": 83.80733333333333,
+      "composite_score": 0.8195106666666667
+    },
+    {
+      "name": "DMSO - Dimethyl sulfoxide",
+      "smiles": "CS(C)=O",
+      "dn": 29.8,
+      "eei_dissolution_score": 0.8300400000000001,
+      "electrode_compat_score": 0.8029199999999999,
+      "regeneration_potential_pct": 81.74,
+      "composite_score": 0.819376
+    }
+  ]
+}

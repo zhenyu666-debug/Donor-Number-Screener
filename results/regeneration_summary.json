@@ -1,0 +1,40 @@
+{
+  "solvent": "DMI",
+  "dn": 29.0,
+  "cathode_summary": {
+    "electrode": "NMC811 cathode",
+    "solvent": "DMI",
+    "dn": 29.0,
+    "k_diss_per_scan": 0.50161,
+    "r_eei_0_ohm": 85.0,
+    "r_eei_final_ohm": 6.9213,
+    "eei_thickness_final_nm": 1.221,
+    "lif_residual_final_nm": 0.902,
+    "n_scans_needed": 5.97,
+    "n_scans_optimal": 3,
+    "recovery_pct": 91.86,
+    "cv_window_V": [
+      3.0,
+      4.1
+    ]
+  },
+  "anode_summary": {
+    "electrode": "Graphite anode",
+    "solvent": "DMI",
+    "dn": 29.0,
+    "k_diss_per_scan": 0.50161,
+    "r_eei_0_ohm": 150.0,
+    "r_eei_final_ohm": 12.214,
+    "eei_thickness_final_nm": 2.85,
+    "lif_residual_final_nm": 1.504,
+    "n_scans_needed": 5.97,
+    "n_scans_optimal": 5,
+    "recovery_pct": 91.86,
+    "cv_window_V": [
+      0.01,
+      1.5
+    ]
+  },
+  "combined_recovery_pct": 91.86,
+  "n_scans": 5
+}

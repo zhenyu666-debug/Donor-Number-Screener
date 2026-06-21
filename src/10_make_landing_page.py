@@ -1,4 +1,4 @@
-"""Step 10: Generate a one-page landing site (LANDING_PAGE.html).
+﻿"""Step 10: Generate a one-page landing site (LANDING_PAGE.html).
 
 Pulls live metrics and the top-10 candidates from the latest
 `results/bayes_metrics_5model.json` and `results/top20_candidates_5model.csv`

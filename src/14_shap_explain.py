@@ -1,4 +1,4 @@
-"""Step 14 (v3): SHAP attribution for the 5-model ensemble.
+﻿"""Step 14 (v3): SHAP attribution for the 5-model ensemble.
 
 Loads the existing best_params from `results/bayes_metrics_5model.json`,
 re-fits the 4 tree models (RF, XGB, LGBM, CatBoost) on the v2

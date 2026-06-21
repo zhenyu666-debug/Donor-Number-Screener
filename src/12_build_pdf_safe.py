@@ -1,4 +1,4 @@
-"""Step 12: Build the 3 outreach PDFs with a robust backend.
+﻿"""Step 12: Build the 3 outreach PDFs with a robust backend.
 
 Tries weasyprint first (best quality), then pdfkit+wkhtmltopdf,
 then a pure-Python fallback that emits print-styled HTML files

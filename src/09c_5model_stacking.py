@@ -1,4 +1,4 @@
-"""Step 9c: 5-model stacking with Optuna-tuned LightGBM + CatBoost.
+﻿"""Step 9c: 5-model stacking with Optuna-tuned LightGBM + CatBoost.
 
 Reuses the previously tuned RF / XGB / MLP best params from
 `results/bayes_metrics.json` and adds two new models:

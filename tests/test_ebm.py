@@ -1,4 +1,4 @@
-"""Tests for the EBM / MCMC / hardware-stochasticity addon.
+﻿"""Tests for the EBM / MCMC / hardware-stochasticity addon.
 
 These tests are run in the CI smoke suite alongside the existing
 test_pipeline.py / test_v3.py.  They verify:

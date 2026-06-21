@@ -1,0 +1,55 @@
+{
+  "scale_kg": 1000.0,
+  "deer_reference_cost": 15.25,
+  "deer_reference_energy": 2.8,
+  "deer_reference_ghg": 1.8,
+  "pathway_count": 5,
+  "cheapest_pathway": "Electrolyte_Swap",
+  "cheapest_cost": 5.2,
+  "cheapest_vs_deer_pct": -65.9,
+  "deer_cost_savings_vs_pyro_pct": 42.04,
+  "deer_energy_savings_vs_pyro_pct": 77.6,
+  "deer_ghg_savings_vs_pyro_pct": 78.05,
+  "pathways": [
+    {
+      "pathway": "Electrolyte_Swap",
+      "cost": 5.2,
+      "cost_vs_deer": 0.34,
+      "energy_kwh_kg": 0.8,
+      "ghg_kg_co2_kg": 0.6,
+      "capacity_pct": 83.0
+    },
+    {
+      "pathway": "DEER",
+      "cost": 15.25,
+      "cost_vs_deer": 1.0,
+      "energy_kwh_kg": 2.8,
+      "ghg_kg_co2_kg": 1.8,
+      "capacity_pct": 95.0
+    },
+    {
+      "pathway": "Direct_Cathode",
+      "cost": 18.5,
+      "cost_vs_deer": 1.21,
+      "energy_kwh_kg": 4.0,
+      "ghg_kg_co2_kg": 2.5,
+      "capacity_pct": 91.0
+    },
+    {
+      "pathway": "Pyrometallurgy",
+      "cost": 26.31,
+      "cost_vs_deer": 1.73,
+      "energy_kwh_kg": 12.5,
+      "ghg_kg_co2_kg": 8.2,
+      "capacity_pct": 98.0
+    },
+    {
+      "pathway": "Hydrometallurgy",
+      "cost": 31.07,
+      "cost_vs_deer": 2.04,
+      "energy_kwh_kg": 8.8,
+      "ghg_kg_co2_kg": 5.5,
+      "capacity_pct": 97.0
+    }
+  ]
+}

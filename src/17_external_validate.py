@@ -1,4 +1,4 @@
-"""Step 17 (v3): External validation against public donor-number anchors.
+﻿"""Step 17 (v3): External validation against public donor-number anchors.
 
 12 small molecules with literature Donor Number (DN) values, drawn from:
   - Gutmann V, Wychera E.  Coordination Chem Rev 1966

@@ -1,4 +1,4 @@
-"""Step 7: Generate a self-contained interactive HTML dashboard.
+﻿"""Step 7: Generate a self-contained interactive HTML dashboard.
 
 The dashboard embeds:
   - The static figures (PNG) from step 5 + 6.

@@ -1,0 +1,6 @@
+pathway,display_name,cost_usd_kg,cost_vs_deer,energy_kwh_kg,energy_vs_deer,ghg_kg_co2_kg,ghg_vs_deer,capacity_recovery_pct,labor_h_kg,chemical_cost_kg,color,cathode_material_cost,binder_sep_cost,labor_cost,energy_cost,overhead_cost
+Electrolyte_Swap,换电解液 (Electrolyte Swap),5.2,0.34,0.8,0.29,0.6,0.33,83.0,0.08,3.5,#3498db,0.0,780.0,1040.0,260.0,3120.0
+DEER,DEER 直接再生 (DEER),15.25,1.0,2.8,1.0,1.8,1.0,95.0,0.1,6.8,#27ae60,7625.0,2440.0,1830.0,915.0,2440.0
+Direct_Cathode,直接修复正极 (Direct Cathode),18.5,1.21,4.0,1.43,2.5,1.39,91.0,0.12,2.0,#f39c12,5735.0,2960.0,1850.0,1480.0,6475.0
+Pyrometallurgy,火法冶金 (Pyrometallurgy),26.31,1.73,12.5,4.46,8.2,4.56,98.0,0.15,1.5,#e74c3c,8156.1,4209.6,2631.0,2104.8,9208.5
+Hydrometallurgy,湿法冶金 (Hydrometallurgy),31.07,2.04,8.8,3.14,5.5,3.06,97.0,0.25,4.2,#9b59b6,9631.7,4971.2,3107.0,2485.6,10874.5

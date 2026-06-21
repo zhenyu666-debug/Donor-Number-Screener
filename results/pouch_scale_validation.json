@@ -1,0 +1,14 @@
+{
+  "coin_recovery_pct": 95.0,
+  "pouch_area_cm2": 180.0,
+  "npn_ratio": 1.15,
+  "c_rate": 0.5,
+  "temperature_C": 25.0,
+  "f_area": 0.95489,
+  "f_npn": 0.98636,
+  "f_rate": 1.0,
+  "f_temperature": 1.0,
+  "f_total": 0.94187,
+  "predicted_recovery_pct": 89.48,
+  "reported_recovery_pct": 90.3
+}

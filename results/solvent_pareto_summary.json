@@ -1,0 +1,18 @@
+{
+  "n_candidates_total": 25,
+  "n_pass_constraints": 13,
+  "n_pareto": 1,
+  "tier_counts": {
+    "Tier-1: DEER Prime": 1
+  },
+  "top_per_tier": {
+    "Tier-1: DEER Prime": {
+      "name": "DMI - N,N-Dimethyl-2-imidazolidinone",
+      "dn": 29.0,
+      "eei_dissolution_score": 0.8753600000000006,
+      "electrode_compat_score": 0.8582000000000003,
+      "regeneration_potential_pct": 87.68,
+      "desirability_score": 0.5
+    }
+  }
+}
