@@ -2,50 +2,52 @@
   "base_case": {
     "solvent_cost_usd_kg": 45.0,
     "solvent_recovery_rate": 0.7,
+    "capital_cost_kg": 10.25,
+    "facility_cost_kg": 0.0,
     "solvent_net_cost_kg": 0.675,
     "energy_cost_kg": 0.28,
-    "labor_cost_kg": 2.5,
-    "overhead_cost_kg": 0.6581,
-    "total_cost_kg": 4.1131
+    "labor_cost_kg": 4.0,
+    "overhead_cost_kg": 0.045,
+    "total_cost_kg": 15.25
   },
   "tornado": [
     {
       "parameter": "labor_usd_hr",
-      "cost_low": 2.625,
-      "cost_high": 5.6012,
-      "base_cost": 4.1131,
-      "delta_max": 1.4881,
-      "sensitivity_pct": 36.18
+      "cost_low": 13.25,
+      "cost_high": 17.25,
+      "base_cost": 15.25,
+      "delta_max": 2.0,
+      "sensitivity_pct": 13.11
     },
     {
       "parameter": "solvent_recovery_rate",
-      "cost_low": 4.6488,
-      "cost_high": 3.4435,
-      "base_cost": 4.1131,
-      "delta_max": 0.6696,
-      "sensitivity_pct": 16.28
+      "cost_low": 15.7,
+      "cost_high": 14.6875,
+      "base_cost": 15.25,
+      "delta_max": 0.5625,
+      "sensitivity_pct": 3.69
     },
     {
       "parameter": "solvent_cost_usd_kg",
-      "cost_low": 3.7113,
-      "cost_high": 4.5149,
-      "base_cost": 4.1131,
-      "delta_max": 0.4018,
-      "sensitivity_pct": 9.77
+      "cost_low": 14.9125,
+      "cost_high": 15.5875,
+      "base_cost": 15.25,
+      "delta_max": 0.3375,
+      "sensitivity_pct": 2.21
     },
     {
       "parameter": "electricity_usd_kwh",
-      "cost_low": 3.9464,
-      "cost_high": 4.2798,
-      "base_cost": 4.1131,
-      "delta_max": 0.1667,
-      "sensitivity_pct": 4.05
+      "cost_low": 15.11,
+      "cost_high": 15.39,
+      "base_cost": 15.25,
+      "delta_max": 0.14,
+      "sensitivity_pct": 0.92
     }
   ],
   "n_scenarios": 14,
   "cost_range": {
-    "min": 3.4435,
-    "max": 5.0952
+    "min": 14.6875,
+    "max": 16.075
   },
-  "base_vs_pyrometallurgy": 6.4
+  "base_vs_pyrometallurgy": 1.73
 }

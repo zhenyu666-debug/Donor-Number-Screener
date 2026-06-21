@@ -1,0 +1,707 @@
+{
+  "solvents": [
+    {
+      "name": "DMI - N,N-Dimethyl-2-imidazolidinone",
+      "dn": 29.0,
+      "eei_dissolution_score_mean": 0.884614,
+      "eei_dissolution_score_std": 0.00156,
+      "eei_dissolution_score_ci_lo": 0.880648,
+      "eei_dissolution_score_ci_hi": 0.887,
+      "electrode_compat_score_mean": 0.843801,
+      "electrode_compat_score_std": 0.000402,
+      "regeneration_potential_mean": 85.47,
+      "regeneration_potential_std": 0.112694,
+      "composite_score_mean": 0.866387,
+      "composite_score_std": 0.001071,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.856253,
+          "std": 0.011349
+        },
+        "electrode_compat_score": {
+          "mean": 0.845031,
+          "std": 0.004984
+        },
+        "regeneration_potential_pct": {
+          "mean": 85.178837,
+          "std": 0.788113
+        }
+      }
+    },
+    {
+      "name": "1-Methylpyrrolidine",
+      "dn": 30.0,
+      "eei_dissolution_score_mean": 0.906626,
+      "eei_dissolution_score_std": 0.000728,
+      "eei_dissolution_score_ci_lo": 0.9052,
+      "eei_dissolution_score_ci_hi": 0.9079,
+      "electrode_compat_score_mean": 0.84386,
+      "electrode_compat_score_std": 0.000365,
+      "regeneration_potential_mean": 86.954,
+      "regeneration_potential_std": 0.06844,
+      "composite_score_mean": 0.880379,
+      "composite_score_std": 0.000598,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.854852,
+          "std": 0.003852
+        },
+        "electrode_compat_score": {
+          "mean": 0.815507,
+          "std": 0.002165
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.609985,
+          "std": 0.334545
+        }
+      }
+    },
+    {
+      "name": "TMEDA - N,N,N,N-Tetramethylethylenediamine",
+      "dn": 29.0,
+      "eei_dissolution_score_mean": 0.906023,
+      "eei_dissolution_score_std": 0.001172,
+      "eei_dissolution_score_ci_lo": 0.903633,
+      "eei_dissolution_score_ci_hi": 0.9081,
+      "electrode_compat_score_mean": 0.843889,
+      "electrode_compat_score_std": 0.000357,
+      "regeneration_potential_mean": 86.922,
+      "regeneration_potential_std": 0.088972,
+      "composite_score_mean": 0.880022,
+      "composite_score_std": 0.000816,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.85477,
+          "std": 0.003661
+        },
+        "electrode_compat_score": {
+          "mean": 0.817,
+          "std": 0.002623
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.876774,
+          "std": 0.407863
+        }
+      }
+    },
+    {
+      "name": "DMSO - Dimethyl sulfoxide",
+      "dn": 29.8,
+      "eei_dissolution_score_mean": 0.857237,
+      "eei_dissolution_score_std": 0.000989,
+      "eei_dissolution_score_ci_lo": 0.854942,
+      "eei_dissolution_score_ci_hi": 0.859058,
+      "electrode_compat_score_mean": 0.843838,
+      "electrode_compat_score_std": 0.000376,
+      "regeneration_potential_mean": 83.616,
+      "regeneration_potential_std": 0.078384,
+      "composite_score_mean": 0.849002,
+      "composite_score_std": 0.000737,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.836557,
+          "std": 0.004372
+        },
+        "electrode_compat_score": {
+          "mean": 0.809338,
+          "std": 0.007024
+        },
+        "regeneration_potential_pct": {
+          "mean": 82.322545,
+          "std": 0.451489
+        }
+      }
+    },
+    {
+      "name": "2-Pyrrolidinone",
+      "dn": 27.3,
+      "eei_dissolution_score_mean": 0.854137,
+      "eei_dissolution_score_std": 0.001955,
+      "eei_dissolution_score_ci_lo": 0.851147,
+      "eei_dissolution_score_ci_hi": 0.85811,
+      "electrode_compat_score_mean": 0.843838,
+      "electrode_compat_score_std": 0.000364,
+      "regeneration_potential_mean": 83.399,
+      "regeneration_potential_std": 0.142475,
+      "composite_score_mean": 0.847018,
+      "composite_score_std": 0.001313,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.787974,
+          "std": 0.001624
+        },
+        "electrode_compat_score": {
+          "mean": 0.850778,
+          "std": 0.00098
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.495741,
+          "std": 0.079087
+        }
+      }
+    },
+    {
+      "name": "Pyridine",
+      "dn": 33.1,
+      "eei_dissolution_score_mean": 0.90663,
+      "eei_dissolution_score_std": 0.000826,
+      "eei_dissolution_score_ci_lo": 0.9052,
+      "eei_dissolution_score_ci_hi": 0.908452,
+      "electrode_compat_score_mean": 0.799666,
+      "electrode_compat_score_std": 0.002426,
+      "regeneration_potential_mean": 85.568,
+      "regeneration_potential_std": 0.107592,
+      "composite_score_mean": 0.864351,
+      "composite_score_std": 0.001104,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.842084,
+          "std": 0.004773
+        },
+        "electrode_compat_score": {
+          "mean": 0.79761,
+          "std": 0.006616
+        },
+        "regeneration_potential_pct": {
+          "mean": 82.446417,
+          "std": 0.195549
+        }
+      }
+    },
+    {
+      "name": "DMF - N,N-Dimethylformamide",
+      "dn": 26.6,
+      "eei_dissolution_score_mean": 0.824951,
+      "eei_dissolution_score_std": 0.001961,
+      "eei_dissolution_score_ci_lo": 0.821237,
+      "eei_dissolution_score_ci_hi": 0.828973,
+      "electrode_compat_score_mean": 0.843888,
+      "electrode_compat_score_std": 0.000413,
+      "regeneration_potential_mean": 81.392,
+      "regeneration_potential_std": 0.138333,
+      "composite_score_mean": 0.828426,
+      "composite_score_std": 0.001318,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.781911,
+          "std": 0.001796
+        },
+        "electrode_compat_score": {
+          "mean": 0.84985,
+          "std": 0.002098
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.083061,
+          "std": 0.203807
+        }
+      }
+    },
+    {
+      "name": "Caprolactam",
+      "dn": 27.0,
+      "eei_dissolution_score_mean": 0.845281,
+      "eei_dissolution_score_std": 0.002122,
+      "eei_dissolution_score_ci_lo": 0.840995,
+      "eei_dissolution_score_ci_hi": 0.849553,
+      "electrode_compat_score_mean": 0.843883,
+      "electrode_compat_score_std": 0.000395,
+      "regeneration_potential_mean": 82.796,
+      "regeneration_potential_std": 0.151605,
+      "composite_score_mean": 0.841397,
+      "composite_score_std": 0.001385,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.782612,
+          "std": 0.001595
+        },
+        "electrode_compat_score": {
+          "mean": 0.850708,
+          "std": 0.000901
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.263092,
+          "std": 0.119131
+        }
+      }
+    },
+    {
+      "name": "Pyrazine",
+      "dn": 28.0,
+      "eei_dissolution_score_mean": 0.868434,
+      "eei_dissolution_score_std": 0.002198,
+      "eei_dissolution_score_ci_lo": 0.8649,
+      "eei_dissolution_score_ci_hi": 0.872653,
+      "electrode_compat_score_mean": 0.843818,
+      "electrode_compat_score_std": 0.000379,
+      "regeneration_potential_mean": 84.375,
+      "regeneration_potential_std": 0.161478,
+      "composite_score_mean": 0.856112,
+      "composite_score_std": 0.001488,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.800572,
+          "std": 0.004419
+        },
+        "electrode_compat_score": {
+          "mean": 0.813554,
+          "std": 0.007173
+        },
+        "regeneration_potential_pct": {
+          "mean": 82.420393,
+          "std": 0.591348
+        }
+      }
+    },
+    {
+      "name": "Aniline",
+      "dn": 32.2,
+      "eei_dissolution_score_mean": 0.87032,
+      "eei_dissolution_score_std": 0.000809,
+      "eei_dissolution_score_ci_lo": 0.8689,
+      "eei_dissolution_score_ci_hi": 0.871653,
+      "electrode_compat_score_mean": 0.835815,
+      "electrode_compat_score_std": 0.002579,
+      "regeneration_potential_mean": 84.259,
+      "regeneration_potential_std": 0.111441,
+      "composite_score_mean": 0.854423,
+      "composite_score_std": 0.001159,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.825936,
+          "std": 0.01289
+        },
+        "electrode_compat_score": {
+          "mean": 0.791845,
+          "std": 0.001306
+        },
+        "regeneration_potential_pct": {
+          "mean": 81.207521,
+          "std": 0.484596
+        }
+      }
+    },
+    {
+      "name": "DMAc - N,N-Dimethylacetamide",
+      "dn": 26.6,
+      "eei_dissolution_score_mean": 0.820726,
+      "eei_dissolution_score_std": 0.002031,
+      "eei_dissolution_score_ci_lo": 0.817547,
+      "eei_dissolution_score_ci_hi": 0.824562,
+      "electrode_compat_score_mean": 0.84389,
+      "electrode_compat_score_std": 0.000423,
+      "regeneration_potential_mean": 81.107,
+      "regeneration_potential_std": 0.149168,
+      "composite_score_mean": 0.825744,
+      "composite_score_std": 0.001353,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.778007,
+          "std": 0.002512
+        },
+        "electrode_compat_score": {
+          "mean": 0.849756,
+          "std": 0.002093
+        },
+        "regeneration_potential_pct": {
+          "mean": 83.204622,
+          "std": 0.446596
+        }
+      }
+    },
+    {
+      "name": "Pyrazole",
+      "dn": 26.0,
+      "eei_dissolution_score_mean": 0.77955,
+      "eei_dissolution_score_std": 0.001966,
+      "eei_dissolution_score_ci_lo": 0.77579,
+      "eei_dissolution_score_ci_hi": 0.783262,
+      "electrode_compat_score_mean": 0.843898,
+      "electrode_compat_score_std": 0.000417,
+      "regeneration_potential_mean": 78.236,
+      "regeneration_potential_std": 0.142492,
+      "composite_score_mean": 0.799416,
+      "composite_score_std": 0.00133,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.758541,
+          "std": 0.008822
+        },
+        "electrode_compat_score": {
+          "mean": 0.81608,
+          "std": 0.003265
+        },
+        "regeneration_potential_pct": {
+          "mean": 79.364118,
+          "std": 0.574258
+        }
+      }
+    },
+    {
+      "name": "TMP - Trimethyl phosphate",
+      "dn": 23.0,
+      "eei_dissolution_score_mean": 0.704385,
+      "eei_dissolution_score_std": 0.002091,
+      "eei_dissolution_score_ci_lo": 0.7004,
+      "eei_dissolution_score_ci_hi": 0.708152,
+      "electrode_compat_score_mean": 0.843861,
+      "electrode_compat_score_std": 0.000447,
+      "regeneration_potential_mean": 72.874,
+      "regeneration_potential_std": 0.155319,
+      "composite_score_mean": 0.751099,
+      "composite_score_std": 0.0014,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.532569,
+          "std": 0.026082
+        },
+        "electrode_compat_score": {
+          "mean": 0.843348,
+          "std": 0.002048
+        },
+        "regeneration_potential_pct": {
+          "mean": 74.86879,
+          "std": 1.020066
+        }
+      }
+    },
+    {
+      "name": "DOL - 1,3-Dioxolane",
+      "dn": 21.1,
+      "eei_dissolution_score_mean": 0.663727,
+      "eei_dissolution_score_std": 0.001721,
+      "eei_dissolution_score_ci_lo": 0.660948,
+      "eei_dissolution_score_ci_hi": 0.66801,
+      "electrode_compat_score_mean": 0.843846,
+      "electrode_compat_score_std": 0.000349,
+      "regeneration_potential_mean": 69.9,
+      "regeneration_potential_std": 0.131909,
+      "composite_score_mean": 0.724817,
+      "composite_score_std": 0.001137,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.440437,
+          "std": 0.005003
+        },
+        "electrode_compat_score": {
+          "mean": 0.842025,
+          "std": 0.001911
+        },
+        "regeneration_potential_pct": {
+          "mean": 72.410743,
+          "std": 0.408542
+        }
+      }
+    },
+    {
+      "name": "Methanol - MeOH",
+      "dn": 19.1,
+      "eei_dissolution_score_mean": 0.602303,
+      "eei_dissolution_score_std": 0.002133,
+      "eei_dissolution_score_ci_lo": 0.597542,
+      "eei_dissolution_score_ci_hi": 0.606052,
+      "electrode_compat_score_mean": 0.84385,
+      "electrode_compat_score_std": 0.000412,
+      "regeneration_potential_mean": 65.31,
+      "regeneration_potential_std": 0.172916,
+      "composite_score_mean": 0.684926,
+      "composite_score_std": 0.001465,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.434993,
+          "std": 0.004545
+        },
+        "electrode_compat_score": {
+          "mean": 0.858894,
+          "std": 0.003063
+        },
+        "regeneration_potential_pct": {
+          "mean": 70.25326,
+          "std": 0.389543
+        }
+      }
+    },
+    {
+      "name": "Ethanol - EtOH",
+      "dn": 19.2,
+      "eei_dissolution_score_mean": 0.605362,
+      "eei_dissolution_score_std": 0.002122,
+      "eei_dissolution_score_ci_lo": 0.60139,
+      "eei_dissolution_score_ci_hi": 0.608753,
+      "electrode_compat_score_mean": 0.843825,
+      "electrode_compat_score_std": 0.000415,
+      "regeneration_potential_mean": 65.547,
+      "regeneration_potential_std": 0.163374,
+      "composite_score_mean": 0.686922,
+      "composite_score_std": 0.001437,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.436113,
+          "std": 0.005229
+        },
+        "electrode_compat_score": {
+          "mean": 0.86006,
+          "std": 0.002844
+        },
+        "regeneration_potential_pct": {
+          "mean": 70.446433,
+          "std": 0.425622
+        }
+      }
+    },
+    {
+      "name": "THF - Tetrahydrofuran",
+      "dn": 20.0,
+      "eei_dissolution_score_mean": 0.62999,
+      "eei_dissolution_score_std": 0.002347,
+      "eei_dissolution_score_ci_lo": 0.624885,
+      "eei_dissolution_score_ci_hi": 0.63431,
+      "electrode_compat_score_mean": 0.843805,
+      "electrode_compat_score_std": 0.000389,
+      "regeneration_potential_mean": 67.394,
+      "regeneration_potential_std": 0.181008,
+      "composite_score_mean": 0.702925,
+      "composite_score_std": 0.001587,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.430412,
+          "std": 0.003632
+        },
+        "electrode_compat_score": {
+          "mean": 0.850242,
+          "std": 0.003024
+        },
+        "regeneration_potential_pct": {
+          "mean": 70.708167,
+          "std": 0.571542
+        }
+      }
+    },
+    {
+      "name": "Acetophenone",
+      "dn": 18.0,
+      "eei_dissolution_score_mean": 0.537193,
+      "eei_dissolution_score_std": 0.001986,
+      "eei_dissolution_score_ci_lo": 0.533395,
+      "eei_dissolution_score_ci_hi": 0.540905,
+      "electrode_compat_score_mean": 0.843841,
+      "electrode_compat_score_std": 0.000405,
+      "regeneration_potential_mean": 60.285,
+      "regeneration_potential_std": 0.163936,
+      "composite_score_mean": 0.642319,
+      "composite_score_std": 0.001361,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.367117,
+          "std": 0.021155
+        },
+        "electrode_compat_score": {
+          "mean": 0.833481,
+          "std": 0.003009
+        },
+        "regeneration_potential_pct": {
+          "mean": 64.35687,
+          "std": 1.418388
+        }
+      }
+    },
+    {
+      "name": "DMC - Dimethyl carbonate",
+      "dn": 17.2,
+      "eei_dissolution_score_mean": 0.54391,
+      "eei_dissolution_score_std": 0.001892,
+      "eei_dissolution_score_ci_lo": 0.540547,
+      "eei_dissolution_score_ci_hi": 0.547258,
+      "electrode_compat_score_mean": 0.843861,
+      "electrode_compat_score_std": 0.000359,
+      "regeneration_potential_mean": 60.81,
+      "regeneration_potential_std": 0.155242,
+      "composite_score_mean": 0.646733,
+      "composite_score_std": 0.001284,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.351691,
+          "std": 0.005496
+        },
+        "electrode_compat_score": {
+          "mean": 0.870573,
+          "std": 0.00517
+        },
+        "regeneration_potential_pct": {
+          "mean": 67.632513,
+          "std": 0.644109
+        }
+      }
+    },
+    {
+      "name": "DEC - Diethyl carbonate",
+      "dn": 17.0,
+      "eei_dissolution_score_mean": 0.537917,
+      "eei_dissolution_score_std": 0.0019,
+      "eei_dissolution_score_ci_lo": 0.534295,
+      "eei_dissolution_score_ci_hi": 0.541458,
+      "electrode_compat_score_mean": 0.843856,
+      "electrode_compat_score_std": 0.000386,
+      "regeneration_potential_mean": 60.339,
+      "regeneration_potential_std": 0.150263,
+      "composite_score_mean": 0.642793,
+      "composite_score_std": 0.00129,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.34617,
+          "std": 0.008063
+        },
+        "electrode_compat_score": {
+          "mean": 0.871953,
+          "std": 0.005032
+        },
+        "regeneration_potential_pct": {
+          "mean": 67.421913,
+          "std": 0.88617
+        }
+      }
+    },
+    {
+      "name": "EA - Ethyl acetate",
+      "dn": 17.1,
+      "eei_dissolution_score_mean": 0.541164,
+      "eei_dissolution_score_std": 0.002021,
+      "eei_dissolution_score_ci_lo": 0.537395,
+      "eei_dissolution_score_ci_hi": 0.545005,
+      "electrode_compat_score_mean": 0.843905,
+      "electrode_compat_score_std": 0.000372,
+      "regeneration_potential_mean": 60.591,
+      "regeneration_potential_std": 0.159433,
+      "composite_score_mean": 0.644935,
+      "composite_score_std": 0.001364,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.355249,
+          "std": 0.008542
+        },
+        "electrode_compat_score": {
+          "mean": 0.863228,
+          "std": 0.004074
+        },
+        "regeneration_potential_pct": {
+          "mean": 66.044926,
+          "std": 0.899403
+        }
+      }
+    },
+    {
+      "name": "ACN - Acetonitrile",
+      "dn": 14.1,
+      "eei_dissolution_score_mean": 0.472517,
+      "eei_dissolution_score_std": 0.001063,
+      "eei_dissolution_score_ci_lo": 0.470495,
+      "eei_dissolution_score_ci_hi": 0.474452,
+      "electrode_compat_score_mean": 0.843861,
+      "electrode_compat_score_std": 0.000396,
+      "regeneration_potential_mean": 55.107,
+      "regeneration_potential_std": 0.09824,
+      "composite_score_mean": 0.599631,
+      "composite_score_std": 0.000827,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.330611,
+          "std": 0.017416
+        },
+        "electrode_compat_score": {
+          "mean": 0.834711,
+          "std": 0.007132
+        },
+        "regeneration_potential_pct": {
+          "mean": 61.342436,
+          "std": 1.44774
+        }
+      }
+    },
+    {
+      "name": "Hexafluoroethane",
+      "dn": 0.0,
+      "eei_dissolution_score_mean": 0.47645,
+      "eei_dissolution_score_std": 0.000768,
+      "eei_dissolution_score_ci_lo": 0.475,
+      "eei_dissolution_score_ci_hi": 0.477853,
+      "electrode_compat_score_mean": 0.843772,
+      "electrode_compat_score_std": 0.000379,
+      "regeneration_potential_mean": 55.43,
+      "regeneration_potential_std": 0.076811,
+      "composite_score_mean": 0.602217,
+      "composite_score_std": 0.000639,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.299985,
+          "std": 0.011112
+        },
+        "electrode_compat_score": {
+          "mean": 0.779288,
+          "std": 0.014944
+        },
+        "regeneration_potential_pct": {
+          "mean": 54.7386,
+          "std": 2.021295
+        }
+      }
+    },
+    {
+      "name": "FEC - Fluoroethylene carbonate",
+      "dn": 18.0,
+      "eei_dissolution_score_mean": 0.144282,
+      "eei_dissolution_score_std": 0.000998,
+      "eei_dissolution_score_ci_lo": 0.142395,
+      "eei_dissolution_score_ci_hi": 0.146405,
+      "electrode_compat_score_mean": 0.843817,
+      "electrode_compat_score_std": 0.000341,
+      "regeneration_potential_mean": 24.027,
+      "regeneration_potential_std": 0.123171,
+      "composite_score_mean": 0.37334,
+      "composite_score_std": 0.000791,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.204552,
+          "std": 0.025055
+        },
+        "electrode_compat_score": {
+          "mean": 0.86859,
+          "std": 0.00304
+        },
+        "regeneration_potential_pct": {
+          "mean": 53.6245,
+          "std": 1.494741
+        }
+      }
+    },
+    {
+      "name": "EC - Ethylene carbonate",
+      "dn": 16.8,
+      "eei_dissolution_score_mean": 0.128536,
+      "eei_dissolution_score_std": 0.00109,
+      "eei_dissolution_score_ci_lo": 0.126548,
+      "eei_dissolution_score_ci_hi": 0.13111,
+      "electrode_compat_score_mean": 0.843898,
+      "electrode_compat_score_std": 0.000385,
+      "regeneration_potential_mean": 22.149,
+      "regeneration_potential_std": 0.135274,
+      "composite_score_mean": 0.361735,
+      "composite_score_std": 0.000874,
+      "rf_ensemble_spread": {
+        "eei_dissolution_score": {
+          "mean": 0.167619,
+          "std": 0.024113
+        },
+        "electrode_compat_score": {
+          "mean": 0.876774,
+          "std": 0.002117
+        },
+        "regeneration_potential_pct": {
+          "mean": 49.7066,
+          "std": 1.755675
+        }
+      }
+    }
+  ],
+  "n_solvents": 25,
+  "n_bootstrap": 100,
+  "noise_std": 0.025
+}

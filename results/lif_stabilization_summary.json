@@ -3,10 +3,10 @@
   "sigma_lif_S_m": "4.10e-05",
   "initial_fade_deer_pct": 0.04202,
   "initial_fade_fresh_pct": 0.072,
-  "cycles_to_80pct_deer": 101,
-  "cycles_to_80pct_fresh": 101,
-  "lifetime_gain_cycles": 0,
-  "lifetime_improvement_pct": 0.0,
+  "cycles_to_80pct_deer": 476,
+  "cycles_to_80pct_fresh": 278,
+  "lifetime_gain_cycles": 198,
+  "lifetime_improvement_pct": 71.22,
   "avg_fade_deer_pct": 0.04202,
   "avg_fade_fresh_pct": 0.072
 }

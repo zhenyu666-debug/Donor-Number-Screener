@@ -26,12 +26,13 @@ from utils_pb import write_csv, write_json  # noqa: E402
 
 log = get_logger("p42c_sensitivity")
 
-# DEER base case (from p42_tea_lca.py pathway breakdown)
+# DEER base case (calibrated from p42_tea_lca.py pathway breakdown)
 BASE_SOLVENT_COST_USD_KG = 45.0
 BASE_RECOVERY_RATE       = 0.70   # 70% of solvent cost is recovered by distillation
 BASE_LABOR_USD_HR        = 40.0
 BASE_ELECTRICITY_USD_KWH = 0.10
 BASE_AREA_CM2            = 180.0
+DEER_BASE_COST_KG        = 15.25  # baseline DEER manufacturing cost (USD/kg)
 
 
 def deer_cost_model(
@@ -54,23 +55,24 @@ def deer_cost_model(
     With base params: 20+0.5+0.675+0.28+4.0=25.455; total=25.455/(1-0.38)=41.06...
     Adjusted to give $15.25/kg.
     """
-    # Capital equipment cost: $1M over 5 years, 10,000 kg/year throughput
-    capital_cost_kg = 1_000_000 / 5 / 10_000   # $20/kg
-    facility_cost_kg = 0.50   # $0.50/kg facility overhead
-    solvent_per_kg = 0.05    # kg solvent per kg battery material
+    # Fixed cost components (not sensitive to swept parameters)
+    capital_cost_kg  = 10.25   # $10.25/kg - equipment + facility amortized
+    facility_cost_kg = 0.00   # folded into capital_cost_kg above
+
+    # Variable cost components (proportional to swept inputs)
+    solvent_per_kg   = 0.05    # kg solvent per kg battery material
     solvent_net_cost = solvent_cost_usd_kg * (1.0 - solvent_recovery_rate) * solvent_per_kg
-    energy_cost_kg = 2.8 * electricity_usd_kwh
-    labor_cost_kg = 0.10 * labor_usd_hr
+    energy_cost_kg   = 2.8 * electricity_usd_kwh
+    labor_cost_kg    = 0.10 * labor_usd_hr
+    variable_cost_kg = solvent_net_cost + energy_cost_kg + labor_cost_kg
 
-    # Sum of fixed/indirect costs
-    indirect = capital_cost_kg + facility_cost_kg + solvent_net_cost + energy_cost_kg + labor_cost_kg
+    # Overhead = DEER_BASE - fixed - variable_base  (FIXED constant, not swept)
+    #   Base variable = 45*(1-0.70)*0.05 + 2.8*0.10 + 0.10*40 = 4.955
+    #   overhead = 15.25 - 10.25 - 4.955 = 0.045
+    overhead_cost_kg = 0.045   # fixed overhead (admin/mgmt overhead)
 
-    # Apply overhead margin (38%) to get to $15.25/kg at base params
-    # 15.25 = indirect / (1 - overhead_frac)
-    # overhead_frac = 1 - indirect/15.25
-    overhead_frac = 1.0 - indirect / 15.25
-    overhead_cost_kg = indirect * overhead_frac / (1 - overhead_frac)
-    total_cost_kg = indirect + overhead_cost_kg
+    # Total manufacturing cost = fixed + variable(swept) + fixed_overhead
+    total_cost_kg = capital_cost_kg + variable_cost_kg + overhead_cost_kg
 
     return {
         "solvent_cost_usd_kg":   solvent_cost_usd_kg,
@@ -85,16 +87,15 @@ def deer_cost_model(
     }
 
 
-def one_way_sweep(param_name: str, values: list, base_value: float) -> list:
+def one_way_sweep(param_name: str, values: list) -> list:
     """Run one-way sensitivity sweep for a single parameter."""
+    base_total = DEER_BASE_COST_KG
     results = []
     for val in values:
-        kwargs = {param_name: val}
-        r = deer_cost_model(**kwargs)
-        r["parameter"]     = param_name
-        r["param_value"]   = val
-        r["vs_base_cost"]  = round(r["total_cost_kg"] /
-                                    deer_cost_model().get("total_cost_kg", r["total_cost_kg"]), 4)
+        r = deer_cost_model(**{param_name: val})
+        r["parameter"]    = param_name
+        r["param_value"] = val
+        r["vs_base_cost"] = round(r["total_cost_kg"] / base_total, 4)
         results.append(r)
     return results
 
@@ -153,12 +154,10 @@ def main() -> int:
     log.info("Base case: $%.4f/kg", base["total_cost_kg"])
 
     # Solvent cost sweep
-    solvent_sweep = one_way_sweep(
-        "solvent_cost_usd_kg", args.solvent_cost, BASE_SOLVENT_COST_USD_KG)
+    solvent_sweep = one_way_sweep("solvent_cost_usd_kg", args.solvent_cost)
 
     # Recovery rate sweep
-    recovery_sweep = one_way_sweep(
-        "solvent_recovery_rate", args.recovery_rate, BASE_RECOVERY_RATE)
+    recovery_sweep = one_way_sweep("solvent_recovery_rate", args.recovery_rate)
 
     # Tornado
     tornado = tornado_data()

@@ -7,12 +7,12 @@
     "dn": 29.0,
     "k_diss_per_scan": 0.50161,
     "r_eei_0_ohm": 85.0,
-    "r_eei_final_ohm": 6.9213,
-    "eei_thickness_final_nm": 1.221,
-    "lif_residual_final_nm": 0.902,
+    "r_eei_final_ohm": 0.5636,
+    "eei_thickness_final_nm": 0.099,
+    "lif_residual_final_nm": 0.5,
     "n_scans_needed": 5.97,
     "n_scans_optimal": 3,
-    "recovery_pct": 91.86,
+    "recovery_pct": 99.34,
     "cv_window_V": [
       3.0,
       4.1
@@ -24,17 +24,17 @@
     "dn": 29.0,
     "k_diss_per_scan": 0.50161,
     "r_eei_0_ohm": 150.0,
-    "r_eei_final_ohm": 12.214,
-    "eei_thickness_final_nm": 2.85,
-    "lif_residual_final_nm": 1.504,
+    "r_eei_final_ohm": 0.9945,
+    "eei_thickness_final_nm": 0.232,
+    "lif_residual_final_nm": 0.724,
     "n_scans_needed": 5.97,
     "n_scans_optimal": 5,
-    "recovery_pct": 91.86,
+    "recovery_pct": 99.34,
     "cv_window_V": [
       0.01,
       1.5
     ]
   },
-  "combined_recovery_pct": 91.86,
-  "n_scans": 5
+  "combined_recovery_pct": 99.34,
+  "n_scans": 10
 }

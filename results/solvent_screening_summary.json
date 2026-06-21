@@ -3,7 +3,7 @@
   "n_anchors": 25,
   "has_rdkit": true,
   "dmi_eei_dissolution_score": 0.8753600000000006,
-  "ec_eei_dissolution_score": 0.12798,
+  "ec_eei_dissolution_score": 0.12048,
   "dmso_eei_dissolution_score": 0.8300400000000001,
   "top5": [
     {
@@ -11,7 +11,7 @@
       "smiles": "O=C1N(C)CCC1",
       "dn": 29.0,
       "eei_dissolution_score": 0.8753600000000006,
-      "electrode_compat_score": 0.8582000000000003,
+      "electrode_compat_score": 0.8582000000000002,
       "regeneration_potential_pct": 87.68,
       "composite_score": 0.8705000000000003
     },
@@ -28,28 +28,28 @@
       "name": "TMEDA - N,N,N,N-Tetramethylethylenediamine",
       "smiles": "CN(C)CCN(C)C",
       "dn": 29.0,
-      "eei_dissolution_score": 0.85276,
+      "eei_dissolution_score": 0.8527600000000001,
       "electrode_compat_score": 0.8137200000000001,
       "regeneration_potential_pct": 84.076,
-      "composite_score": 0.838648
-    },
-    {
-      "name": "2-Pyrrolidinone",
-      "smiles": "C1CC(=O)NC1",
-      "dn": 27.3,
-      "eei_dissolution_score": 0.7926400000000002,
-      "electrode_compat_score": 0.85192,
-      "regeneration_potential_pct": 83.80733333333333,
-      "composite_score": 0.8195106666666667
+      "composite_score": 0.8386480000000001
     },
     {
       "name": "DMSO - Dimethyl sulfoxide",
       "smiles": "CS(C)=O",
       "dn": 29.8,
       "eei_dissolution_score": 0.8300400000000001,
-      "electrode_compat_score": 0.8029199999999999,
+      "electrode_compat_score": 0.8029200000000001,
       "regeneration_potential_pct": 81.74,
       "composite_score": 0.819376
+    },
+    {
+      "name": "2-Pyrrolidinone",
+      "smiles": "C1CC(=O)NC1",
+      "dn": 27.3,
+      "eei_dissolution_score": 0.7906000000000002,
+      "electrode_compat_score": 0.85192,
+      "regeneration_potential_pct": 83.62733333333333,
+      "composite_score": 0.8181306666666667
     }
   ]
 }

@@ -816,47 +816,71 @@ python -m pytest tests/test_pbp_*.py -v
 
 基于物理化学原理 + ML 的三层目标评分：
 
-1. **EEI dissolution score**：高 DN（> 26）+ 适中介电常数 → 有机 EEI 溶解
-2. **Electrode compatibility score**：高 DN 但不过高（< 32）+ 氧化稳定性 > 4.1 V → 保护活性晶体
-3. **Regeneration potential %**：综合评分 → 预测容量恢复率
+1. **EEI dissolution score**：高 DN（> 26）+ 适中介电常数 + 氧化稳定性（> 4.1 V）→ 有机 EEI 溶解
+2. **Electrode compatibility score**：DN 20-32 + 氧化稳定性 > 4.1 V → 保护 NMC811/石墨活性晶体
+3. **Regeneration potential %**：几何平均综合评分 → 预测容量恢复率
 
-筛选规则：DMI（DN=29.0 kcal/mol，氧化稳定性 4.8 V）锚定为基准，得分 0.95。
+物理校准锚点：DMI（DN=29.0, score=0.95）锚定，EC（DN=16.8, score<0.20）验证。
 
-### Layer 2 — 再生协议模拟（`p41_regeneration_protocol.py`）
+### Layer 2 — 再生协议模拟
 
-模拟 CV 扫描下 EEI 电阻衰减：
-
+**CV 扫描阻抗演化**（`p41_regeneration_protocol.py`）：
 ```
 R_EEI(n) = R_EEI_0 * exp(-k_diss * n)
-k_diss = k_0 * exp(-alpha * DN / (kB * T))
+k_diss = k_0 * exp(alpha * (DN - 16.8))    # 基于 DMI/EC 标定
 ```
+- 6 次 CV 扫描后：R_EEI 下降 ~92%，CEI/SEI 基本清除
+- 输出：R_EEI vs scan_number 曲线 + 恢复率预测
+
+**LiF 残余层稳定性**（`p41b_lif_stabilization.py`）：
+- DEER 后残余 LiF 层（~2 nm）提供界面稳定化
+- DEER cell fade=0.042%/cycle vs Fresh cell fade=0.072%/cycle
+- **+198 cycles（+71%）寿命增益**，对标 Kalra 2026 实验数据
+
+**软包规模验证**（`p41c_pouch_validation.py`）：
+- 扣电（CR2032）→ 1 Ah → 3 Ah 软包逐级放大
+- 修正因子：面积 f=0.955，N/P 比 f=0.986，温度 f=1.00
+- **预测 3 Ah 软包恢复率：89.5%**（vs Kalra 报道 90.3%）
 
 ### Layer 3 — 技术经济与环境评估（`p42_tea_lca.py`）
 
-5 种路径横向对比：DEER（$15.25/kg）vs 火法（$26.31）vs 湿法（$31.07）vs 换电解液（$5.20）vs 直接修复正极（$18.50）。
+5 种路径横向对比（基于 Kalra 2026 + EverBatt 模型）：
 
-DEER vs 火法：制造成本降低 42%，能耗降低 34%，温室气体排放降低 56%（来源：Kalra 2026 E&E）。
+- **DEER**: $15.25/kg | 2.8 kWh/kg | 1.8 kgCO2/kg | **95%** 恢复率
+- **火法冶金**: $26.31/kg | 12.5 kWh/kg | 8.2 kgCO2/kg | 98% 恢复率
+- **湿法冶金**: $31.07/kg | 8.8 kWh/kg | 5.5 kgCO2/kg | 97% 恢复率
+- **换电解液**: $5.20/kg | 0.8 kWh/kg | 0.6 kgCO2/kg | 83% 恢复率
+- **直接修复正极**: $18.50/kg | 4.0 kWh/kg | 2.5 kgCO2/kg | 91% 恢复率
+
+DEER 优势：vs 火法成本降低 **42%**，能耗降低 **78%**，GHG 降低 **78%**。
+
+**敏感性分析**（`p42c_sensitivity.py`）：龙卷风图显示 labor cost 是最大不确定因素（±13%），其次是溶剂回收率（±3.7%）。
 
 ### DEER quick start
 
 ```bash
-# Phase 1: 溶剂筛选
-python src/p40_solvent_screening.py                      # 溶剂评分
-python src/p40b_solvent_pareto.py                       # Pareto 前沿
-python src/p40c_solvent_rest_api.py                     # FastAPI（端口 8001）
+# Phase 1: Solvent screening
+python src/p40_solvent_screening.py                      # Solvent scoring
+python src/p40b_solvent_pareto.py                       # Pareto frontier
+python src/p40c_solvent_rest_api.py                     # FastAPI (port 8001)
 uvicorn src.p40c_solvent_rest_api:app --host 0.0.0.0 --port 8001
+python src/p40d_viz_deer.py                             # 6 DEER figures
+python src/p40e_solvent_uncertainty.py                  # Bootstrap uncertainty
 
-# Phase 2: 再生协议
+# Phase 2: Regeneration protocol
 python src/p41_regeneration_protocol.py --dn 29.0 --electrode dual --n-scans 5
 python src/p41b_lif_stabilization.py --lif-nm 2.0 --n-cycles 500
-python src/p41c_pouch_validation.py                     # 3 Ah 软包规模验证
+python src/p41c_pouch_validation.py                     # 3 Ah pouch scale-up
 
-# Phase 3: 经济评估
+# Phase 3: TEA/LCA
 python src/p42_tea_lca.py
 python src/p42b_viz_tea.py
 python src/p42c_sensitivity.py
 
-# 全部测试
+# Phase 4: MD simulation (atomistic validation)
+python src/p43_deer_md.py
+
+# All DEER tests
 python -m pytest tests/test_pbp_eei_screening.py tests/test_pbp_regeneration.py tests/test_pbp_tea_lca.py -v
 ```
 
@@ -866,13 +890,19 @@ python -m pytest tests/test_pbp_eei_screening.py tests/test_pbp_regeneration.py 
 |---|---|
 | [`data/solvent_eei_properties.csv`](data/solvent_eei_properties.csv) | 46 种溶剂的 DN/AN/epsilon_r/HOMO/LUMO + EEI 溶解评分锚点 |
 | [`data/solvent_library.yaml`](data/solvent_library.yaml) | DMI / DMSO / EC / FEC 等溶剂的 DEER 物理参数 |
-| [`results/solvent_eei_predictions.csv`](results/solvent_eei_predictions.csv) | 全部候选溶剂评分排名 |
-| [`data/solvent_pareto_front.csv`](data/solvent_pareto_front.csv) | Pareto 前沿非支配解 |
-| [`results/regeneration_cv_curves.csv`](results/regeneration_cv_curves.csv) | R_EEI vs CV 扫描次数曲线 |
-| [`results/lif_cycling_curve.csv`](results/lif_cycling_curve.csv) | LiF 残余层对循环寿命的影响 |
-| [`results/pouch_scale_validation.json`](results/pouch_scale_validation.json) | 扣电→3 Ah 软包规模放大验证 |
-| [`results/deer_tea_lca.csv`](results/deer_tea_lca.csv) | 5 种路径 TEA + LCA 对比 |
-| [`results/deer_sensitivity.json`](results/deer_sensitivity.json) | 敏感性分析（Tornado）|
+| [`data/solvent_pareto_front.csv`](data/solvent_pareto_front.csv) | Pareto 前沿非支配解（溶解 vs 兼容性） |
+| [`results/solvent_eei_predictions.csv`](results/solvent_eei_predictions.csv) | 全部候选溶剂评分排名（含 RDKit 分子描述符） |
+| [`results/regeneration_cv_curves.csv`](results/regeneration_cv_curves.csv) | R_EEI vs CV 扫描次数曲线（正极/负极/综合） |
+| [`results/regeneration_summary.json`](results/regeneration_summary.json) | k_diss、恢复率、所需扫描次数 |
+| [`results/lif_cycling_curve.csv`](results/lif_cycling_curve.csv) | LiF 残余层循环稳定性（0-500 圈容量保持率） |
+| [`results/lif_stabilization_summary.json`](results/lif_stabilization_summary.json) | +198 cycles (+71%) 寿命增益统计 |
+| [`results/pouch_comparison.csv`](results/pouch_comparison.csv) | 扣电→1 Ah→3 Ah 规模修正因子 |
+| [`results/pouch_scale_validation.json`](results/pouch_scale_validation.json) | 3 Ah 软包预测恢复率 89.5% |
+| [`results/deer_tea_lca.csv`](results/deer_tea_lca.csv) | 5 种路径 TEA + LCA 对比数据 |
+| [`results/deer_tea_lca_summary.json`](results/deer_tea_lca_summary.json) | DEER vs 各路径节省比例 |
+| [`results/deer_sensitivity.json`](results/deer_sensitivity.json) | 敏感性龙卷风（labor 驱动，±13%） |
+| [`results/deer_sensitivity_sweep.csv`](results/deer_sensitivity_sweep.csv) | 全参数扫描结果 |
+| [`figures/deer_*.png`](figures/) | 13 张 DEER 可视化图表 |
 
 ---
 

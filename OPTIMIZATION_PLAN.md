@@ -312,3 +312,8 @@ figures/deer_tea_comparison.png            (T3.2)
 - [x] 三层各一个 pytest 测试通过
 - [x] README 更新了 Layer 1/2/3 说明
 - [x] OPTIMIZATION_PLAN.md 所有任务标记完成
+- [x] `p40d_viz_deer.py` 生成 6 张 DEER 可视化图
+- [x] `p42c_sensitivity.py` 敏感性龙卷风（labor 驱动 ±13%）
+- [x] `p41b_lif_stabilization.py` LiF 稳定性（+198 cycles/+71% 寿命增益）
+- [x] `p40e_solvent_uncertainty.py` Bootstrap 不确定性量化
+- [x] `p43_deer_md.py` 分子动力学模拟（溶剂-EEI 结合能、Li-O RDF）
