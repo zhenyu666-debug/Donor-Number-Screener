@@ -22,9 +22,9 @@
 
 ## What this is
 
-A drop-in screening service for Li-S battery additive R&D. You give me a
-SMILES list (or I generate one for you from your design rules), and I send
-back, in 3-5 working days:
+An open-source pipeline for screening high-donor-number (DN) electrolyte additives for Li-S batteries using ML — runs entirely on a laptop, no DFT cluster required.
+
+Given a SMILES list (or one generated from your design rules), the pipeline delivers:
 
 1. **Top-20 candidates** ranked by predicted donor number (DN), with
    95% conformal prediction intervals.
@@ -32,9 +32,8 @@ back, in 3-5 working days:
    off "best performance" vs "easiest to make".
 3. **Decision rules** distilled from a tree model: e.g. "if HOMO_proxy
    > 0.4 and n_N >= 2, expected DN > 32".
-4. **Active-learning recommendation** (for engagements that include a
-   DFT/MD budget): "if you can only validate 50 more molecules, validate
-   these 50".
+4. **Active-learning recommendation** (when you have a DFT/MD budget):
+   "if you can only validate 50 more molecules, validate these 50".
 5. **PDF report** with all of the above plus model cards, calibration
    plots, and SHAP attributions.
 
@@ -65,18 +64,6 @@ in F- and N-bearing motifs that form LiF/Li-N SEI (matching the
 paper's experimental finding).
 
 ---
-
-## Pricing
-
-| tier | deliverable | price (RMB) |
-|---|---|---|
-| **Trial** | Top-20 + 95% intervals on a 100-molecule list you send | 1 (first 3 only) |
-| **Standard** | Top-20 + Pareto + decision rules + PDF report | 3-8 |
-| **Annual subscription** | 4 screenings/quarter + dashboard access | 20 / year |
-| **DFT-replacement project** | 3-month engagement: 50-candidate long-list, top-20, active-learning roadmap | 8-15 / project |
-
-We do not do project work under 1 RMB. If you need a one-off
-< 100-molecule sanity check, the trial tier is free.
 
 ---
 
@@ -114,36 +101,7 @@ candidate.
 
 ---
 
-## Comparison vs alternatives
-
-| approach | cost per 30,000-mol screen | turnaround | chemistry accuracy | our choice |
-|---|---|---|---|---|
-| **DFT B3LYP/6-31+G\* on cluster** | $50k-$200k cloud, or 6-9 mo queued | weeks-months | reference | too expensive for most |
-| **Commercial DFT service (Schrödinger / Q-Chem)** | $50-200 / molecule ($175k-700k) | 1-3 months | reference | too expensive |
-| **ChemAxon / Marvin property predictors** | $5-30k / year licence | minutes | weak on DN (no Lewis-basic model) | too generic |
-| **In-house ML (typical)** | dev time 3-6 months | months | depends | slow to start |
-| **This service (donor-number-screener)** | 3-8k RMB | 3-5 days | matches paper's top-20 chemistry | **best ROI for screening** |
-
 ---
-
-## Customer testimonials (anonymised)
-
-> "We were queued 6-9 months for DFT cluster time. The donor-number-screener
-> service cut that to 1 week and the chemistry conclusion matched what our
-> collaborators had found experimentally. We renewed as a subscription."
-> — *PI, Chinese mid-stage Li-S startup (engagement: 1× standard + 1× project)*
-
-> "I needed a Top-20 shortlist to take into a supplier meeting the next
-> day. They sent a one-page PDF by email in 6 hours. Saved the meeting."
-> — *Senior battery engineer, tier-1 cell maker R&D group (engagement: 1× trial)*
-
-> "What sold us was the active-learning roadmap. We have a small DFT
-> budget and they told us exactly which 50 molecules to validate to
-> get the maximum information gain. After validating 30 of the 50 we
-> extended the engagement to a 12,000-molecule library."
-> — *Head of materials R&D, electrolyte additive manufacturer (engagement: 1× project)*
-
-References available on signed NDA.
 
 ---
 
@@ -239,7 +197,7 @@ python src/09_bayesian_optimization.py        # Optuna search: RF + XGB + MLP
 python src/09c_5model_stacking.py             # Optuna + LightGBM + CatBoost
 python src/09b_bayes_reuse.py                 # 1-min reuse of cached best params
 
-# --- commercial outputs --- #
+# --- output scripts --- #
 python src/10_make_landing_page.py            # -> LANDING_PAGE.html
 python src/11_pretty_top20_svg.py             # -> figures/top20_color_graded.svg
 python src/12_build_pdf_safe.py               # -> outreach/*.pdf
@@ -469,38 +427,20 @@ ranking, and the EBM addon.
 
 ---
 
-## Contact
-
-- **Trial / standard screening:** open a GitHub issue tagged
-  `engagement`.
-- **Annual subscription / DFT-replacement project:** email
-  `[YOUR_EMAIL_HERE]` with subject "Li-S screening enquiry".
-- WeChat: `[YOUR_WECHAT_QR_PATH]`
-
-Response time: 1 working day for trial, 3 working days for
-standard, 1 week for project work.
-
----
-
 ## License
 
-Code in this folder is released for **educational and non-commercial
+Code in this repository is released for **educational and non-commercial
 use**. The literature DN anchor table is reused with attribution
 to Marcus (1984) and Persson (1986).
 
-If you want to use this pipeline for **commercial screening work
-on your own proprietary candidate library**, contact us for a
-commercial license (separate pricing from the engagement tiers
-above).
-
-
+---
 ---
 
 ## Chinese (中文)
 
 ## 这是什么
 
-面向锂硫电池添加剂研发的即插即用筛选服务. 你给我一份 SMILES 列表 (或者我根据你的设计规则自动生成一份), 3-5 个工作日内返回:
+面向锂硫电池添加剂研发的 ML 筛选开源流水线. 你给我一份 SMILES 列表 (或者我根据你的设计规则自动生成一份), 流水线返回:
 
 1. **Top 20 候选分子**, 按预测供体数 (DN) 排序, 附 95% 共形预测区间
 2. **Pareto 前沿** (DN 与可合成性 SA score 的权衡), 方便你在性能最佳和最易合成之间取舍
@@ -519,17 +459,6 @@ above).
 **化学结论仍然成立**: 高 DN 添加剂是 HOMO 富集, 高偶极矩, 多 N/O/F 物种. 模型能正确排出 DMSO > DME > DOL > AN, Top 20 候选里丰富 F 和 N 基序 (形成 LiF/Li-N SEI), 与论文实验发现吻合.
 
 ---
-
-## 定价
-
-| 套餐 | 交付内容 | 价格(RMB) |
-|---|---|---|
-| **试用** | 你发的 100 个分子上跑 Top 20 + 95% 区间 | 1 (仅前 3 单) |
-| **标准** | Top 20 + Pareto + 决策规则 + PDF 报告 | 3-8 千 |
-| **年度订阅** | 每季度 4 次筛选 + 仪表盘访问 | 2 万 / 年 |
-| **DFT 替代项目** | 3 个月合同: 50 分子长清单 + Top 20 + 主动学习路线图 | 0.8-1.5 万 / 项目 |
-
-单价低于 1 千的项目不接. 如果你要做单次 < 100 个分子的快速校验, 试用档免费.
 
 ---
 
@@ -556,30 +485,7 @@ above).
 
 ---
 
-## 与替代方案对比
-
-| 方法 | 3,500 分子单次成本 | 周转时间 | 化学精度 | 我们的选择 |
-|---|---|---|---|---|
-| **DFT B3LYP/6-31+G* 集群** | 云 5-20 万美元, 或排队 6-9 月 | 周-月 | 基准 | 对大多数人太贵 |
-| **商业 DFT 服务** (Schroedinger / Q-Chem) | 50-200 美元 / 分子 (17.5-70 万) | 1-3 月 | 基准 | 太贵 |
-| **ChemAxon / Marvin** | 5-30 千美元 / 年许可 | 分钟级 | DN 弱 | 太通用 |
-| **自建 ML** | 开发 3-6 月 | 月级 | 看情况 | 启动慢 |
-| **本服务 (donor-number-screener)** | 3-8 千元 | 3-5 天 | 与论文 Top 20 化学一致 | **最佳 ROI** |
-
 ---
-
-## 客户评价 (已脱敏)
-
-> "我们之前要排 6-9 月的 DFT 集群. donor-number-screener 服务把它压到 1 周, 化学结论和我们合作方实验结果一致. 我们续订了年度订阅."
-> -- *PI, 中国中期 Li-S 初创公司 (合同: 1x 标准 + 1x 项目)*
-
-> "我第二天就要带着 Top 20 短清单去供应商会议. 他们 6 小时内邮件发了一页 PDF. 会议保住了."
-> -- 高级电池工程师, 某一线电池厂 R&D 团队 (合同: 1x 试用)*
-
-> "打动我们的是主动学习路线图. 我们有少量 DFT 预算, 他们精准告诉我们该验证哪 50 个分子信息增益最大. 验证完 30 个之后, 我们把合同扩到 12,000 分子库."
-> -- *R&D 负责人, 某电解液添加剂厂商 (合同: 1x 项目)*
-
-案例可签 NDA 后提供.
 
 ---
 
@@ -603,7 +509,7 @@ python src/09_bayesian_optimization.py        # Optuna: RF + XGB + MLP
 python src/09c_5model_stacking.py             # Optuna + LightGBM + CatBoost
 python src/09b_bayes_reuse.py                 # 1 分钟复用缓存
 
-# --- 商业化产出 --- #
+# --- 输出脚本 --- #
 python src/10_make_landing_page.py            # -> LANDING_PAGE.html
 python src/11_pretty_top20_svg.py             # -> figures/top20_color_graded.svg
 python src/12_build_pdf_safe.py               # -> outreach/*.pdf
@@ -656,7 +562,7 @@ PYTHONPATH=src python -m pytest tests/ -v
 
 也就是说, 头条 R^2 = 0.99889 度量的是 5 模型集成复现 proxy 标签的能力, 不是直接复现 DFT 计算的 DN. Proxy 锚定在真实实验 DN (Guttmann 标度) 上, 所以这条化学结论仍然成立. 我们还报告了 58 个锚定分子上预测 DN 排序 vs 实验 DN 排序的 Spearman 相关 0.974, 这是对模型化学性质最接近的检验.
 
-合同套餐里包含 DFT/MD 预算的那部分, 我们建议把预算分配给 `results/active_learning_curve.csv` 中主动学习排序的短清单. 之后我们会用你验证的数据重训并免费重发 Top 20 (每个合同 1 次修订).
+我们建议你把 DFT/MD 预算分配给 `results/active_learning_curve.csv` 中主动学习排序的短清单, 这样可以用最少的验证实验获得最大的信息增益.
 
 论文的实验部分 (锂硫电池循环 + XPS) 未复现. 我们提供 proxy 图, 显示 Top 20 丰富 F 和 N 物种, 且预测 DN 复现了常见电解液溶剂的实验 DN 排序 (DMSO > DME > DOL > AN).
 
@@ -900,18 +806,6 @@ python -m pytest tests/test_pbp_*.py -v
 
 ---
 
-## 联系
-
-- **试用 / 标准筛选:** 在 GitHub 开 issue 并打 `engagement` 标签.
-- **年度订阅 / DFT 替代项目:** 邮件 `[YOUR_EMAIL_HERE]`, 主题"Li-S 筛选询价".
-- 微信: `[YOUR_WECHAT_QR_PATH]`
-
-响应时间: 试用 1 个工作日, 标准 3 个工作日, 项目 1 周.
-
----
-
 ## 许可
 
 本目录代码仅供教育与非商业用途. 文献 DN 锚定表复用并注明出处 Marcus (1984) 与 Persson (1986).
-
-如果你要把本流水线用于自有专有候选库的商业筛选, 请联系我们获取商业许可 (与上面合同套餐分开计价).
