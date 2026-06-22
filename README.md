@@ -11,6 +11,12 @@
 
 ---
 
+## Results at a Glance
+
+![Results Overview](figures/results_overview.png)
+
+---
+
 ## What this is — quick map
 
 > The repo now also ships a **Particle-Bayes-Physics (PBP) layer** that adds
