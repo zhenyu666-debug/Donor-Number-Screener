@@ -1,0 +1,207 @@
+# Solid-state electrolyte library - 14 mainstream SSEs
+# Used by src/32_sse_redn.py for DN re-ranking.
+#
+# Fields:
+#   formula         - chemical formula
+#   class           - sulfide / oxide / polymer / halide
+#   sigma_ion_S_cm  - ionic conductivity at 298 K in S/cm
+#   E_g_eV          - electronic band gap
+#   E_form_eV       - formation energy per atom (DFT)
+#   stability_window_V - electrochemical stability window vs Li/Li+
+#   density_g_cm3
+#   molar_mass_g_mol
+#   li_coord_num    - average Li coordination number (AIMD hint)
+#   migration_eV    - Li migration barrier
+#   dn_empirical    - empirical DN (computed from sigma_ion + E_g via simple scaling)
+#   source          - literature source for the values
+
+sse:
+  - id: 1
+    name: "Li3PS4 (beta)"
+    formula: "Li3PS4"
+    class: sulfide
+    sigma_ion_S_cm: 1.6e-3
+    E_g_eV: 2.5
+    E_form_eV: -0.42
+    stability_window_V: 5.0
+    density_g_cm3: 1.87
+    molar_mass_g_mol: 182.06
+    li_coord_num: 4.0
+    migration_eV: 0.30
+    source: "Adeli 2019, Janek 2016"
+  - id: 2
+    name: "Li6PS5Cl (argyrodite)"
+    formula: "Li6PS5Cl"
+    class: sulfide
+    sigma_ion_S_cm: 3.9e-3
+    E_g_eV: 2.5
+    E_form_eV: -0.51
+    stability_window_V: 5.0
+    density_g_cm3: 1.64
+    molar_mass_g_mol: 268.41
+    li_coord_num: 4.2
+    migration_eV: 0.20
+    source: "Adeli 2019"
+  - id: 3
+    name: "Li10GeP2S12 (LGPS)"
+    formula: "Li10GeP2S12"
+    class: sulfide
+    sigma_ion_S_cm: 1.2e-2
+    E_g_eV: 2.5
+    E_form_eV: -0.65
+    stability_window_V: 5.0
+    density_g_cm3: 2.05
+    molar_mass_g_mol: 605.30
+    li_coord_num: 4.5
+    migration_eV: 0.22
+    source: "Kamaya 2011"
+  - id: 4
+    name: "Li7P3S11"
+    formula: "Li7P3S11"
+    class: sulfide
+    sigma_ion_S_cm: 1.7e-3
+    E_g_eV: 2.6
+    E_form_eV: -0.48
+    stability_window_V: 5.0
+    density_g_cm3: 1.99
+    molar_mass_g_mol: 484.32
+    li_coord_num: 4.0
+    migration_eV: 0.18
+    source: "Seino 2014"
+  - id: 5
+    name: "Li2S-P2S5 glass (75-25)"
+    formula: "0.75Li2S-0.25P2S5"
+    class: sulfide
+    sigma_ion_S_cm: 1.0e-3
+    E_g_eV: 2.4
+    E_form_eV: -0.40
+    stability_window_V: 4.5
+    density_g_cm3: 1.83
+    molar_mass_g_mol: 100.0
+    li_coord_num: 3.8
+    migration_eV: 0.35
+    source: "Sakuda 2013"
+  - id: 6
+    name: "Li6PS5Br (argyrodite)"
+    formula: "Li6PS5Br"
+    class: sulfide
+    sigma_ion_S_cm: 3.0e-3
+    E_g_eV: 2.5
+    E_form_eV: -0.50
+    stability_window_V: 5.0
+    density_g_cm3: 1.81
+    molar_mass_g_mol: 312.86
+    li_coord_num: 4.2
+    migration_eV: 0.21
+    source: "Adeli 2019"
+  - id: 7
+    name: "Li3PS4 glass"
+    formula: "Li3PS4 (glass)"
+    class: sulfide
+    sigma_ion_S_cm: 5e-4
+    E_g_eV: 2.5
+    E_form_eV: -0.42
+    stability_window_V: 4.5
+    density_g_cm3: 1.83
+    molar_mass_g_mol: 182.06
+    li_coord_num: 3.7
+    migration_eV: 0.40
+    source: "Hayashi 2010"
+  - id: 8
+    name: "LLZO (Ta-doped)"
+    formula: "Li6.4La3Zr1.4Ta0.6O12"
+    class: oxide
+    sigma_ion_S_cm: 1.0e-3
+    E_g_eV: 5.0
+    E_form_eV: -3.10
+    stability_window_V: 6.0
+    density_g_cm3: 5.10
+    molar_mass_g_mol: 837.65
+    li_coord_num: 6.0
+    migration_eV: 0.30
+    source: "Murugan 2007"
+  - id: 9
+    name: "LATP"
+    formula: "Li1.3Al0.3Ti1.7(PO4)3"
+    class: oxide
+    sigma_ion_S_cm: 7e-4
+    E_g_eV: 5.0
+    E_form_eV: -3.40
+    stability_window_V: 4.5
+    density_g_cm3: 3.06
+    molar_mass_g_mol: 410.85
+    li_coord_num: 4.0
+    migration_eV: 0.35
+    source: "Aono 1990"
+  - id: 10
+    name: "LAGP"
+    formula: "Li1.5Al0.5Ge1.5(PO4)3"
+    class: oxide
+    sigma_ion_S_cm: 4e-4
+    E_g_eV: 5.0
+    E_form_eV: -3.20
+    stability_window_V: 6.0
+    density_g_cm3: 3.27
+    molar_mass_g_mol: 461.40
+    li_coord_num: 4.0
+    migration_eV: 0.40
+    source: "Fu 1997"
+  - id: 11
+    name: "LiPON"
+    formula: "Li2.88PO3.56N0.48"
+    class: oxide
+    sigma_ion_S_cm: 2e-6
+    E_g_eV: 6.0
+    E_form_eV: -2.80
+    stability_window_V: 5.5
+    density_g_cm3: 2.50
+    molar_mass_g_mol: 100.0
+    li_coord_num: 4.0
+    migration_eV: 0.55
+    source: "Bates 2000"
+  - id: 12
+    name: "LISICON"
+    formula: "Li14ZnGe4O16"
+    class: oxide
+    sigma_ion_S_cm: 1e-6
+    E_g_eV: 5.5
+    E_form_eV: -2.50
+    stability_window_V: 4.0
+    density_g_cm3: 3.50
+    molar_mass_g_mol: 813.46
+    li_coord_num: 4.0
+    migration_eV: 0.60
+    source: "Hong 1978"
+  - id: 13
+    name: "Li6PS5I (argyrodite)"
+    formula: "Li6PS5I"
+    class: sulfide
+    sigma_ion_S_cm: 1.2e-3
+    E_g_eV: 2.5
+    E_form_eV: -0.49
+    stability_window_V: 4.5
+    density_g_cm3: 1.94
+    molar_mass_g_mol: 359.86
+    li_coord_num: 4.2
+    migration_eV: 0.25
+    source: "Kraft 2017"
+  - id: 14
+    name: "PEO+LiTFSI (polymer)"
+    formula: "(C2H4O)n + LiTFSI"
+    class: polymer
+    sigma_ion_S_cm: 1e-5
+    E_g_eV: 4.0
+    E_form_eV: -0.10
+    stability_window_V: 4.0
+    density_g_cm3: 1.20
+    molar_mass_g_mol: 44.0
+    li_coord_num: 3.5
+    migration_eV: 0.50
+    source: "Zhou 2019"
+
+# Re-ranking options used by 32_sse_redn.py
+ranking:
+  alpha_sigma: 1.0e3         # weight for log10(sigma_ion)
+  beta_Eg: 1.0               # weight for E_g
+  gamma_floor: 5.0           # base DN before sigma/Eg terms
+  delta_migration: -2.0      # penalty for high migration barrier

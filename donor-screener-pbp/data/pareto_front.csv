@@ -1,0 +1,9 @@
+id,formula,name,family,source,sigma_ion_S_cm,E_g_eV,stability_window_V,migration_barrier_eV,cost_index,dn_pbp_v2,a_A,b_A,c_A,space_group,DOI,rank,pareto_rank,f1_sigma_ion_S_cm,f2_E_g_eV,f3_stability_window_V,f4_migration_barrier_eV,f5_cost_index
+P-01,Li5.5PS4.5Cl1.5Br0.5I0.5,LGSSSI (high-entropy argyrodite),halide,CAS 2025 LGSSSI,0.0322,2.6,5.5,0.18,2.5,7.434443584449264,0.0,0.0,0.0,,,1,1,-1.4921441283041692,2.6,5.5,-0.18,-2.5
+P-04,Li3PS3.5O0.5,O-doped Li3PS4,sulfide,Sci.Rep. 5 14227 (2015),0.0032,2.7,5.5,0.28,1.2,7.286568542494924,0.0,0.0,0.0,,,2,2,-2.494850021680094,2.7,5.5,-0.28,-1.2
+P-05,Li3YCl6,Li3YCl6 (halide),halide,Asano 2018,0.001,5.0,4.0,0.34,6.0,7.246622776601684,0.0,0.0,0.0,,,3,3,-3.0,5.0,4.0,-0.34,-6.0
+P-07,Li2ZrCl6,Li2ZrCl6,halide,Kwak 2021,0.0008,5.2,4.5,0.38,5.5,7.233284271247462,0.0,0.0,0.0,,,4,4,-3.0969100130080562,5.2,4.5,-0.38,-5.5
+P-10,LiBH4,LiBH4 (hydride),hydride,Matsuo 2011,0.0001,5.5,3.0,0.5,2.0,7.1850000000000005,0.0,0.0,0.0,,,6,5,-4.0,5.5,3.0,-0.5,-2.0
+P-08,LiNbO3,LiNbO3,oxide,IOP BVpath,1e-07,4.0,4.0,0.55,5.0,7.162816227766017,0.0,0.0,0.0,,,7,6,-7.0,4.0,4.0,-0.55,-5.0
+P-03,Li2SnO3,Li2SnO3 (cathode coating),oxide,IOP BVpath,1e-09,5.5,4.5,0.7,4.0,7.125031622776602,0.0,0.0,0.0,,,9,7,-9.0,5.5,4.5,-0.7,-4.0
+P-02,Li2SiO3,Li2SiO3 (cathode coating),oxide,IOP BVpath,1e-09,6.5,5.0,0.8,1.5,7.100031622776601,0.0,0.0,0.0,,,10,8,-9.0,6.5,5.0,-0.8,-1.5

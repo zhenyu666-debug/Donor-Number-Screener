@@ -1,0 +1,15 @@
+id,name,formula,class,sigma_ion_S_cm,E_g_eV,migration_eV,E_form_eV,stability_window_V,density_g_cm3,molar_mass_g_mol,li_coord_num,dn_candidate,rank,enrichment_source,notes
+3,Li10GeP2S12 (LGPS),Li10GeP2S12,sulfide,0.012,2.5,0.22,-0.65,5.0,2.05,605.3,4.5,7.337544511501033,1,enriched,enrichment sources queried=[] found=0
+2,Li6PS5Cl (argyrodite),Li6PS5Cl,sulfide,0.0039,2.5,0.2,-0.51,5.0,1.64,268.41,4.2,7.312449979983985,2,enriched,enrichment sources queried=[] found=0
+4,Li7P3S11,Li7P3S11,sulfide,0.0017,2.6,0.18,-0.48,5.0,1.99,484.32,4.0,7.308231056256177,3,enriched,enrichment sources queried=[] found=0
+6,Li6PS5Br (argyrodite),Li6PS5Br,sulfide,0.003,2.5,0.21,-0.5,5.0,1.81,312.86,4.2,7.301272255750517,4,enriched,enrichment sources queried=[] found=0
+13,Li6PS5I (argyrodite),Li6PS5I,sulfide,0.0012,2.5,0.25,-0.49,4.5,1.94,359.86,4.2,7.267141016151378,5,enriched,enrichment sources queried=[] found=0
+1,Li3PS4 (beta),Li3PS4,sulfide,0.0016,2.5,0.3,-0.42,5.0,1.87,182.06,4.0,7.265,6,enriched,enrichment sources queried=[] found=0
+5,Li2S-P2S5 glass (75-25),0.75Li2S-0.25P2S5,sulfide,0.001,2.4,0.35,-0.4,4.5,1.83,100.0,3.8,7.249122776601683,7,enriched,enrichment sources queried=[] found=0
+9,LATP,Li1.3Al0.3Ti1.7(PO4)3,oxide,7e-4,5.0,0.35,-3.4,4.5,3.06,410.85,4.0,7.233957513110646,8,enriched,enrichment sources queried=[] found=0
+7,Li3PS4 glass,Li3PS4 (glass),sulfide,5e-4,2.5,0.4,-0.42,4.5,1.83,182.06,3.7,7.227360679774998,9,enriched,enrichment sources queried=[] found=0
+10,LAGP,Li1.5Al0.5Ge1.5(PO4)3,oxide,4e-4,5.0,0.4,-3.2,6.0,3.27,461.4,4.0,7.21,10,enriched,enrichment sources queried=[] found=0
+14,PEO+LiTFSI (polymer),(C2H4O)n + LiTFSI,polymer,1e-5,4.0,0.5,-0.1,4.0,1.2,44.0,3.5,7.183162277660168,11,enriched,enrichment sources queried=[] found=0
+8,LLZO (Ta-doped),Li6.4La3Zr1.4Ta0.6O12,oxide,0.001,5.0,0.3,-3.1,6.0,5.1,837.65,6.0,7.156622776601683,12,enriched,enrichment sources queried=[] found=0
+11,LiPON,Li2.88PO3.56N0.48,oxide,2e-6,6.0,0.55,-2.8,5.5,2.5,100.0,4.0,7.138914213562374,13,enriched,enrichment sources queried=[] found=0
+12,LISICON,Li14ZnGe4O16,oxide,1e-6,5.5,0.6,-2.5,4.0,3.5,813.46,4.0,7.1209999999999996,14,enriched,enrichment sources queried=[] found=0

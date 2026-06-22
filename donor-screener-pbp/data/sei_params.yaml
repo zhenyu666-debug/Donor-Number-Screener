@@ -1,0 +1,42 @@
+# SEI / EDL impedance parameters for donor-screener-pbp.
+# Units:
+#   thicknesses in nm
+#   conductivities in S/m
+#   capacitances in F/m^2
+#   energies in eV, areas in cm^2
+
+sei:
+  composition: "Li2CO3 + LiF"
+  density_kg_m3: 2150.0
+  molar_mass_kg_mol: 0.0739
+  thickness_nm_min: 1.0
+  thickness_nm_max: 50.0
+  thickness_nm_steps: 25
+  ionic_conductivity_S_m: 1.0e-6    # Li2CO3 wet, ~1e-6 S/m
+  electronic_conductivity_S_m: 1.0e-12
+  permittivity_relative: 10.0
+  li_transference_number: 0.4
+  j0_A_m2: 0.05                       # exchange current density
+  alpha_a: 0.5
+  alpha_c: 0.5
+
+edl:
+  helmholtz_eps_r: 6.0
+  debye_length_nm: 1.5
+  electrolyte_eps_r: 25.0              # EC/DMC mix
+
+cathode:
+  name: "NMC811"
+  open_circuit_voltage_v: 4.2
+  delithiation_dn_factor: 0.85         # multiplicative DN attenuation
+  cei_thickness_nm: 5.0
+
+anode:
+  name: "Li metal"
+  plating_overpotential_v: 0.05
+
+operating:
+  temperature_K: 298.15
+  cell_area_cm2: 1.0
+  c_rate: 1.0
+  depth_of_discharge: 0.8

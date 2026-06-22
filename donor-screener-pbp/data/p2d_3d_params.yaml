@@ -1,0 +1,76 @@
+# P2D / 3D micro-structure parameters for src/31_p2d_3d_micro.py
+# Newman 1991 P2D model + thermal + mechanical + 3D micro-structure
+
+p2d:
+  n_x: 30                   # discretization in x (across cell)
+  n_r: 15                   # radial discretization in particle
+  dt_s: 1.0                 # time step
+  n_steps: 200              # total steps
+  cfl: 0.4                  # CFL safety factor for adaptive dt
+
+  # Cell geometry
+  cathode_thickness_um: 80.0
+  anode_thickness_um: 80.0
+  separator_thickness_um: 25.0
+  particle_radius_um: 8.0
+
+  # Material parameters (NMC cathode / graphite anode / 1 M LiPF6 EC/DMC)
+  D_s_cathode_m2_s: 5e-15
+  D_s_anode_m2_s: 3.3e-14
+  D_e_m2_s: 3e-10
+  sigma_s_S_m: 100.0
+  sigma_e_S_m: 1.0
+  epsilon_electrolyte: 25.0
+  porosity_cathode: 0.30
+  porosity_anode: 0.40
+  porosity_separator: 0.45
+
+  # Initial concentrations
+  c_s_max_cathode_mol_m3: 49000.0
+  c_s_max_anode_mol_m3:  30000.0
+  c_e_initial_mol_m3:  1000.0
+  c_s_initial_cathode_frac: 0.5
+  c_s_initial_anode_frac:  0.85
+
+  # Kinetics
+  j0_cathode_A_m2: 36.0
+  j0_anode_A_m2: 18.0
+  alpha: 0.5
+
+  # OCV
+  U_cathode_V: 4.2          # as a function of c_s (we use a simple flat profile)
+  U_anode_V: 0.05
+
+thermal:
+  enabled: true
+  T_amb_K: 298.15
+  h_W_m2_K: 5.0             # convection coeff
+  k_solid_W_m_K: 1.0
+  k_electrolyte_W_m_K: 0.5
+  rho_kg_m3: 2500.0
+  cp_J_kg_K: 1000.0
+  entropic_coeff_V_per_K: -1.0e-4
+
+mechanical:
+  enabled: true
+  E_GPa: 10.0               # Young's modulus
+  nu: 0.3                   # Poisson ratio
+  Omega_m3_mol: 3.5e-6      # partial molar volume of Li
+  max_principal_stress_MPa: 50.0
+
+micro3d:
+  enabled: true
+  n_particles: 80           # 3D particle count
+  packing: "random_close"   # 'random_close' or 'fcc'
+  box_size_um: 100.0
+  rng_seed: 42
+
+operating:
+  c_rate: 1.0
+  T_initial_K: 298.15
+  depth_of_discharge: 0.8
+
+output:
+  voltage_curve: "results/p2d_voltage_curve.csv"
+  micro3d: "results/p2d_3d_micro.csv"
+  summary: "results/p2d_voltage_curve.json"

@@ -1,0 +1,28 @@
+# Lennard-Jones parameters (OPLS-AA inspired, simplified).
+# eps in eV, sigma in Angstrom, q in elementary charge.
+atoms:
+  H:  {eps: 0.00025, sigma: 2.50, q:  0.04}
+  C:  {eps: 0.00286, sigma: 3.50, q:  0.00}
+  N:  {eps: 0.00291, sigma: 3.25, q: -0.40}
+  O:  {eps: 0.00521, sigma: 2.96, q: -0.50}
+  F:  {eps: 0.00275, sigma: 2.85, q: -0.18}
+  P:  {eps: 0.00420, sigma: 3.74, q:  0.40}
+  S:  {eps: 0.01000, sigma: 3.55, q: -0.20}
+  Cl: {eps: 0.01190, sigma: 3.52, q: -0.18}
+  B:  {eps: 0.00350, sigma: 3.64, q:  0.30}
+  Li: {eps: 0.00099, sigma: 2.27, q:  1.00}
+
+# Pair mixing (Lorentz-Berthelot) is applied at runtime.
+md:
+  n_particles: 64
+  n_steps: 5000
+  timestep_fs: 1.0
+  temperature_K: 298.15
+  density_g_cm3: 0.79        # EC at 25 C
+  box_padding_factor: 1.5
+  cutoff_angstrom: 12.0
+  epsilon_r_relative: 12.0   # relative permittivity for Coulomb
+  thermostat_tau_fs: 100.0
+  equilibration_steps: 500
+  seed: 42
+  device: cpu

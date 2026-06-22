@@ -1,0 +1,33 @@
+# ML-AIMD parameters for src/30_ml_aimd.py
+# Foundation model: MACE-MP-0 medium (default) or CHGNet 0.3.0
+
+foundation:
+  backend: mace                # 'mace' or 'chgnet'
+  mace_model: "medium-mpa-0"   # mace_mp(model="medium-mpa-0")
+  chgnet_model: "0.3.0"        # CHGNet.load()
+  device: "cpu"                # 'cpu' or 'cuda'
+  fallback_to: "lj_coulomb"    # 'lj_coulomb' or 'none'
+
+interface:
+  substrate: "Li"              # 'Li' or 'Cu'
+  substrate_layers: 3
+  vacuum_A: 5.0
+  slab_separation_A: 2.5
+  in_plane_repeat: 2           # small supercell to keep AIMD fast
+
+md:
+  ensemble: "NVT"              # NVT or NVE
+  temperature_K: 300.0
+  timestep_fs: 1.0
+  n_steps: 100                 # production steps (default, tunable)
+  log_every: 10
+  friction_fs: 0.01            # Langevin friction
+
+neb:
+  enabled: true
+  n_images: 5                  # coarse, for ~5eV diffusion barrier
+  max_steps: 50
+
+output:
+  csv: "results/ml_aimd_interface.csv"
+  json: "results/ml_aimd_interface.json"

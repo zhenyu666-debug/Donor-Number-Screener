@@ -1,0 +1,18 @@
+key,name_en,name_zh,unit,low,high,typical,scale,source_id,notes_en,notes_zh
+slurry_viscosity_anode,Slurry viscosity (anode),浆料粘度（负极）,mPa·s,2000,10000,5000,pilot,batterydesign_viscosity,anode 2-10 Pa·s typical,负极2-10 Pa·s区间
+slurry_solid_content,Solid content,固含量,wt%,30,70,55,pilot,reynolds_2024,30-50 for graphite anode / up to 70 for cathode,负极30-50% / 正极可达70%
+comma_gap,Comma-bar gap,逗号间隙,µm,80,300,150,pilot,westphal_2021,pilot scale,中试规模
+coating_speed_pilot,Coating speed (pilot comma-bar),涂布速度（逗号中试）,m/min,0.3,5.0,1.5,pilot,westphal_2021,research comma-bar,实验室逗号棒
+coating_speed_industrial,Coating speed (industrial slot-die),涂布速度（工业狭缝）,m/min,30,80,50,industrial,liu_osti_2021,industrial slot-die up to 50 m/min,工业狭缝涂布速度达50米/分
+drying_T_zone1,Drying T zone 1,干燥一区温度,°C,80,150,110,pilot,westphal_2021,zone 1 hot; zones 2/3 ~110/95 C,一区温度最高；二区三区约110/95°C
+drying_length,Dryer length,干燥段长度,m,30,70,50,industrial,volta_catl_part1,multi-zone industrial dryer,多区工业干燥炉
+calender_speed,Calendering line speed,辊压线速度,m/min,0.5,10,5,pilot,westphal_2021,heated roll press,热辊压机
+calender_T,Calender roll T,辊压温度,°C,25,120,85,pilot,westphal_2021,rolls heated to 85 C in pilot,中试辊温85°C
+compaction_density,Compaction density,压实密度,g/cc,1.4,3.6,2.4,both,liu_osti_2021,graphite ~1.6 / NMC ~3.4,石墨~1.6 / NMC~3.4
+formation_C_rate,Formation C-rate,化成 C 倍率,C,0.05,0.20,0.10,both,an_2017_fast_formation,baseline C/20; alt up to C/5,基线C/20；替代工艺可达C/5
+formation_cycles,Formation cycles,化成循环数,cycles,1,5,3,both,an_2017_fast_formation,3 to 5 cycles typical,3至5次循环
+formation_V_window_lo,Formation lower cut-off,化成下截止,V,2.5,3.0,3.0,both,an_2017_fast_formation,2.5-3.0 V typical,2.5-3.0 V区间
+formation_V_window_hi,Formation upper cut-off,化成上截止,V,4.0,4.2,4.2,both,an_2017_fast_formation,4.0-4.2 V typical,4.0-4.2 V区间
+wetting_time,Electrolyte wetting time,浸润时间,h,3,48,12,both,an_2017_fast_formation,3 h lab / 12-48 h industrial,实验室3小时 / 工业12-48小时
+formation_T,Formation chamber T,化成温度,°C,25,45,45,both,bar_tal_2023_formation_modeling,45 C used in SEI-growth studies,SEI生长研究用45°C
+seeding_current,SEI seeding current density,SEI诱发电流密度,µA/cm²,4,71,18,both,dose_2019_sei_transport,galvanostatic SEI formation,恒电流SEI化成

@@ -1,0 +1,104 @@
+# Paper-curated extra SSEs (CAS / IOP high-throughput screening)
+# Hand-curated on top of OBELiX / COD / CEMP pulls.
+
+sse:
+  - id: P-01
+    name: "LGSSSI (high-entropy argyrodite)"
+    formula: "Li5.5PS4.5Cl1.5Br0.5I0.5"
+    family: halide
+    sigma_ion_S_cm: 3.22e-2
+    E_g_eV: 2.6
+    stability_window_V: 5.5
+    migration_barrier_eV: 0.18
+    cost_index: 2.5
+    source: "CAS 2025 LGSSSI"
+  - id: P-02
+    name: "Li2SiO3 (cathode coating)"
+    formula: "Li2SiO3"
+    family: oxide
+    sigma_ion_S_cm: 1.0e-9
+    E_g_eV: 6.5
+    stability_window_V: 5.0
+    migration_barrier_eV: 0.80
+    cost_index: 1.5
+    source: "IOP BVpath"
+  - id: P-03
+    name: "Li2SnO3 (cathode coating)"
+    formula: "Li2SnO3"
+    family: oxide
+    sigma_ion_S_cm: 1.0e-9
+    E_g_eV: 5.5
+    stability_window_V: 4.5
+    migration_barrier_eV: 0.70
+    cost_index: 4.0
+    source: "IOP BVpath"
+  - id: P-04
+    name: "O-doped Li3PS4"
+    formula: "Li3PS3.5O0.5"
+    family: sulfide
+    sigma_ion_S_cm: 3.2e-3
+    E_g_eV: 2.7
+    stability_window_V: 5.5
+    migration_barrier_eV: 0.28
+    cost_index: 1.2
+    source: "Sci.Rep. 5 14227 (2015)"
+  - id: P-05
+    name: "Li3YCl6 (halide)"
+    formula: "Li3YCl6"
+    family: halide
+    sigma_ion_S_cm: 1.0e-3
+    E_g_eV: 5.0
+    stability_window_V: 4.0
+    migration_barrier_eV: 0.34
+    cost_index: 6.0
+    source: "Asano 2018"
+  - id: P-06
+    name: "Li3InCl6"
+    formula: "Li3InCl6"
+    family: halide
+    sigma_ion_S_cm: 8.0e-4
+    E_g_eV: 4.8
+    stability_window_V: 4.0
+    migration_barrier_eV: 0.40
+    cost_index: 7.0
+    source: "Li 2019"
+  - id: P-07
+    name: "Li2ZrCl6"
+    formula: "Li2ZrCl6"
+    family: halide
+    sigma_ion_S_cm: 8.0e-4
+    E_g_eV: 5.2
+    stability_window_V: 4.5
+    migration_barrier_eV: 0.38
+    cost_index: 5.5
+    source: "Kwak 2021"
+  - id: P-08
+    name: "LiNbO3"
+    formula: "LiNbO3"
+    family: oxide
+    sigma_ion_S_cm: 1.0e-7
+    E_g_eV: 4.0
+    stability_window_V: 4.0
+    migration_barrier_eV: 0.55
+    cost_index: 5.0
+    source: "IOP BVpath"
+  - id: P-09
+    name: "LiTaO3"
+    formula: "LiTaO3"
+    family: oxide
+    sigma_ion_S_cm: 1.0e-7
+    E_g_eV: 4.5
+    stability_window_V: 4.0
+    migration_barrier_eV: 0.55
+    cost_index: 8.0
+    source: "IOP BVpath"
+  - id: P-10
+    name: "LiBH4 (hydride)"
+    formula: "LiBH4"
+    family: hydride
+    sigma_ion_S_cm: 1.0e-4
+    E_g_eV: 5.5
+    stability_window_V: 3.0
+    migration_barrier_eV: 0.50
+    cost_index: 2.0
+    source: "Matsuo 2011"

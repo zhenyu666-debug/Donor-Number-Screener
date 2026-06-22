@@ -1,0 +1,6 @@
+smiles,name,dn_expt,source
+FP(F)(F)F,Fluoroethylene carbonate (FEC),24.0,Yamada 2014
+C1COC(=O)O1,Ethylene carbonate (EC),19.9,Yamada 2014
+C1COCO1,1,3-Dioxolane (DOL),21.0,Yamada 2014
+CC(=O)Cl,Acetyl chloride (additive),18.5,Amanchukwu 2015
+[Li+].[O=C(OC(C)(C)C)OC(C)(C)C],LiBOB reference,22.0,Xu 2002
