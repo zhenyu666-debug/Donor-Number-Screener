@@ -118,10 +118,23 @@ def main():
         f'(latest 5-model stacking run)</tspan></text>',
     ]
 
-    drawer = rdMolDraw2D.MolDraw2DSVG(cell_w - 30, cell_h - 70)
-    opts = drawer.drawOptions()
-    opts.bondLineWidth = 1.5
-    opts.padding = 0.05
+    # IMPORTANT: a single rdMolDraw2D.MolDraw2DSVG accumulates its drawing
+    # state across DrawMolecule() calls — calling ClearDrawing() between
+    # calls is a no-op in the RDKit version pinned here, so each iteration's
+    # output grows to contain all previous molecules wrapped in nested
+    # <svg>...</svg> fragments. That injection of extra </svg> closing
+    # tags inside the body produces a malformed SVG that GitHub refuses
+    # to render ("Unable to render code block") and balloons the file
+    # from ~200 KB to ~1.8 MB.
+    #
+    # The robust fix is to instantiate a fresh drawer per molecule. The
+    # per-iteration drawer configuration is kept identical.
+
+    def _new_drawer():
+        d = rdMolDraw2D.MolDraw2DSVG(cell_w - 30, cell_h - 70)
+        d.drawOptions().bondLineWidth = 1.5
+        d.drawOptions().padding = 0.05
+        return d
 
     for i, (smi, dn, mol) in enumerate(zip(df["smiles"], dns, mols)):
         r, c = i // cols, i % cols
@@ -138,13 +151,17 @@ def main():
 
         # Molecule (or fallback)
         if mol is not None:
+            drawer = _new_drawer()
             drawer.DrawMolecule(mol)
             drawer.FinishDrawing()
             inner_svg = drawer.GetDrawingText()
-            # Strip outer <svg> tags to embed
-            start = inner_svg.find(">") + 1
-            end = inner_svg.rfind("</svg>")
-            inner = inner_svg[start:end]
+            # Strip the outer <svg ...> and </svg> tags from RDKit's
+            # per-molecule fragment. Use the FIRST <svg> tag and the LAST
+            # </svg> tag to be robust to whatever XML preamble RDKit emits.
+            first_svg_open = inner_svg.find("<svg")
+            first_svg_close = inner_svg.find(">", first_svg_open) + 1
+            last_svg_close = inner_svg.rfind("</svg>")
+            inner = inner_svg[first_svg_close:last_svg_close]
             parts.append(
                 f'<g transform="translate({x+10},{y+10})" '
                 f'fill="white" stroke="black">{inner}</g>'
