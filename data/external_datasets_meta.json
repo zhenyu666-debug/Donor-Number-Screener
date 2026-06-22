@@ -1,0 +1,52 @@
+{
+  "fetched_at": "2026-06-22T01:43:57Z",
+  "elapsed_s": 64.07,
+  "offline": false,
+  "n_total_merged": 17180,
+  "per_source": {
+    "combat": 56,
+    "calisol": 13270,
+    "electrolytomics_cond": 10196,
+    "electrolytomics_oxstab": 16319,
+    "electrolytomics_ce": 142,
+    "donor_number_dft": 16,
+    "superionic_mchaffie": 571
+  },
+  "sources": {
+    "combat": {
+      "license": "MIT",
+      "doi": "10.5281/zenodo.7830272",
+      "description": "ComBat Li-S electrolyte quantum chemistry and MD database"
+    },
+    "electrolytomics_cond": {
+      "license": "MIT",
+      "doi": "10.1021/acs.chemmater.4c03196",
+      "description": "Electrolytomics ionic conductivity datasets"
+    },
+    "electrolytomics_oxstab": {
+      "license": "MIT",
+      "doi": "10.1021/acs.chemmater.4c03196",
+      "description": "Electrolytomics oxidation stability datasets"
+    },
+    "electrolytomics_ce": {
+      "license": "MIT",
+      "doi": "10.1021/acs.chemmater.4c03196",
+      "description": "Electrolytomics Coulombic efficiency dataset"
+    },
+    "calisol": {
+      "license": "CC BY 4.0",
+      "doi": "10.1038/s41597-024-03575-8",
+      "description": "CALiSol-23 experimental ionic conductivity atlas"
+    },
+    "dn_dft": {
+      "license": "MIT",
+      "doi": "10.5281/zenodo.3998765",
+      "description": "DFT-calculated donor numbers from DonorNumberPrediction"
+    },
+    "superionic": {
+      "license": "CC BY 4.0",
+      "doi": "10.22002/23mvv-6gk43",
+      "description": "McHaffie superionic Li conductor database from CaltechDATA"
+    }
+  }
+}

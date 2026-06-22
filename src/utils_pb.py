@@ -20,6 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
 RESULTS_DIR = REPO_ROOT / "results"
 PARAMS_DIR = DATA_DIR
+EXTERNAL_DATA_DIR = DATA_DIR  # external mirrored datasets live alongside internal data
 
 K_B = 1.380649e-23       # J/K
 K_B_eV = 8.617333262e-5   # eV/K

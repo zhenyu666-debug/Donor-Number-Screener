@@ -1,9 +1,10 @@
 {
-  "n_obelix": 0,
-  "n_cod": 0,
+  "n_obelix": 599,
+  "n_cod": 18,
   "n_cemp": 0,
   "n_paper_extra": 10,
-  "n_combined": 10,
-  "elapsed_s": 0.02,
-  "offline": true
+  "n_superionic": 571,
+  "n_combined": 761,
+  "elapsed_s": 113.75,
+  "offline": false
 }

@@ -751,10 +751,15 @@ port 8002) exposes three new endpoints (`/aimd_interface`, `/p2d_solve`,
    - log10(sigma_ion), E_g, stability_window, -migration_barrier, -cost
    - reports per-objective Top-3, a balanced representative, and one
      representative per family (sulfide / oxide / halide / polymer / ...)
+10. **External datasets fetcher** ([`src/p36_fetch_external_datasets.py`](src/p36_fetch_external_datasets.py)) —
+    mirrors six open Li-battery electrolyte databases (ComBat, Electrolytomics,
+    CALiSol-23, DonorNumberPrediction, McHaffie superionic) into `data/` for
+    offline use and merges them into a unified `merged_electrolyte_library.csv`.
 
 ```bash
 python src/p34_fetch_sse_datasets.py --offline
 python src/p35_pareto_best_sse.py
+python src/p36_fetch_external_datasets.py
 python -m pytest tests/test_pbp_fetch_sse.py tests/test_pbp_pareto.py -v
 ```
 
@@ -809,6 +814,40 @@ python -m pytest tests/test_pbp_*.py -v
 | [`data/sse_datasets_meta.json`](data/sse_datasets_meta.json) | per-source fetch counts + elapsed time |
 | [`data/pareto_front.csv`](data/pareto_front.csv) | non-dominated SSEs |
 | [`data/pareto_summary.json`](data/pareto_summary.json) | top-3 per objective + family representatives |
+
+## External Data Sources
+
+The repo mirrors six open datasets of lithium battery electrolytes into `data/`
+so they are always available offline. Run:
+
+```bash
+python src/p36_fetch_external_datasets.py         # fetch + merge
+python src/p36_fetch_external_datasets.py --offline  # use cached files
+```
+
+Outputs:
+
+| File | Source | License | Records | Description |
+|---|---|---|---|---|
+| [`data/external_solvents_combat.csv`](data/external_solvents_combat.csv) | [ComBat](https://github.com/rashatwi/combat) | MIT | ~100+ | Li-S DFT binding energies, MD properties, DN for 16 chemical classes |
+| [`data/external_electrolytomics_conductivity.csv`](data/external_electrolytomics_conductivity.csv) | [Electrolytomics](https://github.com/AmanchukwuLab/electrolytomics) | MIT | ~1000+ | Ionic conductivity of liquid electrolytes |
+| [`data/external_electrolytomics_oxstab.csv`](data/external_electrolytomics_oxstab.csv) | Electrolytomics | MIT | ~10 000+ | Oxidation/reduction stability of liquid electrolytes |
+| [`data/external_electrolytomics_ce.csv`](data/external_electrolytomics_ce.csv) | Electrolytomics | MIT | ~100+ | Coulombic efficiency data |
+| [`data/external_conductivity_calisol.csv`](data/external_conductivity_calisol.csv) | [CALiSol-23](https://doi.org/10.1038/s41597-024-03575-8) | CC BY 4.0 | 13 825 | Experimental ionic conductivity atlas (38 solvents, 14 Li salts, 27 papers) |
+| [`data/external_dn_dft.csv`](data/external_dn_dft.csv) | [DonorNumberPrediction](https://github.com/mqcomplab/DonorNumberPrediction) | MIT | ~100+ | DFT-calculated donor numbers (conceptual DFT) |
+| [`data/external_sse_superionic.csv`](data/external_sse_superionic.csv) | [McHaffie/CaltechDATA](https://doi.org/10.22002/23mvv-6gk43) | CC BY 4.0 | ~500+ | Superionic Li conductors: crystal structure + ionic conductivity |
+| [`data/merged_electrolyte_library.csv`](data/merged_electrolyte_library.csv) | All of the above | — | varies | Unified deduplicated master table (all sources) |
+| [`data/external_datasets_meta.json`](data/external_datasets_meta.json) | — | — | — | Fetch log: per-source row counts, elapsed time, DOI |
+
+Unified schema (`merged_electrolyte_library.csv`):
+`id, source_db, smiles, name, cas, dn, an, epsilon_r, viscosity_cp, dipole_debye, conductivity_S_cm, oxidation_V, reduction_V, family, doi, license, notes`
+
+Attribution:
+- ComBat: Atwi et al., [doi:10.5281/zenodo.7830272](https://doi.org/10.5281/zenodo.7830272)
+- Electrolytomics: Kumar et al., [doi:10.1021/acs.chemmater.4c03196](https://doi.org/10.1021/acs.chemmater.4c03196)
+- CALiSol-23: de Blasio et al., [doi:10.1038/s41597-024-03575-8](https://doi.org/10.1038/s41597-024-03575-8)
+- DonorNumberPrediction: Miranda-Quintana & Smiatek, [doi:10.5281/zenodo.3998765](https://doi.org/10.5281/zenodo.3998765)
+- McHaffie superionic: [doi:10.22002/23mvv-6gk43](https://doi.org/10.22002/23mvv-6gk43)
 
 ## EEI Dissolution Solvent Screening (DEER Layer)
 

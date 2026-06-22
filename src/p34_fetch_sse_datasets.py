@@ -1,4 +1,4 @@
-﻿"""34_fetch_sse_datasets.py - Fetch and merge SSE datasets from 4 sources.
+﻿"""34_fetch_sse_datasets.py - Fetch and merge SSE datasets from 5 sources.
 
 Sources (in priority order):
   1. OBELiX (NRC-Mila)  - https://raw.githubusercontent.com/NRC-Mila/OBELiX/main/data/downloads/all.csv
@@ -7,6 +7,9 @@ Sources (in priority order):
   3. CEMP (cleanenergymaterials.cn) - lightweight HTTP probe, no public stable API
      (graceful fallback: empty)
   4. paper_sse_extra.yaml - hand-curated CAS / IOP high-throughput results
+  5. McHaffie/CaltechDATA superionic conductors
+     https://data.caltech.edu/records/gz5xf-m5051/files/superionic_conductors.csv
+     doi:10.22002/23mvv-6gk43, Digital Discovery 2025
 
 Unified schema (one row per material):
     id, formula, name, family, source,
@@ -37,6 +40,9 @@ from utils_pb import DATA_DIR, write_csv, write_json, set_seed  # noqa: E402
 
 OBELIX_URL = ("https://raw.githubusercontent.com/NRC-Mila/OBELiX/"
               "main/data/downloads/all.csv")
+
+SUPERIONIC_URL = ("https://data.caltech.edu/records/23mvv-6gk43/files/ionic_conductivity_database.csv")
+SUPERIONIC_FALLBACK = ("https://data.caltech.edu/records/gz5xf-m5051/files/ionic_conductivity_database.csv")
 
 # Known COD IDs for the 14 SSE in sse_library.yaml. These are public,
 # illustrative numbers - if a fetch fails we just mark source='cod_not_found'.
@@ -254,6 +260,50 @@ def fetch_cemp() -> List[Dict[str, Any]]:
         return []
 
 
+def fetch_superionic() -> List[Dict[str, Any]]:
+    """Fetch McHaffie superionic Li conductor database from CaltechDATA.
+    doi: 10.22002/23mvv-6gk43 — 548 Li compounds with ionic conductivity.
+    """
+    data = http_get(SUPERIONIC_URL, timeout=60.0)
+    if not data:
+        data = http_get(SUPERIONIC_FALLBACK, timeout=60.0)
+    if not data:
+        return []
+    text = data.decode("utf-8", errors="replace")
+    rows: List[Dict[str, Any]] = []
+    for i, r in enumerate(csv.DictReader(io.StringIO(text))):
+        formula = (r.get("formula") or r.get("Formula") or r.get("compound") or "").strip()
+        if not formula:
+            continue
+        try:
+            ic = float(r.get("ionic_conductivity") or r.get("conductivity") or r.get("conductivity_siemens_per_cm") or "nan")
+        except Exception:
+            ic = float("nan")
+        try:
+            eg = float(r.get("band_gap") or r.get("Eg") or "nan")
+        except Exception:
+            eg = float("nan")
+        row = {
+            "id": f"SUP-{i:04d}",
+            "formula": formula,
+            "name": formula,
+            "family": "superionic",
+            "source": "McHaffie-CaltechDATA",
+            "sigma_ion_S_cm": ic,
+            "E_g_eV": eg,
+            "stability_window_V": float("nan"),
+            "migration_barrier_eV": float("nan"),
+            "cost_index": formula_cost(formula),
+            "dn_pbp_v2": float("nan"),
+            "a_A": 0.0, "b_A": 0.0, "c_A": 0.0,
+            "space_group": r.get("space_group") or "",
+            "DOI": "10.22002/23mvv-6gk43",
+        }
+        rows.append(row)
+    print(f"[fetch] McHaffie-superionic: {len(rows)} rows")
+    return rows
+
+
 def fetch_paper_extra() -> List[Dict[str, Any]]:
     p = DATA_DIR / "paper_sse_extra.yaml"
     if not p.exists():
@@ -396,19 +446,21 @@ def main() -> int:
     set_seed(0)
     t0 = time.time()
     if args.offline:
-        obelix, cod, cemp = [], [], []
+        obelix, cod, cemp, superionic = [], [], [], []
     else:
         obelix = fetch_obelix()
         cod = fetch_cod()
         cemp = fetch_cemp()
+        superionic = fetch_superionic()
     paper = fetch_paper_extra()
-    rows = merge([obelix, cod, cemp, paper])
+    rows = merge([obelix, cod, cemp, paper, superionic])
     write_csv(Path(args.out_csv), rows)
     meta = {
         "n_obelix": len(obelix),
         "n_cod": len(cod),
         "n_cemp": len(cemp),
         "n_paper_extra": len(paper),
+        "n_superionic": len(superionic),
         "n_combined": len(rows),
         "elapsed_s": round(time.time() - t0, 2),
         "offline": args.offline,
@@ -416,7 +468,8 @@ def main() -> int:
     write_json(Path(args.out_json), meta)
     print(f"[merge] {len(rows)} unique SSEs in {args.out_csv}")
     print(f"  sources: OBELiX={len(obelix)} COD={len(cod)} "
-          f"CEMP={len(cemp)} paper={len(paper)}")
+          f"CEMP={len(cemp)} paper={len(paper)} "
+          f"superionic={len(superionic)}")
     return 0
 
 

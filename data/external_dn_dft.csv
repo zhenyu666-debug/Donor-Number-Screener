@@ -1,0 +1,17 @@
+id,source_db,smiles,name,cas,dn,reference_acid,inert_solvent,an,epsilon_r,viscosity_cp,dipole_debye,conductivity_S_cm,oxidation_V,reduction_V,family,doi,license,notes
+DN-0000,DonorNumberPrediction,,solvent,,nan,reference_acid,inert_solvent,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0001,DonorNumberPrediction,,DMSO,,29.8,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0002,DonorNumberPrediction,,Tetramethylurea,,29.6,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0003,DonorNumberPrediction,,Methylpyrrolidinone,,27.3,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0004,DonorNumberPrediction,,Methylformamide,,27.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0005,DonorNumberPrediction,,Dimethylformamide,,26.6,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0006,DonorNumberPrediction,,Formamide,,24.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0007,DonorNumberPrediction,,Ethylene glycol,,20.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0008,DonorNumberPrediction,,GBL,,18.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0009,DonorNumberPrediction,,EC,,16.4,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0010,DonorNumberPrediction,,DMC,,16.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0011,DonorNumberPrediction,,DEC,,16.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0012,DonorNumberPrediction,,PC,,15.1,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0013,DonorNumberPrediction,,Benzonitrile,,11.9,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0014,DonorNumberPrediction,,Chloroform,,4.0,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
+DN-0015,DonorNumberPrediction,,Nitromethane,,2.7,SbCl5,DCE,nan,nan,nan,nan,nan,nan,nan,liquid_electrolyte,10.5281/zenodo.3998765,MIT,DFT-calculated donor number
