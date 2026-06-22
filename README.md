@@ -1,5 +1,28 @@
 # donor-number-screener
 
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Code%20Style-ruff-FCC21B.svg?style=flat-square&logo=ruff&logoColor=black" alt="Ruff">
+  <img src="https://img.shields.io/badge/Tests-86%20passing-brightgreen.svg?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/PRs-welcome-orange.svg?style=flat-square" alt="PRs">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/ML-scikit--learn%20%7C%20XGBoost%20%7C%20PyTorch-F8991D.svg?style=flat-square" alt="ML stack">
+  <img src="https://img.shields.io/badge/API-FastAPI%20%7C%20Pydantic-009688.svg?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Streaming-Kafka%20%7C%20Flink%20%7C%20Iceberg%20%7C%20Trino-231F20.svg?style=flat-square&logo=apachekafka&logoColor=white" alt="Streaming">
+  <img src="https://img.shields.io/badge/Cloud-MaxCompute%20%7C%20Hologres%20%7C%20DataWorks-FF6A00.svg?style=flat-square&logo=alibabacloud&logoColor=white" alt="Aliyun">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Domain-Li--S%20Battery%20%7C%20Solid%20Electrolyte-blueviolet.svg?style=flat-square" alt="Domain">
+  <img src="https://img.shields.io/badge/Cost-DFT--free%20%7C%20laptop--friendly-success.svg?style=flat-square" alt="Cost">
+  <img src="https://img.shields.io/github/stars/zhenyu666-debug/Donor-Number-Screener?style=flat-square" alt="Stars">
+  <img src="https://img.shields.io/github/forks/zhenyu666-debug/Donor-Number-Screener?style=flat-square" alt="Forks">
+  <img src="https://img.shields.io/github/last-commit/zhenyu666-debug/Donor-Number-Screener?style=flat-square" alt="Last commit">
+</p>
+
 > **[English](#english) | [中文](#chinese)**
 
 ## English
