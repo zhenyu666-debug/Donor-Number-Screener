@@ -1,0 +1,118 @@
+﻿# 14-step lithium-ion cell manufacturing process map
+# Aligned with Volta Foundation CATL part 1+2 public description.
+# Bilingual: every step has name_en/name_zh, equipment_en/equipment_zh,
+# purpose_en/purpose_zh. param_hint keys must match a key in parameter_ranges.csv.
+
+steps:
+  - id: ST-01
+    name_en: "Mixing (slurry preparation)"
+    name_zh: "混料（浆料制备）"
+    equipment_en: "planetary / high-shear mixer"
+    equipment_zh: "行星式 / 高剪切搅拌机"
+    purpose_en: "Homogeneous dispersion of active material, binder, conductive carbon in solvent"
+    purpose_zh: "将活性物质、粘结剂、导电碳在溶剂中均匀分散"
+    param_hint: "slurry_viscosity_anode"
+  - id: ST-02
+    name_en: "Coating"
+    name_zh: "涂布"
+    equipment_en: "comma-bar / slot-die coater"
+    equipment_zh: "逗号棒 / 狭缝挤压涂布机"
+    purpose_en: "Deposit uniform wet film on current collector foil"
+    purpose_zh: "在集流体表面均匀涂布湿膜"
+    param_hint: "comma_gap"
+  - id: ST-03
+    name_en: "Drying"
+    name_zh: "干燥"
+    equipment_en: "multi-zone convective dryer"
+    equipment_zh: "多区对流干燥炉"
+    purpose_en: "Evaporate solvent, control binder migration and porosity"
+    purpose_zh: "蒸发溶剂，抑制粘结剂迁移并控制孔隙率"
+    param_hint: "drying_T_zone1"
+  - id: ST-04
+    name_en: "Calendering"
+    name_zh: "辊压"
+    equipment_en: "heated roll press"
+    equipment_zh: "热辊压机"
+    purpose_en: "Compact electrode to target density and porosity"
+    purpose_zh: "将极片压实到目标密度与孔隙率"
+    param_hint: "compaction_density"
+  - id: ST-05
+    name_en: "Slitting"
+    name_zh: "分切"
+    equipment_en: "circular blade slitter"
+    equipment_zh: "圆刀分切机"
+    purpose_en: "Cut electrode web to cathode/anode width"
+    purpose_zh: "将极片切成正负极宽度"
+    param_hint: null
+  - id: ST-06
+    name_en: "Notching"
+    name_zh: "极耳成型"
+    equipment_en: "notching die / laser cutter"
+    equipment_zh: "模切 / 激光切极耳机"
+    purpose_en: "Cut electrode tabs for current collection"
+    purpose_zh: "切出极耳用于电流导出"
+    param_hint: null
+  - id: ST-07
+    name_en: "Stacking / Winding"
+    name_zh: "叠片 / 卷绕"
+    equipment_en: "Z-stacker / winder"
+    equipment_zh: "Z字叠片机 / 卷绕机"
+    purpose_en: "Assemble cathode | separator | anode sandwich (prismatic: stacking; cylindrical: winding)"
+    purpose_zh: "组装正极|隔膜|负极三明治结构（方形：叠片；圆柱：卷绕）"
+    param_hint: null
+  - id: ST-08
+    name_en: "Packaging (shell + tab welding)"
+    name_zh: "封装（外壳焊接）"
+    equipment_en: "laser welder / pouch sealer"
+    equipment_zh: "激光焊接机 / 软包封装机"
+    purpose_en: "Seal cell in aluminum-laminate pouch or metal can"
+    purpose_zh: "封装电芯到铝塑膜或金属壳"
+    param_hint: null
+  - id: ST-09
+    name_en: "Electrolyte filling + wetting"
+    name_zh: "注液与浸润"
+    equipment_en: "vacuum filler"
+    equipment_zh: "真空注液机"
+    purpose_en: "Inject electrolyte and let it wet the porous stack"
+    purpose_zh: "注入电解液并浸润多孔电极堆"
+    param_hint: "wetting_time"
+  - id: ST-10
+    name_en: "Formation (SEI growth)"
+    name_zh: "化成（SEI生长）"
+    equipment_en: "formation cycler + climate chamber"
+    equipment_zh: "化成柜 + 温箱"
+    purpose_en: "First slow charge(s) to grow stable SEI on anode"
+    purpose_zh: "首次慢充使负极形成稳定SEI"
+    param_hint: "formation_C_rate"
+  - id: ST-11
+    name_en: "Aging"
+    name_zh: "老化（搁置）"
+    equipment_en: "aging room (45 C)"
+    equipment_zh: "老化房（45摄氏度）"
+    purpose_en: "Stabilize SEI; detect self-discharge defects"
+    purpose_zh: "稳定SEI；筛选自放电异常电芯"
+    param_hint: null
+  - id: ST-12
+    name_en: "Capacity grading (sorting)"
+    name_zh: "分容（容量分选）"
+    equipment_en: "cycler + dQ/dV sorter"
+    equipment_zh: "分容柜 + dQ/dV 分选"
+    purpose_en: "Measure capacity / DCIR, sort into packs"
+    purpose_zh: "测量容量与直流内阻，按档位配组"
+    param_hint: null
+  - id: ST-13
+    name_en: "Module / pack assembly"
+    name_zh: "模组与PACK组装"
+    equipment_en: "module pack line + BMS"
+    equipment_zh: "模组PACK线 + BMS"
+    purpose_en: "Series-parallel cells with BMS and thermal management"
+    purpose_zh: "串并联组装，连接BMS与热管理"
+    param_hint: null
+  - id: ST-14
+    name_en: "EOL test + shipment"
+    name_zh: "下线测试与出厂"
+    equipment_en: "EOL cycler + HIPOT tester"
+    equipment_zh: "下线测试仪 + 安规测试仪"
+    purpose_en: "Final performance and safety verification"
+    purpose_zh: "最终性能与安全验证"
+    param_hint: null
