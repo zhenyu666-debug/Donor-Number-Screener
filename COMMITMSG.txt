@@ -1,24 +1,10 @@
-feat: add v5 SHAP interactions, calibration reliability, Streamlit demo, and drift monitor
+test: add compute_drift_report and calibrate_top20 coverage; fix dead code
 
-New files:
-- src/p45_shap_interactions.py: SHAP interaction values (TreeExplainer) over top-20
-  features x 4 tree models; heatmap + ranked pairs
-- src/p46_calibration.py: ECE/MCE reliability diagram, isotonic + Platt calibration
-  of 5-model ensemble; adds calibrated columns to top-20 output
-- streamlit_app.py: interactive demo with Single SMILES / Batch / Calibration /
-  Drift tabs; graceful fallback when API server is offline
-- src/p47_drift_monitor.py: webhook server (POST /drift/webhook) + polling
-  client + one-shot check; tracks drift_history.json and drift_alerts.json
-- tests/test_v5.py: smoke tests for p45/p46/p47 + streamlit import
+- test_v5.py: add test_p47_compute_drift_report (validates report
+  structure, severity assignment, and empty-data handling with seed).
+  add test_p46_calibrate_top20_schema (patches DATA_DIR to tmp_path,
+  verifies dn_iso_calibrated and dn_platt_calibrated columns are written).
+  add import pandas as pd to support new tests.
 
-API enhancements (src/15_api_server.py):
-- GET /calibration/metrics endpoint
-- /screen_top responses include dn_iso_calibrated, dn_platt_calibrated
-
-Bug fixes:
-- src/viz/ deleted (broken import of non-existent figures.py)
-- cn_elexacaftor.md: section 4 duplicate fixed; garbled Chinese restored
-- ruff.toml: removed stale src/viz/ exclusion
-
-Docs:
-- README: v5 features section (EN + CN); updated requirements.txt
+- p46_calibration.py: remove dead pd.read_csv(DATA_DIR / "descriptors_v2.csv")
+  call (read without using, replaced by plain labels read that is actually used).

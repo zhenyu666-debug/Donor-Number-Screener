@@ -423,7 +423,6 @@ def calibrate_top20(
         y_top = df[dn_col].values.astype(np.float64)
 
         # Normalise using approximate global range
-        pd.read_csv(DATA_DIR / "descriptors_v2.csv")  # verify file exists
         labels = pd.read_csv(DATA_DIR / "dn_labels.csv")
         anchors = labels["dn_final"].dropna().values
         lo, hi = anchors.min(), anchors.max()

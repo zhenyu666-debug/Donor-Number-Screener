@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
@@ -132,6 +133,39 @@ def test_p46_coverage():
     assert cov == 1.0, "All values in range should give coverage=1.0"
 
 
+def test_p46_calibrate_top20_schema(tmp_path):
+    """calibrate_top20 writes expected columns when top20 file exists."""
+    from p46_calibration import calibrate_top20
+    from sklearn.isotonic import IsotonicRegression
+    from sklearn.linear_model import LogisticRegression
+
+    # Create a fake top20 file and anchor labels
+    top20 = tmp_path / "top20_candidates_5model.csv"
+    labels = tmp_path / "dn_labels.csv"
+    out = tmp_path / "calibrated_top20.csv"
+
+    # Use a different path for the function's DATA_DIR check — patch it
+    import p46_calibration
+    orig_data_dir = p46_calibration.DATA_DIR
+    try:
+        p46_calibration.DATA_DIR = tmp_path
+
+        pd.DataFrame({"smiles": ["CC", "CO"], "dn_final": [10.0, 20.0]}).to_csv(top20, index=False)
+        pd.DataFrame({"dn_final": [0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0]}).to_csv(labels, index=False)
+
+        iso = IsotonicRegression().fit([0.1, 0.9], [0.0, 1.0])
+        platt = LogisticRegression().fit([[0.1], [0.9]], [0, 1])
+
+        calibrate_top20(iso, platt, out)
+
+        assert out.exists(), "calibrate_top20 should write output file"
+        df = pd.read_csv(out)
+        assert "dn_iso_calibrated" in df.columns
+        assert "dn_platt_calibrated" in df.columns
+    finally:
+        p46_calibration.DATA_DIR = orig_data_dir
+
+
 # ---------------------------------------------------------------------------
 # p47 — Drift monitor
 # ---------------------------------------------------------------------------
@@ -152,6 +186,33 @@ def test_p47_psi_computation():
     psi = compute_psi_col(new_vals, bin_edges, baseline_probs)
     assert psi >= 0.0, f"PSI should be non-negative: {psi}"
     assert psi < 2.0, f"PSI unexpectedly large for random vs uniform: {psi}"
+
+
+def test_p47_compute_drift_report():
+    """compute_drift_report returns correct structure and severity."""
+    from p47_drift_monitor import compute_drift_report
+
+    bin_edges = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    baseline_probs = np.full(len(bin_edges) - 1, 0.25)
+    baselines = {"feat_a": (bin_edges, baseline_probs)}
+    feat_cols = ["feat_a"]
+
+    # Identical distribution → PSI ≈ 0 → OK
+    df = pd.DataFrame({"feat_a": np.random.rand(100)})
+    np.random.seed(0)
+    report = compute_drift_report(df, feat_cols, baselines)
+
+    assert "timestamp" in report
+    assert "overall_psi" in report
+    assert "per_feature_psi" in report
+    assert "severity" in report
+    assert "feat_a" in report["per_feature_psi"]
+    assert report["overall_psi"] >= 0.0
+    assert report["severity"] in ("OK", "INFO", "WARNING", "CRITICAL")
+
+    # Empty dataframe → zero PSI
+    empty_report = compute_drift_report(pd.DataFrame(), feat_cols, baselines)
+    assert empty_report["overall_psi"] == 0.0
 
 
 def test_p47_severity_levels():
