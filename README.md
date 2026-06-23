@@ -838,10 +838,114 @@ python -m pytest tests/test_pbp_*.py -v
 | [`data/pareto_front.csv`](data/pareto_front.csv) | non-dominated SSEs |
 | [`data/pareto_summary.json`](data/pareto_summary.json) | top-3 per objective + family representatives |
 
-## External Data Sources
+## 粒子-贝叶斯-物理 (PBP) 层
 
-The repo mirrors six open datasets of lithium battery electrolytes into `data/`
-so they are always available offline. Run:
+四个物理模拟器 + v2.1 数据集获取器 + 多目标 Pareto，配合 5 模型 GBDT 堆叠使用。
+
+### v1 - 四个物理模型
+
+1. **粒子 MD** ([src/p24_particle_md.py](src/p24_particle_md.py)) -
+   64 粒子周期性盒子中的 Lennard-Jones + Coulomb NVT 模拟。
+   输出 Li-O 径向分布 g(r)、Li-O 配位数和 DN 修正值。
+2. **碰撞截面** ([src/p25_collision_xs.py](src/p25_collision_xs.py)) -
+   基于 LJ 势的经典散射。输出输运截面 sigma*、无量纲碰撞积分 Omega^(1,1)、
+   迁移率 mu 和 Nernst-Einstein 离子电导率 kappa。
+3. **贝叶斯朗之万扩散** ([src/p26_bayesian_langevin.py](src/p26_bayesian_langevin.py)) -
+   基于 5 模型堆叠高斯后验的 994 维随机梯度朗之万动力学。
+   多链采样，含 R-hat 诊断、95% CI、有效样本量。
+4. **SEI / EDL 阻抗** ([src/p27_sei_edl.py](src/p27_sei_edl.py)) -
+   三明治结构（正极 | CEI | 电解液 | SEI | 锂金属）解析模型。
+   Helmholtz 电容、Butler-Volmer 动力学、Nernst-Planck 体相电导率，
+   以及 DN 穿透致密 SEI 层的衰减因子。
+
+校准脚本 ([src/p28_calibrate_5anchors.py](src/p28_calibrate_5anchors.py))
+在五个新锚定分子（FEC、EC、DOL、乙酰氯、LiBOB）上运行以上四个模型，
+输出 MAE / RMSE 与实验 DN 值的对比。
+
+FastAPI 服务 ([src/p29_pbp_api.py](src/p29_pbp_api.py)) 暴露 6 个端点
+(/health, /particle_dn, /collision_xs, /langevin_dn, /sei_impedance, /pbp_combine)。
+
+### v2 - 微观 + 宏观物理
+
+5. **ML-AIMD** ([src/p30_ml_aimd.py](src/p30_ml_aimd.py)) - 基于 MACE-MP-0 / CHGNet
+   基础模型 + ASE NVT 的 ML 加速 MD。构建 Li | SSE 界面，输出界面黏附能、
+   Li 迁移势垒和 DN 修正值。当 MACE/CHGNet/ASE 不可用时回退到 LJ + Coulomb。
+6. **P2D + 3D 微观结构** ([src/p31_p2d_3d_micro.py](src/p31_p2d_3d_micro.py)) -
+   完整 Newman 1991 P2D（径向 + 1D + Butler-Volmer + Poisson），并附加三个耦合场：
+   - 热场：傅里叶热传导 + 焦耳热 + 熵热
+   - 力学场：胡克定律 + 扩散诱导应力
+   - 3D 微观：随机密堆 NMC 颗粒，每颗粒含 per-particle j
+7. **SSE 重排序** ([src/p32_sse_redn.py](src/p32_sse_redn.py)) - 用 7 模型组合 DN
+   重新估算 14 种主流固态电解质（Li3PS4、Li6PS5Cl、LGPS、Li7P3S11 等）的排序。
+
+第二个 FastAPI 服务 ([src/p33_pbp_v2_api.py](src/p33_pbp_v2_api.py), 端口 8002)
+暴露三个新端点 (/aimd_interface, /p2d_solve, /sse_rank)。
+
+### v2.1 - 数据集获取器 + Pareto
+
+8. **SSE 数据集获取器** ([src/p34_fetch_sse_datasets.py](src/p34_fetch_sse_datasets.py)) -
+   从四个开放数据源（OBELiX / COD / CEMP / paper_sse_extra）拉取并合并为 ~620 行 CSV。
+9. **Pareto 最优 SSE** ([src/p35_pareto_best_sse.py](src/p35_pareto_best_sse.py)) -
+   在合并数据集上做五目标 Pareto 前沿（log10(sigma_ion)、E_g、stability_window、-migration_barrier、-cost）。
+10. **外部数据集获取器** ([src/p36_fetch_external_datasets.py](src/p36_fetch_external_datasets.py)) -
+    将六个开放的锂电池电解液数据库镜像到 data/，并合并为 merged_electrolyte_library.csv。
+
+### PBP 快速开始
+
+```bash
+python -m pip install -r requirements.txt   # 同时安装 ase, mace-torch, chgnet, pymatgen
+python src/p24_particle_md.py --smiles CCO
+python src/p25_collision_xs.py --smiles CCO
+python src/p26_bayesian_langevin.py --smiles CCO --rf 20 --xgb 21 --mlp 20.5 --lgbm 20.8 --cat 20.3 --stack 20.6
+python src/p27_sei_edl.py --dn_bulk 22
+python src/p28_calibrate_5anchors.py
+python -m uvicorn src.p29_pbp_api:app --port 8001
+python -m uvicorn src.p33_pbp_v2_api:app --port 8002   # v2
+```
+
+```bash
+curl -s http://127.0.0.1:8001/health
+curl -s -X POST http://127.0.0.1:8001/collision_xs -H 'Content-Type: application/json' \\
+     -d '{"smiles": "CCO", "T": 298.15}'
+```
+
+### PBP 测试
+
+```bash
+python -m pytest tests/test_pbp_*.py -v
+```
+
+### 核心公式 (PBP)
+
+- Lennard-Jones: V(r) = 4 eps [(sig/r)^12 - (sig/r)^6]
+- Coulomb: V(r) = q_i q_j / (4 pi eps_0 eps_r r) (SI, 然后转 eV)
+- 输运截面: sigma* = 2 pi int (1 - cos chi) b db
+- 朗之万 SDE: dx = -grad U(x) dt + sqrt(2 D) dW
+- Butler-Volmer: j = j0 [exp(alpha_a F eta / RT) - exp(-alpha_c F eta / RT)]
+- Nernst-Einstein: kappa = c F^2 D / (kT)
+- DN 衰减: d_eff = d_bulk * (f + (1 - f) * exp(-L / L_sat))
+
+### PBP 数据 + 结果
+
+| 文件 | 内容说明 |
+|---|
+| [data/particle_params.yaml](data/particle_params.yaml) | Li / C / N / O / F / P / S / Cl / B / H 的 LJ 参数表 |
+| [data/sei_params.yaml](data/sei_params.yaml) | SEI / EDL / 正极 / 负极 / 运行参数 |
+| [data/ml_aimd_params.yaml](data/ml_aimd_params.yaml) | MACE / CHGNet + ASE NVT 设置 |
+| [data/p2d_3d_params.yaml](data/p2d_3d_params.yaml) | P2D + 热场 + 力学场 + 微观3D |
+| [data/sse_library.yaml](data/sse_library.yaml) | 14 种 SSE 的 sigma_ion、E_g、迁移势垒 |
+| [data/paper_sse_extra.yaml](data/paper_sse_extra.yaml) | 手工整理的 CAS / IOP 高通量 SSE |
+| [data/new_anchors_5.csv](data/new_anchors_5.csv) | 5 个校准锚定分子（FEC, EC, DOL, AcCl, LiBOB）|
+| [data/sse_datasets_combined.csv](data/sse_datasets_combined.csv) | ~620 个 SSE（OBELiX + COD + paper）|
+| [data/sse_datasets_meta.json](data/sse_datasets_meta.json) | 每个数据源的获取计数 + 耗时 |
+| [data/pareto_front.csv](data/pareto_front.csv) | Pareto 前沿非支配解 |
+| [data/pareto_summary.json](data/pareto_summary.json) | 每目标 Top-3 + 族代表 |
+
+---
+
+## 外部数据集来源
+
+本仓库将六个开放的锂电池电解液数据集镜像到 data/ 目录，确保始终可离线使用。运行方式：
 
 ```bash
 python src/p36_fetch_external_datasets.py         # fetch + merge
@@ -872,7 +976,42 @@ Attribution:
 - DonorNumberPrediction: Miranda-Quintana & Smiatek, [doi:10.5281/zenodo.3998765](https://doi.org/10.5281/zenodo.3998765)
 - McHaffie superionic: [doi:10.22002/23mvv-6gk43](https://doi.org/10.22002/23mvv-6gk43)
 
-## EEI Dissolution Solvent Screening (DEER Layer)
+---
+
+**引用说明：**
+- ComBat: Atwi et al., [doi:10.5281/zenodo.7830272](https://doi.org/10.5281/zenodo.7830272)
+- Electrolytomics: Kumar et al., [doi:10.1021/acs.chemmater.4c03196](https://doi.org/10.1021/acs.chemmater.4c03196)
+- CALiSol-23: de Blasio et al., [doi:10.1038/s41597-024-03575-8](https://doi.org/10.1038/s41597-024-03575-8)
+- DonorNumberPrediction: Miranda-Quintana & Smiatek, [doi:10.5281/zenodo.3998765](https://doi.org/10.5281/zenodo.3998765)
+- McHaffie superionic: [doi:10.22002/23mvv-6gk43](https://doi.org/10.22002/23mvv-6gk43)
+
+## EEI Dissolution Solvent Screening (DEER Layer / EEI 溶解溶剂筛选)
+
+---
+
+## English
+
+### EEI Dissolution Solvent Screening (DEER Layer)
+
+退役锂电池直接再生（Direct Electrolyte Regeneration, DEER）溶剂筛选模块，
+基于 Kalra DEER 论文 (Energy & Environmental Science 2026)。
+
+退役电池（SOH < 80%）的性能衰减并非活性材料结构坍塌，而是正极 CEI（10-20 nm）
+和负极 SEI（30-40 nm）界面层过度生长导致的巨大阻抗。
+高供体数（DN）溶剂可以在电化学驱动下选择性溶解这层"界面死皮"，同时保留完整的电极结构。
+
+---
+
+## 中文
+
+### EEI 溶解溶剂筛选（DEER 层）
+
+退役锂电池直接再生（Direct Electrolyte Regeneration, DEER）溶剂筛选模块，
+基于 Kalra DEER 论文 (Energy & Environmental Science 2026)。
+
+退役电池（SOH < 80%）的性能衰减并非活性材料结构坍塌，而是正极 CEI（10-20 nm）
+和负极 SEI（30-40 nm）界面层过度生长导致的巨大阻抗。
+高供体数（DN）溶剂可以在电化学驱动下选择性溶解这层"界面死皮"，同时保留完整的电极结构。
 
 基于 Kalra DEER 论文 (Energy & Environmental Science 2026) 开发的退役电池直接再生筛选模块。
 
@@ -924,7 +1063,7 @@ DEER 优势：vs 火法成本降低 **42%**，能耗降低 **78%**，GHG 降低 
 
 **敏感性分析**（`p42c_sensitivity.py`）：龙卷风图显示 labor cost 是最大不确定因素（±13%），其次是溶剂回收率（±3.7%）。
 
-### DEER quick start
+### DEER quick start (DEER 快速开始)
 
 ```bash
 # Phase 1: Solvent screening
@@ -952,9 +1091,9 @@ python src/p43_deer_md.py
 python -m pytest tests/test_pbp_eei_screening.py tests/test_pbp_regeneration.py tests/test_pbp_tea_lca.py -v
 ```
 
-### DEER data + results
+### DEER data + results (DEER 数据 + 结果)
 
-| File | What it contains |
+| 文件 | 内容说明 |
 |---|---|
 | [`data/solvent_eei_properties.csv`](data/solvent_eei_properties.csv) | 46 种溶剂的 DN/AN/epsilon_r/HOMO/LUMO + EEI 溶解评分锚点 |
 | [`data/solvent_library.yaml`](data/solvent_library.yaml) | DMI / DMSO / EC / FEC 等溶剂的 DEER 物理参数 |
