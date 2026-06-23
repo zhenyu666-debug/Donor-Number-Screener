@@ -7,9 +7,8 @@ import pandas as pd
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-
-from utils import RESULTS_DIR, FIGURES_DIR, get_logger
-from utils_pb import write_json
+from utils import RESULTS_DIR, FIGURES_DIR, get_logger  # noqa: E402
+from utils_pb import write_json  # noqa: E402
 
 log = get_logger("p43_deer_md")
 

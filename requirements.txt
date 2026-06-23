@@ -37,3 +37,9 @@ mace-torch>=0.3.10   # PBP ML-AIMD foundation model (optional, fallback LJ)
 chgnet>=0.3.0        # PBP ML-AIMD foundation model (optional, fallback LJ)
 pymatgen>=2024.9     # PBP ML-AIMD structure (optional, fallback LJ)
 torch>=2.0           # PBP ML-AIMD backend (CPU-only is fine)
+
+# ---------------------------------------------------------------------------
+# v5 — Interactive demo
+# ---------------------------------------------------------------------------
+streamlit>=1.28       # v5: interactive demo UI (runs alongside the FastAPI server)
+requests>=2.31        # v5: API client for streamlit

@@ -15,15 +15,14 @@ from pathlib import Path
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils import get_logger, set_global_seed, RESULTS_DIR, FIGURES_DIR
-from utils_pb import write_json
+from utils import get_logger, set_global_seed, RESULTS_DIR, FIGURES_DIR  # noqa: E402
+from utils_pb import write_json  # noqa: E402
 
 import numpy as np
 import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import json
 
 log = get_logger("p40e_solvent_uncertainty")
 

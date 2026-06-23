@@ -23,11 +23,10 @@ import math
 import sys
 from pathlib import Path
 
-import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
-from utils import get_logger, RESULTS_DIR, DATA_DIR  # noqa: E402
+from utils import get_logger, RESULTS_DIR  # noqa: E402
 from utils_pb import write_csv, write_json  # noqa: E402
 
 log = get_logger("p41_regeneration_protocol")

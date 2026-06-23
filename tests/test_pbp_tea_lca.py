@@ -14,7 +14,9 @@ THIS_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = THIS_DIR.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-import numpy as np
+import subprocess
+import json
+
 import pytest
 
 
@@ -151,7 +153,8 @@ class TestSensitivity:
             pytest.fail(f"p42c_sensitivity.py failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
 
     def test_p42c_output_json(self):
-        import subprocess, json
+        import subprocess
+        import json
         if not (RESULTS_DIR / "deer_sensitivity.json").exists():
             subprocess.run(
                 [sys.executable, str(PROJECT_ROOT / "src" / "p42c_sensitivity.py")],

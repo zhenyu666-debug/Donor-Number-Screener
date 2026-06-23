@@ -117,7 +117,7 @@ class TestLiFStabilization:
         assert sigma_deer <= sigma_fresh, "DEER cells should have no worse fade than fresh"
 
     def test_simulate_cycling_output(self):
-        from p41b_lif_stabilization import simulate_cycling, summary_stats
+        from p41b_lif_stabilization import simulate_cycling
         rows = simulate_cycling(n_cycles=100, lif_thickness_nm=2.0)
         assert len(rows) == 101
         assert rows[0]["cycle"] == 0

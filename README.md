@@ -1113,6 +1113,70 @@ python -m pytest tests/test_pbp_eei_screening.py tests/test_pbp_regeneration.py 
 
 ---
 
+## v5 features (added 2026-06-23)
+
+### 1. SHAP interaction values (`src/p45_shap_interactions.py`)
+
+Paired-feature SHAP interaction analysis reveals synergistic chemistry: e.g. (n_N, dipole) means N atoms boost the effect of high dipole moment on DN. Computes `TreeExplainer.shap_interaction_values()` over all 4 tree models and renders a heatmap.
+
+Outputs: `results/shap_interactions_top20.png`, `results/shap_interactions_summary.csv`, `results/shap_interactions_pairs.json`
+
+### 2. Calibration reliability diagram (`src/p46_calibration.py`)
+
+Computes Expected Calibration Error (ECE) and Maximum Calibration Error (MCE) for the 5-model ensemble using isotonic regression + Platt scaling. Renders a reliability diagram and a CI coverage vs nominal level bar chart. Adds calibration columns (`dn_iso_calibrated`, `dn_platt_calibrated`) to top-20 outputs.
+
+Outputs: `figures/calibration_reliability_diagram.png`, `results/calibration_metrics.json`, `results/calibration_summary.csv`
+
+### 3. Streamlit demo client (`streamlit_app.py`)
+
+Interactive web UI running alongside the FastAPI server with four tabs: Single SMILES (predict DN with 95% CI), Batch Screen (ranked results), Calibration (inline reliability diagram), Drift Monitor (live PSI table).
+
+```
+streamlit run streamlit_app.py
+```
+
+### 4. Real-time drift monitor (`src/p47_drift_monitor.py`)
+
+Webhook server + polling client for continuous PSI drift detection.
+
+```
+python src/p47_drift_monitor.py --mode webhook --port 8001  # webhook server
+python src/p47_drift_monitor.py --mode poll --input new.csv --interval 3600  # polling client
+python src/p47_drift_monitor.py --mode check --input new.csv  # one-shot
+```
+
+Outputs: `results/drift_alerts.json`, `results/drift_history.json`
+
+### 5. Enhanced API endpoints
+
+`src/15_api_server.py` now includes `GET /calibration/metrics` (returns ECE / coverage) and `/screen_top` responses include `dn_iso_calibrated` + `dn_platt_calibrated` per candidate.
+
+### v5 dependencies
+
+`requirements.txt` adds: `streamlit>=1.28`, `requests>=2.31`
+
+### v5 tests
+
+```bash
+PYTHONPATH=src python -m pytest tests/test_v5.py -v
+```
+
+Covers: p45 interaction matrix shape, p46 ECE computation, p47 PSI computation, streamlit import.
+
+### v5 依赖
+
+`requirements.txt` 新增: `streamlit>=1.28`, `requests>=2.31`.
+
+### v5 测试
+
+```bash
+PYTHONPATH=src python -m pytest tests/test_v5.py -v
+```
+
+覆盖: p45 交互矩阵维度, p46 ECE 计算, p47 PSI 计算, streamlit 导入.
+
+---
+
 ## 许可
 
 本目录代码仅供教育与非商业用途. 文献 DN 锚定表复用并注明出处 Marcus (1984) 与 Persson (1986).

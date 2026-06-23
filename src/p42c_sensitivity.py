@@ -17,7 +17,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))

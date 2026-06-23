@@ -24,7 +24,7 @@ from pathlib import Path
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
 from utils import get_logger, RESULTS_DIR  # noqa: E402
-from utils_pb import write_csv, write_json, K_B, E_CHARGE  # noqa: E402
+from utils_pb import write_csv, write_json, E_CHARGE  # noqa: E402
 
 log = get_logger("p41b_lif_stabilization")
 

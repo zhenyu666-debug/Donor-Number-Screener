@@ -130,6 +130,7 @@ def simulate_electrode_thickness(
     active_mass_g = mass_per_area_g_cm2 * area_cm2
     volume_cm3    = active_mass_g / density_g_cm3
     thickness_cm  = volume_cm3 / area_cm2
+    del thickness_cm  # needed for readability, not returned
     return {
         "active_mass_g":         round(active_mass_g, 4),
         "volume_cm3":            round(volume_cm3, 5),

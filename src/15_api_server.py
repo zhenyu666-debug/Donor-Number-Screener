@@ -106,6 +106,9 @@ class ScreenTopItem(BaseModel):
     dn_pred: float
     region_index: int
     region_name: str
+    dn_iso_calibrated: Optional[float] = None  # v5: isotonic-calibrated DN
+    dn_platt_calibrated: Optional[float] = None  # v5: Platt-scaled DN
+    calibration_available: bool = False
 
 
 class ScreenTopResponse(BaseModel):
@@ -114,6 +117,7 @@ class ScreenTopResponse(BaseModel):
     n_input: int
     n_canonical: int
     wall_time_ms: float
+    calibration: Optional[dict] = None  # v5: calibration metrics if available
 
 
 # ---------------------------------------------------------------------------
@@ -126,6 +130,9 @@ class _State:
     feat_cols: Optional[list[str]] = None
     models: dict = {}
     test_residuals: dict = {}     # for uncertainty bands
+    calibration_metrics: dict = {}  # v5: calibration ECE / coverage data
+    iso_calibrator = None          # v5: isotonic calibrator
+    platt_calibrator = None        # v5: Platt scaler
 
     @classmethod
     def ensure(cls) -> None:
@@ -223,6 +230,14 @@ class _State:
 
         log.info("API state loaded in %.1f s  models=%s  feats=%d",
                  time.perf_counter() - t0, list(cls.models.keys()), len(feat_cols))
+
+        # v5: load calibration metrics if available
+        cal_path = RESULTS_DIR / "calibration_metrics.json"
+        if cal_path.exists():
+            with open(cal_path, encoding="utf-8") as f:
+                cls.calibration_metrics = json.load(f)
+            log.info("Calibration metrics loaded: ECE raw=%.3f",
+                     cls.calibration_metrics.get("calibration", {}).get("raw", {}).get("ece", -1))
 
 
 # ---------------------------------------------------------------------------
@@ -384,7 +399,16 @@ def screen_top(body: SMILESListInput) -> ScreenTopResponse:
         n_input=len(body.smiles_list),
         n_canonical=len(rows),
         wall_time_ms=round((time.perf_counter() - t0) * 1000, 2),
+        calibration=_State.calibration_metrics.get("calibration") if _State.calibration_metrics else None,
     )
+
+
+@app.get("/calibration/metrics")
+def calibration_metrics() -> dict:
+    """v5: Return calibration ECE / coverage metrics."""
+    if not _State.calibration_metrics:
+        raise HTTPException(status_code=404, detail="Calibration not computed yet. Run `python src/p46_calibration.py` first.")
+    return _State.calibration_metrics
 
 
 def main() -> None:

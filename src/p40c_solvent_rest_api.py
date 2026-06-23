@@ -14,7 +14,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from pydantic import BaseModel, Field
 
@@ -163,7 +162,7 @@ def score_smiles(smiles: str, name: str | None = None) -> SolventResult:
         mw = Descriptors.MolWt(mol)
         tpsa = Descriptors.TPSA(mol)
         donors = Descriptors.NumHDonors(mol)
-        acceptors = Descriptors.NumHAcceptors(mol)
+        _acceptors = Descriptors.NumHAcceptors(mol)
         logp = Descriptors.MolLogP(mol)
         # Rough DN estimate from functional groups
         n_n = sum(1 for a in mol.GetAtoms() if a.GetSymbol() == "N")

@@ -22,7 +22,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import numpy as np
 
 THIS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(THIS_DIR))
@@ -178,7 +177,7 @@ def comparison_table() -> list:
 
     for key, p in PATHWAYS.items():
         bd = breakdown_cost(key)
-        lca = lca_metrics(key)
+        _lca = lca_metrics(key)
 
         cost_vs_deer = round(p["cost_usd_kg"] / deer["cost_usd_kg"], 2)
         energy_vs_deer = round(p["energy_kwh_kg"] / deer["energy_kwh_kg"], 2)

@@ -54,7 +54,6 @@ sys.path.insert(0, str(THIS_DIR))
 
 from utils import RESULTS_DIR, FIGURES_DIR
 
-from utils_pb import write_json
 
 
 
@@ -192,7 +191,7 @@ def fig_lif_cycling(out_path: Path) -> None:
 
     if df.empty:
 
-        print(f"[p40d_viz_deer] WARNING: lif_cycling_curve.csv empty, skipping Fig 2")
+        print("[p40d_viz_deer] WARNING: lif_cycling_curve.csv empty, skipping Fig 2")
 
         return
 
@@ -304,7 +303,7 @@ def fig_solvent_screening(out_path: Path) -> None:
 
     if df.empty:
 
-        print(f"[p40d_viz_deer] WARNING: solvent_eei_predictions.csv empty, skipping Fig 3")
+        print("[p40d_viz_deer] WARNING: solvent_eei_predictions.csv empty, skipping Fig 3")
 
         return
 
