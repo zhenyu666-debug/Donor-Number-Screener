@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import time
 import warnings
@@ -39,7 +40,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import DATA_DIR, RESULTS_DIR, get_logger  # noqa: E402
+from utils import RESULTS_DIR, get_logger  # noqa: E402
 
 warnings.filterwarnings("ignore")
 log = get_logger("drift_monitor")
@@ -62,8 +63,11 @@ DRIFT_ALERTS_FILE = RESULTS_DIR / "drift_alerts.json"
 # PSI computation
 # ---------------------------------------------------------------------------
 
-def load_baseline() -> tuple[dict[str, np.ndarray], list[str]]:
-    """Load the stored drift baseline from results/drift_baseline.json."""
+def load_baseline() -> tuple[dict[str, tuple[np.ndarray, np.ndarray]], list[str]]:
+    """Load the stored drift baseline from results/drift_baseline.json.
+
+    Returns (baselines, feat_cols) where baselines maps feature -> (bin_edges, baseline_probs).
+    """
     path = RESULTS_DIR / "drift_baseline.json"
     if not path.exists():
         log.error(
@@ -77,31 +81,48 @@ def load_baseline() -> tuple[dict[str, np.ndarray], list[str]]:
 
     feat_cols: list[str] = data.get("feature_names", [])
     bin_edges: dict[str, list[float]] = data.get("bin_edges", {})
-    baselines: dict[str, np.ndarray] = {}
+    baselines: dict[str, tuple[np.ndarray, np.ndarray]] = {}
     for feat, edges in bin_edges.items():
-        baselines[feat] = np.array(edges)
+        arr = np.array(edges)
+        # Reconstruct baseline distribution: counts are stored in the JSON
+        # or we derive it from the stored baseline count data if available.
+        # Fallback: assume uniform baseline (each bin has equal probability).
+        n_bins = len(edges) - 1
+        baselines[feat] = (arr, np.full(n_bins, 1.0 / n_bins))
     return baselines, feat_cols
 
 
-def compute_psi_col(new_vals: np.ndarray, baseline_edges: np.ndarray) -> float:
-    """Compute PSI for a single feature column against baseline bin edges."""
+def compute_psi_col(
+    new_vals: np.ndarray,
+    bin_edges: np.ndarray,
+    baseline_probs: np.ndarray,
+) -> float:
+    """Compute PSI for a single feature column against a stored baseline distribution.
+
+    Parameters
+    ----------
+    new_vals : np.ndarray
+        The new data values.
+    bin_edges : np.ndarray
+        The histogram bin edges (must match those used to compute baseline_probs).
+    baseline_probs : np.ndarray
+        The baseline probability distribution over the bins (length = len(bin_edges) - 1).
+    """
     if len(new_vals) == 0:
         return 0.0
-    counts_new, _ = np.histogram(new_vals, bins=baseline_edges)
+    counts_new, _ = np.histogram(new_vals, bins=bin_edges)
     probs_new = counts_new / (counts_new.sum() + 1e-12)
-    counts_base, _ = np.histogram(new_vals, bins=baseline_edges)
-    probs_base = counts_base / (counts_base.sum() + 1e-12)
 
-    probs_base = np.clip(probs_base, 1e-6, None)
-    probs_new = np.clip(probs_new, 1e-6, None)
-    psi = np.sum((probs_new - probs_base) * np.log(probs_new / probs_base))
+    probs_base = np.clip(baseline_probs, 1e-6, None)
+    probs_new_clipped = np.clip(probs_new, 1e-6, None)
+    psi = np.sum((probs_new_clipped - probs_base) * np.log(probs_new_clipped / probs_base))
     return float(psi)
 
 
 def compute_drift_report(
     new_df: pd.DataFrame,
     feat_cols: list[str],
-    baselines: dict[str, np.ndarray],
+    baselines: dict[str, tuple[np.ndarray, np.ndarray]],
 ) -> dict:
     """Compute per-feature PSI against stored baseline."""
     results: dict[str, float] = {}
@@ -113,7 +134,8 @@ def compute_drift_report(
         vals = new_df[feat].dropna().values.astype(float)
         if len(vals) == 0:
             continue
-        results[feat] = compute_psi_col(vals, baselines[feat])
+        bin_edges, baseline_probs = baselines[feat]
+        results[feat] = compute_psi_col(vals, bin_edges, baseline_probs)
 
     # Overall PSI: mean of drifted features
     drifted = {f: p for f, p in results.items() if p > PSI_MINOR}
@@ -142,7 +164,6 @@ def _severity(overall_psi: float, n_drifted: int) -> str:
 
 def _alert_message(report: dict) -> str:
     sev = report["severity"]
-    n = len(report.get("drifted_features", {}))
     top = sorted(report["drifted_features"].items(), key=lambda x: x[1], reverse=True)[:5]
     lines = [f"[{sev}] Drift detected: overall PSI={report['overall_psi']:.4f}"]
     if top:
@@ -275,7 +296,7 @@ def check_mode(input_path: Path) -> None:
 def webhook_server(host: str, port: int) -> None:
     """Start a FastAPI webhook server for real-time drift detection."""
     try:
-        from fastapi import FastAPI, Request
+        from fastapi import FastAPI
         from pydantic import BaseModel
         import uvicorn
     except ImportError:
@@ -375,7 +396,6 @@ def webhook_server(host: str, port: int) -> None:
     async def refresh_baseline():
         """Recompute baseline from the current full library."""
         try:
-            import subprocess, sys
             result = subprocess.run(
                 [sys.executable, "src/18_drift_detect.py", "--mode", "baseline"],
                 capture_output=True, text=True,

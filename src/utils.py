@@ -10,11 +10,22 @@ import random
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 FIGURES_DIR = PROJECT_ROOT / "figures"
 RESULTS_DIR = PROJECT_ROOT / "results"
+
+NON_FEATURE_COLS = [
+    "smiles", "SMILES", "ID", "id",
+    "Name", "name", "dielectric_constant", "DN", "donor_number",
+    "reference", "Reference", "solvent_class", "Solvent_Class",
+    "source", "Source", "Notes", "notes", "inchi", "InChI",
+    "logP", "logp", "log_k", "Log_K", "R_squared",
+    "flag", "Flag", "set", "Set", "split", "fold",
+    "Unnamed: 0", "Unnamed: 0.1", "index", "Index",
+]
 
 for d in (DATA_DIR, FIGURES_DIR, RESULTS_DIR):
     d.mkdir(parents=True, exist_ok=True)
@@ -43,14 +54,13 @@ def get_logger(name: str) -> logging.Logger:
     return logger
 
 
-def load_descriptors() -> "pd.DataFrame":
+def load_descriptors() -> pd.DataFrame:
     """Load the descriptor table, preferring v2 (1005-dim) when present.
 
     All v4 scripts should use this helper instead of hard-coding
     ``pd.read_csv(DATA_DIR / "descriptors.csv")`` so that the pipeline
     transparently uses the larger v2 matrix when it is available.
     """
-    import pandas as pd
     v2_path = DATA_DIR / "descriptors_v2.csv"
     v1_path = DATA_DIR / "descriptors.csv"
     if v2_path.exists():

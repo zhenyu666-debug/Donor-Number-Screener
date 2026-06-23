@@ -26,10 +26,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.calibration import CalibratedClassifierCV, CalibrationDisplay
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import brier_score_loss
 from sklearn.model_selection import KFold, cross_val_predict
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -184,30 +182,30 @@ def load_or_train_stack(
         pass
 
     # Stack: cross-val predictions as meta-features
-    meta_X = np.zeros((X.shape[0], len(models)))
-    for j, (name, (kind, model)) in enumerate(models.items()):
+    # Cache OOF predictions to avoid re-fitting models 3x (reduces K*N fits to K*N)
+    oof_preds: dict[str, np.ndarray] = {}
+    for name, (kind, model) in models.items():
         Xs_use = Xs if kind == "mlp" else X
-        meta_X[:, j] = cross_val_predict(model.__class__(**model.get_params()),
-                                          Xs_use, y, cv=CV, n_jobs=-1)
+        oof_preds[name] = cross_val_predict(
+            model.__class__(**model.get_params()), Xs_use, y, cv=CV, n_jobs=-1
+        )
 
-    # Fit Ridge meta-learner
+    # Build meta-features and fit Ridge meta-learner
+    meta_X = np.zeros((X.shape[0], len(models)))
+    for j, name in enumerate(models):
+        meta_X[:, j] = oof_preds[name]
     meta_lr = Ridge(alpha=1.0)
     meta_lr.fit(meta_X, y)
     log.info("Ridge meta-learner fitted on %d models", len(models))
 
-    # Final OOF predictions
+    # Final stacked prediction using cached OOF preds
     y_pred_all = np.zeros(X.shape[0])
-    y_std_all = np.zeros(X.shape[0])
-    for j, (name, (kind, model)) in enumerate(models.items()):
-        Xs_use = Xs if kind == "mlp" else X
-        pred = cross_val_predict(model.__class__(**model.get_params()),
-                                  Xs_use, y, cv=CV, n_jobs=-1)
-        y_pred_all += meta_lr.coef_[j] * pred
-
+    for j, name in enumerate(models):
+        y_pred_all += meta_lr.coef_[j] * oof_preds[name]
     y_pred_all += meta_lr.intercept_
-    y_std_all = np.std([cross_val_predict(
-        m.__class__(**m.get_params()), Xs if k == "mlp" else X, y, cv=CV, n_jobs=-1
-    ) for (n, (k, m)) in models.items()], axis=0)
+
+    # Approximate 95% CI from OOF prediction variance
+    y_std_all = np.std(list(oof_preds.values()), axis=0)
 
     # Approximate 95% CI
     y_lower = y_pred_all - 1.96 * y_std_all
@@ -386,7 +384,7 @@ def plot_reliability_diagram(
     ax2.bar(x_pos + w, coverages_platt, w, label="Platt", color="#3498db", alpha=0.7)
     ax2.plot(x_pos, levels, "k--", lw=1.5, label="Nominal level")
     ax2.set_xticks(x_pos)
-    ax2.set_xticklabels([f"{l:.0%}" for l in levels])
+    ax2.set_xticklabels([f"{lv:.0%}" for lv in levels])
     ax2.set_xlabel("Confidence level", fontsize=9)
     ax2.set_ylabel("Coverage", fontsize=9)
     ax2.set_title("CI Coverage vs Nominal Level", fontsize=10)
@@ -425,7 +423,7 @@ def calibrate_top20(
         y_top = df[dn_col].values.astype(np.float64)
 
         # Normalise using approximate global range
-        desc = pd.read_csv(DATA_DIR / "descriptors_v2.csv")
+        pd.read_csv(DATA_DIR / "descriptors_v2.csv")  # verify file exists
         labels = pd.read_csv(DATA_DIR / "dn_labels.csv")
         anchors = labels["dn_final"].dropna().values
         lo, hi = anchors.min(), anchors.max()
@@ -463,8 +461,6 @@ def main() -> None:
     # Normalise to [0,1]
     y_norm = normalise_to_probability(y, anchors)
     y_pred_norm = normalise_to_probability(y_pred, anchors)
-    y_iso_norm = np.clip(y_pred_norm, 0.0, 1.0)
-    y_platt_norm = np.clip(y_pred_norm, 0.0, 1.0)
 
     # Fit calibrators on ALL data (in-sample — for diagnostic purposes)
     iso = fit_isotonic_calibration(y_norm, y_pred_norm)

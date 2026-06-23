@@ -257,7 +257,7 @@ def _featurize_smiles(smiles: str) -> Optional[np.ndarray]:
 
     desc: dict = {}
     # RDKit 2D descriptors
-    for name, fn in Descriptors._descList:  # type: ignore
+    for name, fn in Descriptors.descList:  # type: ignore
         try:
             desc[name] = float(fn(mol))
         except Exception:

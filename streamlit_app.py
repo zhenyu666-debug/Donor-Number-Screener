@@ -17,8 +17,6 @@ Usage:
 """
 from __future__ import annotations
 
-import io
-import time
 from pathlib import Path
 
 import requests
@@ -159,7 +157,6 @@ def render_drift() -> None:
     st.markdown("### Drift Monitor")
 
     drift_path = PROJECT_ROOT / "results" / "drift_report.json"
-    baseline_path = PROJECT_ROOT / "results" / "drift_baseline.json"
 
     if not drift_path.exists():
         st.info(
@@ -315,7 +312,6 @@ def run_app() -> None:
                     hi = result.get("dn_upper", 0)
                     std = result.get("model_std", 0)
                     idx = result.get("region_index", 0)
-                    n_models = result.get("n_models", 0)
                     simulated = result.get("_simulated", False)
 
                     if simulated:
@@ -345,7 +341,7 @@ def run_app() -> None:
         k = st.slider("Top-K results", 5, 50, 20)
 
         if st.button("Screen", type="primary", disabled=not batch_input):
-            lines = [l.strip() for l in batch_input.replace(",", "\n").splitlines() if l.strip()]
+            lines = [ln.strip() for ln in batch_input.replace(",", "\n").splitlines() if ln.strip()]
             with st.spinner(f"Screening {len(lines)} molecules..."):
                 result = screen_batch(lines, k=k)
 

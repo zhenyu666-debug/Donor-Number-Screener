@@ -370,8 +370,9 @@ def main() -> None:
     log.info("=" * 60)
 
     top_feats = load_top_features(n=20)
+    X_full, y_full, feat_cols = None, None, None
     if not top_feats:
-        X, y, feat_cols = load_full_data()
+        X_full, y_full, feat_cols = load_full_data()
         if len(feat_cols) < 20:
             log.error("Not enough features to compute interactions")
             return
@@ -379,7 +380,8 @@ def main() -> None:
         log.info("Using first 20 features as fallback set")
 
     params = load_best_params()
-    X_full, y_full, feat_cols = load_full_data()
+    if X_full is None:
+        X_full, y_full, feat_cols = load_full_data()
     models = fit_tree_models(X_full, y_full, params)
 
     matrix = compute_interactions_shap(models, X_full, feat_cols, top_feats)

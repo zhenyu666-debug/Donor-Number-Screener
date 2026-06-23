@@ -90,7 +90,7 @@ def featurize_all() -> tuple[np.ndarray, list[str]]:
             log.warning("could not parse %s; skipping", smiles)
             continue
         d: dict = {}
-        for nm, fn in Descriptors._descList:  # type: ignore
+        for nm, fn in Descriptors.descList:  # type: ignore
             try:
                 d[nm] = float(fn(mol))
             except Exception:

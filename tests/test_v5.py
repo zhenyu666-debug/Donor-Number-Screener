@@ -38,7 +38,7 @@ def _r2(y_true, y_pred):
 
 def test_p45_import():
     """p45_shap_interactions imports cleanly."""
-    import p45_shap_interactions
+    import p45_shap_interactions  # noqa: F401
 
 
 def test_p45_interaction_matrix_shape():
@@ -76,7 +76,7 @@ def test_p45_label_map():
 
 def test_p46_import():
     """p46_calibration imports cleanly."""
-    import p46_calibration
+    import p46_calibration  # noqa: F401
 
 
 def test_p46_ece_formula():
@@ -138,18 +138,20 @@ def test_p46_coverage():
 
 def test_p47_import():
     """p47_drift_monitor imports cleanly."""
-    import p47_drift_monitor
+    import p47_drift_monitor  # noqa: F401
 
 
 def test_p47_psi_computation():
     """PSI is non-negative and grows with distribution shift."""
     from p47_drift_monitor import compute_psi_col
 
-    baseline_edges = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    bin_edges = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    baseline_probs = np.full(len(bin_edges) - 1, 0.25)
+    np.random.seed(42)
     new_vals = np.random.rand(100)
-    psi = compute_psi_col(new_vals, baseline_edges)
+    psi = compute_psi_col(new_vals, bin_edges, baseline_probs)
     assert psi >= 0.0, f"PSI should be non-negative: {psi}"
-    assert psi < 5.0, f"PSI unexpectedly large for random data: {psi}"
+    assert psi < 2.0, f"PSI unexpectedly large for random vs uniform: {psi}"
 
 
 def test_p47_severity_levels():
@@ -187,17 +189,23 @@ def test_p47_history_management(tmp_path):
 
 def test_p47_alert_filtering(tmp_path):
     """Only WARNING/CRITICAL events create alerts."""
-    from p47_drift_monitor import DRIFT_ALERTS_FILE, save_alerts
+    import p47_drift_monitor
+    from p47_drift_monitor import save_alerts
 
     alerts_file = tmp_path / "alerts.json"
-    test_alerts = [
-        {"timestamp": "2026-01-01T00:00:00Z", "severity": "OK", "overall_psi": 0.01},
-        {"timestamp": "2026-01-02T00:00:00Z", "severity": "WARNING", "overall_psi": 0.25},
-    ]
-    save_alerts(test_alerts)
-    loaded = json.loads(alerts_file.read_text())
-    assert len(loaded) == 1
-    assert loaded[0]["severity"] == "WARNING"
+    orig = p47_drift_monitor.DRIFT_ALERTS_FILE
+    try:
+        p47_drift_monitor.DRIFT_ALERTS_FILE = alerts_file
+        test_alerts = [
+            {"timestamp": "2026-01-01T00:00:00Z", "severity": "OK", "overall_psi": 0.01},
+            {"timestamp": "2026-01-02T00:00:00Z", "severity": "WARNING", "overall_psi": 0.25},
+        ]
+        save_alerts(test_alerts)
+        loaded = json.loads(alerts_file.read_text())
+        assert len(loaded) == 1
+        assert loaded[0]["severity"] == "WARNING"
+    finally:
+        p47_drift_monitor.DRIFT_ALERTS_FILE = orig
 
 
 # ---------------------------------------------------------------------------
@@ -206,7 +214,7 @@ def test_p47_alert_filtering(tmp_path):
 
 def test_streamlit_import():
     """streamlit_app imports cleanly (without running the app)."""
-    import streamlit_app
+    import streamlit_app  # noqa: F401
 
 
 def test_streamlit_constants():
