@@ -14,8 +14,13 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
+import math
+import random
 import sys
-from dataclasses import dataclass
+import time
+from dataclasses import dataclass, asdict
+from typing import Optional
 
 COMPONENTS = {
     "Elexacaftor": {
@@ -184,6 +189,185 @@ def cmd_cost(args: argparse.Namespace) -> None:
     print()
 
 
+def cmd_optimize(args: argparse.Namespace) -> None:
+    """Run N rounds of Monte-Carlo optimisation (8 min each).
+
+    Each round randomly varies:
+      - KSM prices  (uniform within +/- 30% of base)
+      - Reagent costs
+      - GMP / formulation / QC processing costs
+      - Yield rates for Step 2 and Step 3
+      - Import tariff scenario (0 % / 5 % / 13 %)
+
+    Reports per-round cost and aggregated statistics.
+    """
+    sys.stdout.reconfigure(line_buffering=True)
+    base = CostScenario()
+    n_rounds = args.rounds
+    seconds_per_round = args.seconds_per_round
+
+    print(
+        f"\n{'='*65}\n"
+        f"  Monte-Carlo Cost Optimisation  ({n_rounds} rounds x {seconds_per_round}s)\n"
+        f"{'='*65}\n"
+    )
+    print(f"  Base cost (default params) : {base.total_cost():>12,.0f} CNY/yr\n")
+
+    round_results: list[dict] = []
+    start_total = time.monotonic()
+
+    for i in range(1, n_rounds + 1):
+        r_start = time.monotonic()
+
+        # Randomise parameters within plausible ranges
+        rng = random.Random(i)          # reproducible per-round seed
+        price_elexa = base.price_elexa_ksm * rng.uniform(0.7, 1.30)
+        price_tez   = base.price_tez_ksm   * rng.uniform(0.7, 1.30)
+        price_iva   = base.price_iva_ksm   * rng.uniform(0.7, 1.30)
+
+        reagent_hatu   = base.reagent_hatu   * rng.uniform(0.8, 1.20)
+        reagent_cdi   = base.reagent_cdi   * rng.uniform(0.8, 1.20)
+        reagent_solvent = base.reagent_solvent * rng.uniform(0.8, 1.20)
+
+        gmp_synthesis = base.gmp_synthesis * rng.uniform(0.85, 1.15)
+        formulation   = base.formulation   * rng.uniform(0.85, 1.15)
+        qc_testing    = base.qc_testing    * rng.uniform(0.85, 1.15)
+
+        yield_step2 = rng.uniform(0.50, 0.80)
+        yield_step3 = rng.uniform(0.40, 0.70)
+
+        # Tariff scenario
+        tariff_options = [(0.0, "0%"),
+                          (0.05, "5%"),
+                          (0.13, "13%")]
+        tariff_pct, tariff_label = rng.choices(
+            tariff_options, weights=[5, 3, 1])[0]
+
+        # Lecheng zero-tariff saves the 5 % scenario cost
+        tariff_saving = price_elexa * 0.2 * tariff_pct  # Elexa KSM component
+
+        scenario = CostScenario(
+            price_elexa_ksm=price_elexa,
+            price_tez_ksm=price_tez,
+            price_iva_ksm=price_iva,
+            reagent_na_bh4=base.reagent_na_bh4,
+            reagent_dppa=base.reagent_dppa,
+            reagent_pp_diad=base.reagent_pp_diad,
+            reagent_tfa=base.reagent_tfa,
+            reagent_cdi=reagent_cdi,
+            reagent_hatu=reagent_hatu,
+            reagent_solvent=reagent_solvent,
+            gmp_synthesis=gmp_synthesis,
+            formulation=formulation,
+            qc_testing=qc_testing,
+            yield_step2=yield_step2,
+            yield_step3=yield_step3,
+        )
+
+        cost = scenario.total_cost()
+        cost_with_tariff = cost + tariff_saving
+        cost_saved = tariff_saving          # Lecheng saves tariff
+        net_cost_lecheng = cost_with_tariff - cost_saved
+
+        elapsed = time.monotonic() - r_start
+        sleep_remaining = max(0, seconds_per_round - elapsed)
+        if sleep_remaining > 0 and i < n_rounds:
+            time.sleep(sleep_remaining)
+
+        round_results.append({
+            "round": i,
+            "cost_base": round(cost, 2),
+            "cost_with_tariff": round(cost_with_tariff, 2),
+            "tariff_pct": tariff_pct,
+            "tariff_saving": round(cost_saved, 2),
+            "net_cost_lecheng": round(net_cost_lecheng, 2),
+            "yield_step2": round(yield_step2, 4),
+            "yield_step3": round(yield_step3, 4),
+            "price_elexa_ksm": round(price_elexa, 2),
+            "price_tez_ksm": round(price_tez, 2),
+            "price_iva_ksm": round(price_iva, 2),
+            "elapsed_s": round(elapsed, 3),
+        })
+
+        status = "OK" if elapsed >= seconds_per_round * 0.9 else "FAST"
+        print(
+            f"  Round {i:>2}/{n_rounds} | "
+            f"cost={cost:>8,.0f} | "
+            f"tariff={tariff_label:>3} saving={cost_saved:>6,.0f} | "
+            f"lecheng_net={net_cost_lecheng:>8,.0f} | "
+            f"y2={yield_step2:.2f} y3={yield_step3:.2f} | "
+            f"{status}"
+        )
+
+    total_elapsed = time.monotonic() - start_total
+
+    # --- Summary statistics ---
+    costs_base = [r["cost_base"] for r in round_results]
+    costs_lecheng = [r["net_cost_lecheng"] for r in round_results]
+    costs_raw = [r["cost_with_tariff"] for r in round_results]
+
+    def pct(arr: list[float], p: float) -> float:
+        s = sorted(arr)
+        return s[int(len(s) * p / 100)]
+
+    print(f"\n{'='*65}")
+    print(f"  Summary  (total wall time: {total_elapsed:.1f}s)\n")
+    print(f"  {'Metric':<30} {'No-tariff':>12} {'With-tariff':>12} {'Lecheng-net':>12}")
+    print(f"  {'-'*68}")
+
+    for label, arr in [
+        ("Mean",     costs_base),
+        ("Median",   [sorted(costs_base)[len(costs_base)//2]]),
+        ("P10",      [pct(costs_base, 10)]),
+        ("P50",      [pct(costs_base, 50)]),
+        ("P90",      [pct(costs_base, 90)]),
+        ("Min",      [min(costs_base)]),
+        ("Max",      [max(costs_base)]),
+    ]:
+        vals = arr if label != "Mean" else [sum(arr)/len(arr)]
+        raw_vals = costs_raw[costs_base.index(vals[0])] if label != "Mean" else sum(costs_raw)/len(costs_raw)
+        lecheng_vals = costs_lecheng[costs_base.index(vals[0])] if label != "Mean" else sum(costs_lecheng)/len(costs_lecheng)
+        print(f"  {label:<30} {vals[0]:>12,.0f} {raw_vals:>12,.0f} {lecheng_vals:>12,.0f}")
+
+    print(f"\n  vs Vertex ~2,300,000 CNY/yr:")
+    mean_lecheng = sum(costs_lecheng) / len(costs_lecheng)
+    print(f"    Mean  markup: {2_300_000 / (sum(costs_base)/len(costs_base)):.0f}x")
+    print(f"    Lecheng-net mean: {2_300_000 / mean_lecheng:.0f}x")
+    print(f"    Lecheng-net P10 (best): {2_300_000 / pct(costs_lecheng, 10):.0f}x")
+    print(f"    Lecheng-net P90 (worst): {2_300_000 / pct(costs_lecheng, 90):.0f}x")
+
+    # Save JSON
+    out_path = args.json_out or "optimisation_results.json"
+    summary = {
+        "n_rounds": n_rounds,
+        "seconds_per_round": seconds_per_round,
+        "total_elapsed_s": round(total_elapsed, 2),
+        "base_cost": base.total_cost(),
+        "stats_no_tariff": {
+            "mean": round(sum(costs_base) / len(costs_base), 2),
+            "median": round(sorted(costs_base)[len(costs_base)//2], 2),
+            "p10": round(pct(costs_base, 10), 2),
+            "p50": round(pct(costs_base, 50), 2),
+            "p90": round(pct(costs_base, 90), 2),
+            "min": round(min(costs_base), 2),
+            "max": round(max(costs_base), 2),
+        },
+        "stats_lecheng_net": {
+            "mean": round(sum(costs_lecheng) / len(costs_lecheng), 2),
+            "median": round(sorted(costs_lecheng)[len(costs_lecheng)//2], 2),
+            "p10": round(pct(costs_lecheng, 10), 2),
+            "p50": round(pct(costs_lecheng, 50), 2),
+            "p90": round(pct(costs_lecheng, 90), 2),
+            "min": round(min(costs_lecheng), 2),
+            "max": round(max(costs_lecheng), 2),
+        },
+        "rounds": round_results,
+    }
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+    print(f"\n  Results saved to: {out_path}\n")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Trikafta component chemistry calculator")
     parser.add_argument("--mw", action="store_true", help="Calculate molecular weights from SMILES")
@@ -200,12 +384,22 @@ def main() -> None:
                         help="Step 3 deprotection+cyclization yield (0-1)")
     parser.add_argument("--sensitivity", action="store_true",
                         help="Show sensitivity analysis")
+    parser.add_argument("--optimize", action="store_true",
+                        help="Run Monte-Carlo cost optimisation (10 rounds x 8 min each)")
+    parser.add_argument("--rounds", type=int, default=10,
+                        help="Number of Monte-Carlo rounds (default: 10)")
+    parser.add_argument("--seconds-per-round", type=int, default=480,
+                        help="Seconds per round (default: 480 = 8 min)")
+    parser.add_argument("--json-out", type=str, default=None,
+                        help="Output JSON file path (default: optimisation_results.json)")
     args = parser.parse_args()
 
     if args.mw:
         cmd_mw()
     elif args.cost:
         cmd_cost(args)
+    elif args.optimize:
+        cmd_optimize(args)
     else:
         parser.print_help()
 
