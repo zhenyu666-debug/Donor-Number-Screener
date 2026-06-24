@@ -16,7 +16,7 @@ THIS_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = THIS_DIR.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-import pytest
+import pytest  # noqa: E402
 
 
 class TestPhysicsScoring:
@@ -217,6 +217,6 @@ class TestP40API:
 
     def test_fastapi_available(self):
         try:
-            import fastapi
+            import fastapi  # noqa: F401
         except ImportError:
             pytest.skip("fastapi not installed")

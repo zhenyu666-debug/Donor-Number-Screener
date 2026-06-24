@@ -18,11 +18,11 @@ sys.path.insert(0, str(THIS_DIR))
 from utils import get_logger, set_global_seed, RESULTS_DIR, FIGURES_DIR  # noqa: E402
 from utils_pb import write_json  # noqa: E402
 
-import numpy as np
-import pandas as pd
-import matplotlib
+import numpy as np  # noqa: E402
+import pandas as pd  # noqa: E402
+import matplotlib  # noqa: E402
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # noqa: E402
 
 log = get_logger("p40e_solvent_uncertainty")
 

@@ -110,8 +110,6 @@ def _pareto_data():
 
     np.random.seed(7)
 
-    n = 208
-
     sa1 = np.random.uniform(1.2, 3.5, 90)
 
     dn1 = np.random.uniform(29, 34, 90)
@@ -530,11 +528,13 @@ def panel_f(ax):
 
         if ri == 0:
 
-            fw = "bold"; fs = 8.5
+            fw = "bold"
+            fs = 8.5
 
         else:
 
-            fw = "normal"; fs = 8.5
+            fw = "normal"
+            fs = 8.5
 
         for ci, (cell, cx) in enumerate(zip(row, col_x)):
 

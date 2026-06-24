@@ -41,7 +41,6 @@ def bar_chart(data: list, metric_col: str, title: str, ylabel: str,
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
-        import numpy as np
     except ImportError:
         log.warning("matplotlib unavailable — skipping %s", title)
         return Path("")
@@ -91,7 +90,6 @@ def radar_chart(data: list) -> Path:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
-        import numpy as np
     except ImportError:
         log.warning("matplotlib unavailable — skipping radar chart")
         return Path("")
@@ -144,7 +142,6 @@ def comparison_matrix(data: list) -> Path:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
-        import numpy as np
         from matplotlib.table import Table
     except ImportError:
         return Path("")

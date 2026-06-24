@@ -52,7 +52,7 @@ THIS_DIR = Path(__file__).resolve().parent
 
 sys.path.insert(0, str(THIS_DIR))
 
-from utils import RESULTS_DIR, FIGURES_DIR
+from utils import RESULTS_DIR, FIGURES_DIR  # noqa: E402
 
 
 
@@ -627,7 +627,7 @@ def fig_tea_comparison(out_path: Path) -> None:
 
 
 
-    n = len(pathways)
+    _n = len(pathways)
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 8), dpi=DPI)
 

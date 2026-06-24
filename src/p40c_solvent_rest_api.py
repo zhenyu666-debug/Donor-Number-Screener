@@ -23,7 +23,6 @@ from utils import RESULTS_DIR, DATA_DIR  # noqa: E402
 
 try:
     from fastapi import FastAPI, HTTPException
-    from fastapi.responses import JSONResponse
     HAS_FASTAPI = True
 except ImportError:
     HAS_FASTAPI = False
@@ -159,7 +158,7 @@ def score_smiles(smiles: str, name: str | None = None) -> SolventResult:
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             raise ValueError("Invalid SMILES")
-        mw = Descriptors.MolWt(mol)
+        _mw = Descriptors.MolWt(mol)
         tpsa = Descriptors.TPSA(mol)
         donors = Descriptors.NumHDonors(mol)
         _acceptors = Descriptors.NumHAcceptors(mol)

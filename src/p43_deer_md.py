@@ -137,7 +137,7 @@ def load_solvents() -> pd.DataFrame:
         try:
             df = pd.read_csv(csv_path)
             return df
-        except:
+        except Exception:
             pass
     log.info("Generating solvent data from known DEER solvents")
     fallback_data = [

@@ -3,4 +3,6 @@
     "src/20_mcmc_samplers.py",
     "src/22_per_molecule_cards.py",
     "src/23_mixture_optimization.py",
+    "scripts/_write_script.py",
+    "tests/",
 ]

@@ -139,7 +139,7 @@ def cmd_mw() -> None:
     total_mw = sum(mw for _, mw in mw_list)
     avg_mw = total_mw / 4
     total_dose = sum(c["dose_mg"] for c in COMPONENTS.values())
-    print(f"  Trikafta (1 Elexa : 1 Tez : 2 Iva):")
+    print("  Trikafta (1 Elexa : 1 Tez : 2 Iva):")
     print(f"    Combined MW (4 units) = {total_mw:.4f} g/mol")
     print(f"    Average unit MW      = {avg_mw:.4f} g/mol")
     print(f"    Daily dose           = {total_dose:.0f} mg  ({total_dose * 365 / 1000:.3f} g/year)")
@@ -165,8 +165,8 @@ def cmd_cost(args: argparse.Namespace) -> None:
         + scenario.price_tez_ksm * 0.1
         + scenario.price_iva_ksm * 0.05
     )
-    print(f"\n=== Annual API Synthesis Cost (CNY / person-year) ===\n")
-    print(f"  KSM�S�e:")
+    print("\n=== Annual API Synthesis Cost (CNY / person-year) ===\n")
+    print("  KSM�S�e:")
     print(f"    Elexacaftor KSM  ~200g @{scenario.price_elexa_ksm:>10,.0f}/kg = {scenario.price_elexa_ksm * 0.2:>10,.0f}")
     print(f"    Tezacaftor KSM  ~100g @{scenario.price_tez_ksm:>10,.0f}/kg = {scenario.price_tez_ksm * 0.1:>10,.0f}")
     print(f"    Ivacaftor KSM   ~50g @{scenario.price_iva_ksm:>10,.0f}/kg = {scenario.price_iva_ksm * 0.05:>10,.0f}")
@@ -178,7 +178,7 @@ def cmd_cost(args: argparse.Namespace) -> None:
     print(f"  T��                                                   = {total:>10,.0f} CNY")
     print(f"  vs Vertex ~230N/t^  =>  ~{2_300_000 / total:.0f}x markup")
     if args.sensitivity:
-        print(f"\n  Sensitivity (+10% each param):")
+        print("\n  Sensitivity (+10% each param):")
         for k, v in scenario.sensitivity().items():
             print(f"    {k}: {v:+,.0f} CNY")
     print()

@@ -14,10 +14,10 @@ THIS_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = THIS_DIR.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-import subprocess
-import json
+import subprocess  # noqa: E402, F401
+import json  # noqa: E402, F401
 
-import pytest
+import pytest  # noqa: E402
 
 
 class TestTEALCA:
@@ -77,7 +77,6 @@ class TestTEALCA:
         assert costs == sorted(costs), "Comparison table should be sorted by cost"
 
     def test_p42_runs_without_exception(self):
-        import subprocess
         result = subprocess.run(
             [sys.executable, str(PROJECT_ROOT / "src" / "p42_tea_lca.py")],
             capture_output=True, text=True, timeout=60,
@@ -143,7 +142,6 @@ class TestSensitivity:
         assert deltas == sorted(deltas, reverse=True)
 
     def test_p42c_runs_without_exception(self):
-        import subprocess
         result = subprocess.run(
             [sys.executable, str(PROJECT_ROOT / "src" / "p42c_sensitivity.py")],
             capture_output=True, text=True, timeout=60,
@@ -153,8 +151,6 @@ class TestSensitivity:
             pytest.fail(f"p42c_sensitivity.py failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
 
     def test_p42c_output_json(self):
-        import subprocess
-        import json
         if not (RESULTS_DIR / "deer_sensitivity.json").exists():
             subprocess.run(
                 [sys.executable, str(PROJECT_ROOT / "src" / "p42c_sensitivity.py")],
