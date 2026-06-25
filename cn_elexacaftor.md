@@ -12,7 +12,7 @@ Trikafta 是 Vertex 公司开发的三联疗法囊性纤维化药物，由三种
 
 | 组分 | PubChem CID | 分子式 | 角色 | 分子量 (g/mol) |
 |---|---|---|---|---|
-| **Elexacaftor** (VX-814) | 134587348 | C26H34F3N7O4S | CFTR 纠正剂 | ~597.66 |
+| **Elexacaftor** (VX-445) | 134587348 | C26H34F3N7O4S | CFTR Corrector | ~597.7 |
 | **Tezacaftor** (VX-661) | 46199646 | C26H27F3N2O6 | CFTR 纠正剂 | ~520.50 |
 | **Ivacaftor** (VX-770) | 16220172 | C24H28N2O3 | CFTR 增效剂 | ~392.49 |
 
@@ -764,17 +764,17 @@ python scripts/elexacaftor_chemistry.py --optimize --rounds 10 --seconds-per-rou
 
 > **为什么叫Elexacaftor、Tezacaftor、Ivacaftor？** — 这是Vertex公司给的代号，像王者荣耀的皮肤名字一样。每个代号对应一个化学结构。
 
-#### Elexacaftor（代号 VX-814）— 大力士
+#### Elexacaftor（代号 VX-445）— 大力士
 
 - **分子式**：`C26H34F3N7O4S`
-- **分子量**：597.66 g/mol
-- **CAS**：无公开CAS（VX-814）
--  **PubChem CID**：134587348
+- **分子量**：597.7 g/mol
+- **CAS**：2216712-66-0
+- **PubChem CID**：134587348
 - **SMILES**：
   ```
-  CC(C)(CO)C1=CC2=CC(=C(C=C2N1C[C@H](CO)O)F)NC(=O)C3(CC3)C4=CC5=C(C=C4)OC(O5)(F)F
+  C[C@H]1CC(N(C1)C2=C(C=CC(=N2)N3C=CC(=N3)OCC(C)(C)C(F)(F)F)C(=O)NS(=O)(=O)C4=CN(N=C4C)C)(C)C
   ```
-- **结构关键词**：吲哚环 + 环丙基羧酰胺 + 二氟亚甲基-dioxolane + 磺酰胺
+- **结构关键词**：吡啶母核 + 吡唑磺酰胺 + 二氟甲基新戊氧基侧链 + 六氢吡咯烷手性中心
 - **做了什么**：纠正CFTR蛋白的ΔF508突变，让坏蛋白能到达细胞表面
 
 #### Tezacaftor（代号 VX-661）— 帮手
@@ -785,9 +785,9 @@ python scripts/elexacaftor_chemistry.py --optimize --rounds 10 --seconds-per-rou
 - **PubChem CID**：46199646
 - **SMILES**：
   ```
-  CC(C)(CO)C1=CC2=CC(=C(C=C2N1C[C@H](CO)O)F)NC(=O)C3(CC3)C4=CC5=C(C=C4)OC(O5)(F)F
+  CC(C)(CO)C1=CC2=CC(NC(=O)C3(CC3)C4=CC=C5OC(O2)(F)F)C(F)=C2N1C[C@@H](O)CO
   ```
-- **结构关键词**：吲哚环 + 环丙基羧酰胺 + 二氟亚甲基-dioxolane + 氨基醇侧链
+- **结构关键词**：吲哚母核 + 环丙基羧酰胺 + 二氟亚甲基-dioxolane + 氨基醇侧链
 - **做了什么**：帮助蛋白正确折叠（corrector），配合Elexa一起用效果更强
 
 #### Ivacaftor（代号 VX-770，商品名 Kalydeco）— 增效剂
