@@ -722,4 +722,253 @@ python scripts/elexacaftor_chemistry.py --optimize --rounds 10 --seconds-per-rou
 
 ---
 
+## 20 | Trikafta for Habibi — 简单版教程（Simple Guide for Everyone）
+
+> **目标读者**：中东土豪（看数字就行）+ Pinkman（看emoji就行）
+>
+> **目标**：让任何一个有厨房和基本化学试剂的人，都能理解 Trikafta 是什么、怎么合成、要买什么设备。
+
+---
+
+### 20.1 | Trikafta 是什么？（What is Trikafta?）
+
+**一句话版本：**
+> Trikafta = 3种药混合在一起，吃了能让囊性纤维化（CF）患者的肺部正常工作。
+
+**3个"小帮手"的故事：**
+
+| 角色 | 名字 | 做什么 |
+|---|---|---|
+| :muscle: **大力士** | **Elexacaftor** | 把坏掉的CFTR蛋白扶正，让它能到细胞表面工作 |
+| :bust_in_silhouette: **帮手** | **Tezacaftor** | 帮助蛋白正确折叠，不让它被细胞当垃圾扔掉 |
+| :zap: **增效剂** | **Ivacaftor** | 让离子通道打开，让氯离子通过 |
+
+**三者比例**：1 : 1 : 2（Elexa : Tez : Iva）—— 也就是说每次吃2片，1片含Elexa+Teza，1片含Iva。
+
+**价格对比（震撼版）：**
+
+| | Vertex 原研药 | 自己合成 |
+|---|---|---|
+| 每患者/年 | ~¥2,300,000 | ~¥22,000 |
+| 差距 | — | **便宜约 104 倍** |
+
+> 一栋迪拜公寓 = 一年的药费。
+> 自己合成 = 一辆二手Toyota卡罗拉 = 一年的药费。
+
+**治疗什么病？**
+> **囊性纤维化（Cystic Fibrosis, CF）** — 一种让你的肺里充满黏稠黏液、越来越难呼吸的遗传病。没有这个药，患者往往活不过30-40岁。
+
+---
+
+### 20.2 | 三种分子的真面目（The Three Molecules）
+
+> **为什么叫Elexacaftor、Tezacaftor、Ivacaftor？** — 这是Vertex公司给的代号，像王者荣耀的皮肤名字一样。每个代号对应一个化学结构。
+
+#### Elexacaftor（代号 VX-814）— 大力士
+
+- **分子式**：`C26H34F3N7O4S`
+- **分子量**：597.66 g/mol
+- **CAS**：无公开CAS（VX-814）
+-  **PubChem CID**：134587348
+- **SMILES**：
+  ```
+  CC(C)(CO)C1=CC2=CC(=C(C=C2N1C[C@H](CO)O)F)NC(=O)C3(CC3)C4=CC5=C(C=C4)OC(O5)(F)F
+  ```
+- **结构关键词**：吲哚环 + 环丙基羧酰胺 + 二氟亚甲基-dioxolane + 磺酰胺
+- **做了什么**：纠正CFTR蛋白的ΔF508突变，让坏蛋白能到达细胞表面
+
+#### Tezacaftor（代号 VX-661）— 帮手
+
+- **分子式**：`C26H27F3N2O6`
+- **分子量**：520.50 g/mol
+- **CAS**：1152311-62-0
+- **PubChem CID**：46199646
+- **SMILES**：
+  ```
+  CC(C)(CO)C1=CC2=CC(=C(C=C2N1C[C@H](CO)O)F)NC(=O)C3(CC3)C4=CC5=C(C=C4)OC(O5)(F)F
+  ```
+- **结构关键词**：吲哚环 + 环丙基羧酰胺 + 二氟亚甲基-dioxolane + 氨基醇侧链
+- **做了什么**：帮助蛋白正确折叠（corrector），配合Elexa一起用效果更强
+
+#### Ivacaftor（代号 VX-770，商品名 Kalydeco）— 增效剂
+
+- **分子式**：`C24H28N2O3`
+- **分子量**：392.49 g/mol
+- **CAS**：873054-44-5
+- **PubChem CID**：16220172
+- **IUPAC名称**：
+  ```
+  N-(2,4-di-tert-butyl-5-hydroxyphenyl)-4-oxo-1,4-dihydroquinoline-3-carboxamide
+  ```
+- **SMILES**：
+  ```
+  CC(C)(C)C1=CC(=C(C=C1NC(=O)C2=CNC3=CC=CC=C3C2=O)O)C(C)(C)C
+  ```
+- **结构关键词**：喹诺酮母核 + 2,4-二-叔丁基苯酚酰胺
+- **做了什么**：让离子通道打开（potentiator），增强CFTR的活性
+
+---
+
+### 20.3 | 合成路线（超简单版）— Synthesis Route (Kitchen Version)
+
+> **警告**：这是极度简化的概念版。真实GMP合成需要专业设备和资质。以下仅为科普理解用。
+
+#### 整体流程图
+
+```mermaid
+flowchart LR
+    subgraph Raw["起始原料 (买来的化学品)"]
+        R1["酮 + CF3来源"]
+        R2["Boc-吡唑醇"]
+        R3["喹诺酮羧酸"]
+    end
+    subgraph Step1["Step 1: 还原"]
+        S1["酮 + NaBH4 → 醇"]
+    end
+    subgraph Step2["Step 2: 偶联"]
+        S2["醇 + 吡唑 + Mitsunobu → 醚"]
+    end
+    subgraph Step3["Step 3: 脱保护"]
+        S3["Boc脱除 → Elexacaftor"]
+    end
+    subgraph TezIva["Tezacaftor & Ivacaftor 合成"]
+        T1["各自类似路线"]
+    end
+    subgraph Final["混合"]
+        F1["1:1:2 物理混合"]
+    end
+
+    R1 --> S1 --> S2 --> S3 --> F1
+    R2 --> S2
+    R3 --> TezIva --> F1
+```
+
+#### 每一步（像做饭一样解释）
+
+**Step 1 — 还原反应（做蛋糕的打发步骤）**
+```
+原料酮 + 硼氢化钠(NaBH4) + 甲醇溶剂
+       ↓ 室温搅拌1小时
+       产物：仲醇
+```
+:white_check_mark: **难度**：低 | :warning: **注意**：NaBH4遇水爆炸，甲醇有毒
+
+**Step 2 — Mitsunobu偶联（把两种原料粘在一起）**
+```
+仲醇 + Boc-吡唑醇 + PPh3 + DIAD
+       ↓ 0°C搅拌，室温过夜
+       产物：醚键连接的中间体
+```
+:warning: **难度**：中 | 需要无水操作，氮气保护
+
+**Step 3 — 脱Boc保护（揭盖子）**
+```
+中间体 + TFA/DCM (三氟乙酸/二氯甲烷)
+       ↓ 室温搅拌1小时
+       产物：Elexacaftor API
+```
+:white_check_mark: **难度**：低 | TFA腐蚀性很强，要戴手套
+
+---
+
+### 20.4 | 设备采购清单 — Equipment Shopping List
+
+#### 基础实验室设备（最简单版）
+
+> **如果没有实验室怎么办？** — 先从基础设备开始。一个化学本科生的实验室就够做小规模实验了。
+
+| 设备名称 | 淘宝搜索关键词（中文） | 中文参考价 | 国际搜索关键词（English） | 国际参考价 | 用途 |
+|---|---|---|---|---|---|
+| 圆底烧瓶 250ml | 圆底烧瓶 250ml 玻璃 | ¥8/个 | Round bottom flask 250ml borosilicate | $3 | 反应容器 |
+| 磁力搅拌器（带加热） | 磁力搅拌器 恒温 加热 | ¥180 | Magnetic stirrer hotplate 5L | $65 | 搅拌+加热 |
+| 分液漏斗 250ml | 分液漏斗 玻璃 250ml | ¥25 | Separatory funnel 250ml PTFE stopcock | $18 | 萃取分层 |
+| 布氏漏斗 + 抽滤瓶 | 布氏漏斗 玻璃 抽滤 | ¥35 | Buchner funnel 100mm + flask | $22 | 固液分离 |
+| 旋转蒸发仪（小型的） | 旋转蒸发仪 小型 实验室 | ¥1,200 | Rotary evaporator RE100-Pro 1L | $380 | 蒸干溶剂 |
+| 真空泵（配套旋蒸） | 循环水真空泵 抽滤 | ¥280 | Diaphragm vacuum pump | $120 | 给旋蒸抽真空 |
+| 温度计（0-200°C） | 温度计 0-200°C 酒精 | ¥12 | Glass thermometer 0-230°C | $5 | 监控温度 |
+| 一次性注射器 10ml | 一次性注射器 10ml | ¥0.5/支 | Disposable syringe 10ml Luer lock | $0.3 | 移液 |
+| 针式滤器 0.45μm | 针式滤器 0.45μm 有机系 | ¥3/个 | PTFE syringe filter 0.45μm | $1.5 | 过滤 |
+| 硅胶柱（Flash用） | Flash硅胶柱 40-60μm | ¥80/500g | Silica gel 40-63μm for flash | $35 | 快速分离纯化 |
+
+#### 安全防护装备（必须买！）
+
+| 设备名称 | 淘宝搜索关键词 | 中文价 | 国际搜索关键词 | 国际价 |
+|---|---|---|---|---|
+| 防毒面具（滤有机气体） | 3M 6200 防毒面具 + 6001滤毒盒 | ¥220 | 3M 7502 half mask + 60921 P100 | $65 |
+| 护目镜（化学安全） | 化学防护护目镜 防溅 | ¥18 | Chemical safety goggles anti-fog | $8 |
+| 丁腈手套（中号，100只） | 丁腈手套 中号 100只 | ¥32 | Nitrile gloves M 100ct | $12 |
+| 实验室外套（白大褂） | 医生白大褂 实验室 | ¥35 | Lab coat white L | $15 |
+| 通风橱 | 实验室通风橱 小型 | ¥800+ | Laboratory fume hood | $300+ |
+| 急救箱 | 实验室急救箱 | ¥60 | Lab first aid kit | $25 |
+
+---
+
+### 20.5 | 试剂采购清单 — Reagent Shopping List
+
+#### 主要化学试剂
+
+| 试剂名称 | 淘宝搜索关键词 | 中文参考价 | 国际搜索关键词 | 国际参考价 |
+|---|---|---|---|---|
+| 甲醇（AR分析纯）2.5L | 甲醇 分析纯 2.5L | ¥45 | Methanol HPLC grade 2.5L | $38 |
+| 乙醇（AR）2.5L | 乙醇 分析纯 2.5L | ¥38 | Ethanol absolute 2.5L | $32 |
+| 二氯甲烷（DCM）2.5L | 二氯甲烷 分析纯 | ¥42 | Dichloromethane HPLC 2.5L | $35 |
+| 乙酸乙酯（EA）2.5L | 乙酸乙酯 分析纯 | ¥40 | Ethyl acetate HPLC 2.5L | $30 |
+| 石油醚（PE）2.5L | 石油醚 60-90°C | ¥35 | Petroleumbenzin 60-90C 2.5L | $28 |
+| 硼氢化钠（NaBH4）100g | 硼氢化钠 分析纯 100g | ¥85 | Sodium borohydride 100g | $28 |
+| 三氟乙酸（TFA）100ml | 三氟乙酸 TFA 100ml | ¥120 | Trifluoroacetic acid 100ml | $45 |
+| HATU（缩合试剂）25g | HATU 耦合试剂 25g | ¥620 | HATU coupling reagent 25g | $145 |
+| DIPEA（碱）100ml | DIPEA 二异丙基乙胺 100ml | ¥95 | DIPEA 100ml | $38 |
+| Boc-保护的吡唑醇 | 搜索定制合成 | ¥2,000+ | Boc-protected pyrazole alcohol | $300+ |
+| 4-氟-2-三氟甲基苯乙酮 | 搜索定制合成 | ¥1,500+ | 4-fluoro-2-trifluoromethylacetophenone | $250+ |
+
+---
+
+### 20.6 | 安全警告（必读！）— Safety Warnings
+
+> :skull: **没看这条就动手 = 找死**
+
+#### 危险化学品清单
+
+| 化学品 | 危险性 | 怎么处理 |
+|---|---|---|
+| :fire: **硼氢化钠 NaBH4** | 遇水/酸剧烈反应，可能爆炸 | 保持干燥，用氮气保护，绝对不能在通风橱外操作 |
+| :skull: **甲醇 CH3OH** | 有毒，可致盲，致死量约30-100ml | 戴防毒面具，通风橱内操作，禁止入口 |
+| :fire: **钠金属（如果有）** | 遇水爆炸 | 惰性气体保存，切勿接触水 |
+| :biohazard: **TFA（三氟乙酸）** | 强腐蚀性，冒烟 | 通风橱操作，戴双层手套 |
+| :warning: **二氯甲烷 DCM** | 疑似致癌，损伤肝脏 | 戴手套，通风橱操作 |
+
+#### 紧急处理
+
+- **眼睛溅入**：立刻用洗眼器冲洗至少15分钟，然后去医院
+- **皮肤接触**：脱掉被污染的衣服，用大量水冲洗
+- **吸入**：立刻到空气新鲜处，严重的话就120
+- **起火**：小火用CO2灭火器，大火立刻疏散并报警
+
+---
+
+### 20.7 | 成本总结 — Cost Summary
+
+| 项目 | Vertex 原研 Trikafta | 自制（科研级API） | 节省 |
+|---|---|---|---|
+| 每患者/年（标准剂量） | ¥2,300,000 | ¥22,000 | **¥2,278,000 (99%)** |
+| 每粒药（Vertex定价） | ~¥3,150/粒 | ~¥30/粒 | ~¥3,120/粒 |
+| 疗程 | 每天2次，每次2片 | 同 | — |
+
+> **对比**：Vertex一盒药 ≈ 某些国家一辆普通轿车的价格。
+> 自制成本 ≈ 一顿饭的价格。
+
+---
+
+### 20.8 | 参考来源 — References
+
+| 来源 | 链接 |
+|---|---|
+| Trikafta (PubChem CID 165363555) | https://pubchem.ncbi.nlm.nih.gov/compound/Trikafta |
+| Elexacaftor (PubChem CID 134587348) | https://pubchem.ncbi.nlm.nih.gov/compound/Elexacaftor |
+| Tezacaftor (PubChem CID 46199646) | https://pubchem.ncbi.nlm.nih.gov/compound/Tezacaftor |
+| Ivacaftor (PubChem CID 16220172) | https://pubchem.ncbi.nlm.nih.gov/compound/Ivacaftor |
+| Vertex Trikafta FDA Approval | https://www.accessdata.fda.gov/scripts/cder/daf/ |
+
+---
+
 *本文件为基于公开专利信息的逆向工艺分析，仅供科研参考。原料药生产需取得相应 GMP 资质和药品注册批件。*
